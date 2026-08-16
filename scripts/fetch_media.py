@@ -63,8 +63,11 @@ def wiki_image(query, key_prefix, i):
                 ext = ".png" if ".png" in thumb.lower() else ".jpg"
                 fn = f"img_{key_prefix}_{i}{ext}"
                 dst = os.path.join(OUT, fn)
-                if download(thumb, dst, ua=True):
+                # imagen valida = >8KB (evita thumbnails rotos que rompen el render)
+                if download(thumb, dst, ua=True) and os.path.getsize(dst) >= 8000:
                     return {"file": f"stock/{fn}"}
+                if os.path.exists(dst):
+                    os.remove(dst)
     return None
 
 
