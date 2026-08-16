@@ -47,18 +47,22 @@ def main():
         shutil.rmtree(voz_dir)  # limpiar audios de un tema anterior
     run([PY, "scripts/produce_voice.py", guion])
 
-    print("\n=== 4/6 STOCK (Pexels) ===")
-    run([PY, "scripts/fetch_stock.py"])
+    print("\n=== 4/6 MEDIOS (imagenes + clips) ===")
+    run([PY, "scripts/fetch_media.py"])
 
-    print("\n=== 5/6 PROPS + AUDIO ===")
+    print("\n=== 5/6 PROPS + AUDIO + ASSETS ===")
     manifest = json.load(open(os.path.join(ROOT, "out", "voz", "manifest.json"), encoding="utf-8"))
-    clips = json.load(open(os.path.join(ROOT, "public", "stock", "clips.json"), encoding="utf-8"))
-    shotlist = json.load(open(os.path.join(ROOT, "out", "shotlist.json"), encoding="utf-8"))
-    props = {"manifest": manifest, "clips": clips, "shotlist": shotlist}
+    media = json.load(open(os.path.join(ROOT, "public", "stock", "media.json"), encoding="utf-8"))
+    props = {"manifest": manifest, "media": media}
     props_path = os.path.join(ROOT, "out", "render_props.json")
     json.dump(props, open(props_path, "w", encoding="utf-8"), ensure_ascii=False)
+    os.makedirs(os.path.join(ROOT, "public"), exist_ok=True)
     shutil.copy(os.path.join(ROOT, "out", "voz", "narration_full.mp3"),
                 os.path.join(ROOT, "public", "narration_full.mp3"))
+    for a in ("grid.mp4", "music.mp3"):
+        src = os.path.join(ROOT, "assets", a)
+        if os.path.exists(src):
+            shutil.copy(src, os.path.join(ROOT, "public", a))
     print(f"props -> {props_path}  ({manifest['total_duration']:.0f}s)")
 
     if norender:

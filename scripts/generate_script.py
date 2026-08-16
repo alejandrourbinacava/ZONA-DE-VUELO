@@ -17,13 +17,17 @@ def slugify(text):
     return text[:60] or "guion"
 
 
-def call_claude(system, user, max_tokens=12000):
+def call_claude(system, user, max_tokens=12000, thinking=None, model=None, output_config=None):
     body = {
-        "model": MODEL,
+        "model": model or MODEL,
         "max_tokens": max_tokens,
         "system": system,
         "messages": [{"role": "user", "content": user}],
     }
+    if thinking is not None:
+        body["thinking"] = thinking  # ej. {"type":"disabled"} para tareas JSON
+    if output_config is not None:
+        body["output_config"] = output_config  # ej. {"effort":"high"}
     cmd = ["curl", "-s", "https://api.anthropic.com/v1/messages",
            "-H", f"x-api-key: {KEY}",
            "-H", "anthropic-version: 2023-06-01",
@@ -50,8 +54,10 @@ def generate(idea, out_path=None):
     user = (f"TEMA DEL VIDEO: {idea}\n\n"
             f"Escribe el guion completo siguiendo tu estructura y reglas. "
             f"Recuerda: empieza directamente por el encabezado del HOOK, sin preambulo.")
-    print(f"Generando guion con {MODEL} sobre: {idea}")
-    text, usage = call_claude(system, user)
+    # Guiones = maxima calidad: Opus 4.8 con effort alto + pensamiento adaptativo
+    print(f"Generando guion (Opus 4.8, effort alto) sobre: {idea}")
+    text, usage = call_claude(system, user, max_tokens=16000, model="claude-opus-4-8",
+                              thinking={"type": "adaptive"}, output_config={"effort": "high"})
     # titular del video = primera linea del HOOK si el modelo la pone, si no la idea
     title = idea.strip()
     header = f"# {title}\n\n"

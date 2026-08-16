@@ -15,7 +15,7 @@ Devuelve UNICAMENTE JSON valido: {"title":"...","description":"...","keywords":[
 
 def main():
     guion = open(sys.argv[1], encoding="utf-8").read()
-    text, _ = gs.call_claude(SYSTEM, f"GUION:\n\n{guion}", max_tokens=1500)
+    text, _ = gs.call_claude(SYSTEM, f"GUION:\n\n{guion}", max_tokens=1500, thinking={"type": "disabled"})
     text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.M).strip()
     data = json.loads(text)
     print(json.dumps(data, ensure_ascii=False))

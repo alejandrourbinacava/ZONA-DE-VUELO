@@ -1,10 +1,10 @@
 import React from "react";
 import { Composition } from "remotion";
 import { TibetScene } from "./components";
-import { Auto, Manifest, Shotlist } from "./auto/Auto";
+import { Auto, Manifest, Media } from "./auto/Auto";
 
 const EMPTY_MANIFEST: Manifest = { total_duration: 1, fps: 30, sections: [] };
-const EMPTY_SHOT: Shotlist = { sections: [] };
+const EMPTY_MEDIA: Media = { sections: [] };
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
-        defaultProps={{ manifest: EMPTY_MANIFEST, clips: {}, shotlist: EMPTY_SHOT }}
+        defaultProps={{ manifest: EMPTY_MANIFEST, media: EMPTY_MEDIA }}
         calculateMetadata={({ props }) => {
           const m = (props as { manifest: Manifest }).manifest;
           const fps = m.fps || 30;
