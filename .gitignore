@@ -1,0 +1,10 @@
+.env
+node_modules/
+out/
+tmp/
+*.log
+/public/
+/salidas/
+
+__pycache__/
+*.pyc

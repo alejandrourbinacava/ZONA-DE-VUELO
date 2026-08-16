@@ -1,0 +1,22 @@
+{
+  "name": "zona-de-vuelo",
+  "version": "1.0.0",
+  "description": "Motor de edicion de video para el canal Zona de Vuelo",
+  "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render",
+    "build": "remotion bundle"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.506",
+    "@remotion/google-fonts": "4.0.506",
+    "@remotion/shapes": "4.0.506",
+    "remotion": "4.0.506",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}

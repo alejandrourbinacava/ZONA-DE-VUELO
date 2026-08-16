@@ -1,0 +1,14 @@
+{
+  "channel": "Zona de Vuelo",
+  "handle": "@zonadevueloesp",
+  "narrator": {
+    "name": "Gabriel Blanco - Warm & Expressive",
+    "voice_id": "4R9s73RrCF4wi6GqmzrT",
+    "accent": "peninsular (España)",
+    "model_id": "eleven_multilingual_v2",
+    "stability": 0.5,
+    "similarity": 0.75,
+    "style": 0.0,
+    "speed": 1.0
+  }
+}

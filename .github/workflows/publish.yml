@@ -1,0 +1,68 @@
+name: Publicar video diario (Zona de Vuelo)
+
+on:
+  schedule:
+    - cron: "0 9 * * *"     # cada dia a las 09:00 UTC (cambia aqui la cadencia)
+  workflow_dispatch:         # boton para lanzarlo a mano (pruebas)
+
+permissions:
+  contents: write            # para guardar el puntero de la cola (queue/state.json)
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias del sistema (FFmpeg + libs de Chrome)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg libnss3 libdbus-1-3 libatk1.0-0 libgbm1 \
+            libasound2t64 libxrandr2 libxkbcommon0 libxfixes3 libxcomposite1 \
+            libxdamage1 libatk-bridge2.0-0 libpango-1.0-0 libcairo2 libcups2
+
+      - name: Instalar Node + Python deps
+        run: |
+          npm install
+          npx remotion browser ensure
+          pip install -r requirements.txt
+
+      - name: Producir y publicar
+        env:
+          GENAIPRO_API_KEY: ${{ secrets.GENAIPRO_API_KEY }}
+          GENAIPRO_BASE: https://genaipro.io/api
+          PEXELS_KEY: ${{ secrets.PEXELS_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          VIDEOS_DIR: ./salidas
+        run: |
+          set -e
+          if ! IDEA=$(python scripts/pick_next_idea.py); then
+            echo "No quedan ideas en la cola. Nada que hacer."; exit 0
+          fi
+          echo "Idea de hoy: $IDEA"
+          python scripts/produce.py "$IDEA" | tee produce.log
+          VIDEO=$(grep '^VIDEO::' produce.log | tail -1 | sed 's/^VIDEO:://')
+          META=$(grep '^META::'  produce.log | tail -1 | sed 's/^META:://')
+          echo "Subiendo: $VIDEO"
+          python scripts/upload_youtube.py "$VIDEO" "$META" public
+
+      - name: Guardar el puntero de la cola
+        if: always()
+        run: |
+          git config user.name "zona-de-vuelo-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add queue/state.json || true
+          git commit -m "avanzar cola de ideas" || echo "sin cambios"
+          git push || echo "nada que empujar"
