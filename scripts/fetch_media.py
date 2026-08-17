@@ -108,6 +108,17 @@ def main():
                         item[k] = sh[k]
             resolved.append(item)
         out_sections.append({"key": key, "shots": resolved})
+    # validacion final: neutraliza cualquier medio que ffprobe no pueda decodificar
+    def decodable(rel):
+        p = os.path.join(os.path.dirname(OUT), os.path.basename(os.path.dirname(OUT)), "") if False else os.path.join(ROOT, "public", rel)
+        r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                            "-show_entries", "stream=width", "-of", "csv=p=0", p],
+                           capture_output=True, text=True)
+        return r.returncode == 0 and r.stdout.strip().isdigit()
+    for sec in out_sections:
+        for sh in sec["shots"]:
+            if sh.get("file") and not decodable(sh["file"]):
+                print("  ! medio corrupto neutralizado:", sh["file"]); sh["file"] = ""
     media = {"sections": out_sections}
     json.dump(media, open(os.path.join(OUT, "media.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
