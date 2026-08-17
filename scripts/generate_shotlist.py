@@ -29,12 +29,15 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}
     Para rematar una idea potente sin entidad ni cifra.
 
-REGLA DE ORO (obligatoria): si se nombra algo concreto (lugar, persona, avion, suceso, objeto), el plano
-DEBE ser "image" de esa cosa exacta. Nunca pongas un plano generico que no tenga relacion con lo que se dice.
+REGLA DE ORO (obligatoria): CADA plano debe mostrar EXACTAMENTE lo que dice su fragmento. Si se nombra algo
+concreto (lugar, persona, avion, suceso, objeto), el plano DEBE ser "image" de esa cosa exacta. Si se
+describe una accion o escena (un avion despegando, una tormenta, una cabina), "broll" con una consulta que
+la describa literalmente. NUNCA un plano generico o que no tenga relacion con lo que se dice en ese momento.
 
 Reglas:
 - No inventes cifras. Fragmentos en el idioma del guion (español). Consultas "broll" en ingles.
-- Entre 5 y 9 planos por seccion. En el cierre, el ultimo plano debe ser {"text":"<cierre>","kind":"outro"}.
+- RITMO: fragmentos CORTOS de ~1 frase. Entre 12 y 18 planos por seccion (cuantos mas, mas dinamico).
+- En el cierre, el ultimo plano debe ser {"text":"<cierre>","kind":"outro"}.
 - Devuelve UNICAMENTE JSON valido:
 {"sections":[{"key":"hook","shots":[ ... ]}, ... 7 secciones en orden ...]}"""
 
@@ -43,7 +46,7 @@ def main():
     src = sys.argv[1]
     guion = open(src, encoding="utf-8").read()
     user = f"GUION:\n\n{guion}\n\nGenera el plan de planos JSON de las 7 secciones."
-    text, usage = gs.call_claude(SYSTEM, user, max_tokens=8000, thinking={"type": "disabled"})
+    text, usage = gs.call_claude(SYSTEM, user, max_tokens=13000, thinking={"type": "disabled"})
     text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.M).strip()
     try:
         data = json.loads(text)

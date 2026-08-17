@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, Audio, OffthreadVideo, Img, Sequence, staticFile,
   useCurrentFrame, useVideoConfig, interpolate, spring, Easing } from "remotion";
 import { COLORS } from "../theme";
-import { Subtitles, Cue } from "../antartida/Subtitles";
+import { Cue } from "../antartida/Subtitles";
 
 export type Section = { key: string; title: string; offset: number; duration: number; cues: Cue[] };
 export type Manifest = { total_duration: number; fps: number; sections: Section[] };
@@ -35,8 +35,9 @@ const useEnter = () => {
 // ---------- clip de stock enmarcado (esquinas redondeadas, rejilla alrededor) ----------
 const ClipCard: React.FC<{ file: string; startFrom: number }> = ({ file, startFrom }) => {
   const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
   const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
-  const scale = interpolate(frame, [0, 150], [1.0, 1.06]);
+  const scale = interpolate(frame, [0, durationInFrames], [1.0, 1.08]);
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div style={{ position: "absolute", inset: "10% 8%", borderRadius: 30, overflow: "hidden",
@@ -52,10 +53,11 @@ const ClipCard: React.FC<{ file: string; startFrom: number }> = ({ file, startFr
 // ---------- imagen de entidad: marco PREMIUM centrado, entra con efecto, rejilla alrededor ----------
 const ImageCard: React.FC<{ file: string; label?: string; i: number }> = ({ file, label, i }) => {
   const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
   const enter = spring({ frame, fps: 30, config: { damping: 15, stiffness: 110 } });
   const dir = i % 2 === 0 ? 1 : -1;
-  const scale = interpolate(frame, [0, 150], [1.06, 1.18]);   // Ken Burns
-  const pan = interpolate(frame, [0, 150], [0, 16 * dir]);
+  const scale = interpolate(frame, [0, durationInFrames], [1.06, 1.2]);   // Ken Burns continuo
+  const pan = interpolate(frame, [0, durationInFrames], [0, 20 * dir]);
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div style={{
@@ -164,13 +166,10 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
     let t = sec.offset;
     shots.forEach((shot, si) => {
       const shotDur = (sec.duration * weights[si]) / total;
-      const nSub = Math.max(1, Math.ceil(shotDur / MAX_CELL)); // trocear planos largos para dar ritmo
-      const subDur = shotDur / nSub;
-      for (let k = 0; k < nSub; k++) {
-        const from = Math.round((t + k * subDur) * fps);
-        const to = Math.round((t + (k + 1) * subDur) * fps);
-        cells.push({ from, dur: Math.max(1, to - from), shot, sub: k });
-      }
+      // UN plano continuo por escena (sin trocear -> sin parpadeo del mismo clip)
+      const from = Math.round(t * fps);
+      const to = Math.round((t + shotDur) * fps);
+      cells.push({ from, dur: Math.max(1, to - from), shot, sub: 0 });
       t += shotDur;
     });
   }
@@ -197,7 +196,6 @@ const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
 export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest, media }) => {
   const fps = manifest.fps || 30;
   const totalFrames = Math.ceil(manifest.total_duration * fps);
-  const cues: Cue[] = manifest.sections.flatMap((s) => s.cues);
   const cells = buildCells(manifest, media);
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom, fontFamily: "Montserrat, 'Segoe UI', sans-serif" }}>
@@ -209,7 +207,6 @@ export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest,
           <CellView shot={c.shot} sub={c.sub} />
         </Sequence>
       ))}
-      <Subtitles cues={cues} />
       <BrandCorner />
       <ProgressBar total={totalFrames} />
     </AbsoluteFill>
