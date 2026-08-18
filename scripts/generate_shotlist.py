@@ -38,13 +38,19 @@ REGLA DE ORO (obligatoria): CADA plano debe mostrar EXACTAMENTE lo que dice su f
 COMO ELEGIR LA FUENTE DE CADA PLANO (piensa esto para cada fragmento):
 1. ¿Nombra una entidad REAL y concreta con fotos (persona con nombre, lugar/pais, modelo de avion, suceso
    historico, barco, objeto identificable)? -> "image" (foto real de esa cosa).
-2. ¿Describe una accion o escena GENERICA y comun que un banco de stock SEGURO tiene bien grabada (un avion
-   despegando, nubes, una cabina, hielo, el mar, un radar, un motor)? -> "broll" (consulta que lo describa).
-3. ¿Es un concepto, un fenomeno o una escena ESPECIFICA/HISTORICA que el stock NO va a clavar y solo daria
-   material generico o sin relacion (ej. "la radiacion solar incide mas en los polos", "el campo magnetico
-   desviando la brujula", "cinco aviones desapareciendo en 1945", una recreacion)? -> "ai" (se genera a medida).
-   Ante la duda entre broll generico y ai: si el stock daria algo que NO cuadra, elige "ai".
+2. ¿Describe una accion o escena LITERAL de aviacion/cielo/aeropuerto que un banco de stock SEGURO tiene
+   grabada TAL CUAL (un avion despegando, nubes, una cabina, una pista, un panel de salidas, un motor)?
+   -> "broll", con una consulta que sea esa escena REAL de aviacion. La consulta NUNCA es una metafora.
+3. ¿Es un CONCEPTO, un fenomeno fisico, o una METAFORA/ANALOGIA ("como una cinta transportadora", "un rio de
+   aire", "como un pez en el agua", "el viento empuja/frena", "la radiacion solar en los polos", "el aire se
+   desvia por la rotacion") o una recreacion historica? -> "ai" SIEMPRE. Se genera la idea EN CONTEXTO DE
+   AVIACION/ATMOSFERA (ej. "jet stream as a glowing river of air in the sky pushing an airliner").
 4. ¿Es una cifra, una frase de remate, o una llamada a la accion (suscribete/like/comenta)? -> "stat"/"fact"/"outro".
+
+REGLA ANTI-DESAJUSTE (obligatoria): NUNCA mandes a stock ("broll") una metafora, una analogia, una comparacion
+("como...", "imagina...", "es como si...") ni un concepto abstracto. El stock devuelve cosas literales sin
+relacion (una moto para "cinta transportadora", una melena para "viento", una carretera para "no ir recto").
+Todo eso va como "ai". El "broll" es SOLO para escenas de aviacion reales y literales.
 
 PROHIBIDO: usar "broll" para botones de YouTube, "subscribe/like button", pantallas de croma verde, o cualquier
 cosa que no aparezca literalmente en el guion. Las llamadas a la accion del cierre van SIEMPRE como "outro"/"fact",
