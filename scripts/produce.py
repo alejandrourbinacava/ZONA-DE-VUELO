@@ -70,8 +70,11 @@ def main():
 
     print("\n=== 6/6 RENDER ===")
     raw = os.path.join(ROOT, "out", s + ".mp4")
-    run(["npx", "remotion", "render", "Auto", raw, "--props=out/render_props.json",
-         "--concurrency=6"], shell=(os.name == "nt"))  # shell solo en Windows para hallar npx
+    cmd = ["npx", "remotion", "render", "Auto", raw, "--props=out/render_props.json"]
+    conc = os.environ.get("RENDER_CONCURRENCY")  # opcional; si no, Remotion elige segun nucleos
+    if conc:
+        cmd.append(f"--concurrency={conc}")
+    run(cmd, shell=(os.name == "nt"))  # shell solo en Windows para hallar npx
     # comprimir para subir
     web = os.path.join(ROOT, "out", s + "_web.mp4")
     subprocess.run(["ffmpeg", "-y", "-i", raw, "-c:v", "libx264", "-crf", "22",

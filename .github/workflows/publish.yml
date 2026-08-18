@@ -45,7 +45,7 @@ jobs:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           VIDEOS_DIR: ./salidas
         run: |
-          set -e
+          set -eo pipefail
           if ! IDEA=$(python scripts/pick_next_idea.py); then
             echo "No quedan ideas en la cola."; echo "skip=1" >> "$GITHUB_OUTPUT"; exit 0
           fi
@@ -60,6 +60,7 @@ jobs:
         with:
           name: video-zona-de-vuelo
           path: salidas/*
+          if-no-files-found: error
 
       - name: Publicar en YouTube (si esta configurado)
         if: ${{ env.HAS_YT != '' && steps.producir.outputs.skip != '1' }}
