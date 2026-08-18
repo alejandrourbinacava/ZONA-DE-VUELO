@@ -132,21 +132,30 @@ def get_entity_image(query, prefix, i):
 
 
 # ---------- IMAGEN IA (Google Imagen) ----------
+AI_MODEL = os.environ.get("GOOGLE_IMAGE_MODEL", "gemini-2.5-flash-image")
+
+
 def ai_image(prompt, prefix, i):
     if not GOOGLE:
         return None
-    url = ("https://generativelanguage.googleapis.com/v1beta/models/"
-           f"imagen-3.0-generate-002:predict?key={GOOGLE}")
-    body = {"instances": [{"prompt": prompt + ", cinematic, realistic, aviation documentary style"}],
-            "parameters": {"sampleCount": 1, "aspectRatio": "16:9"}}
+    url = (f"https://generativelanguage.googleapis.com/v1beta/models/{AI_MODEL}"
+           f":generateContent?key={GOOGLE}")
+    full = prompt + ", cinematic, photorealistic, aviation documentary style, 16:9, high detail"
+    body = {"contents": [{"parts": [{"text": full}]}],
+            "generationConfig": {"responseModalities": ["IMAGE"]}}
     data = curl_json(url, data=body)
-    preds = data.get("predictions", [])
-    if preds and preds[0].get("bytesBase64Encoded"):
-        dst = os.path.join(OUT, f"ai_{prefix}_{i}.png")
-        with open(dst, "wb") as f:
-            f.write(base64.b64decode(preds[0]["bytesBase64Encoded"]))
-        if os.path.getsize(dst) >= 8000:
-            return {"file": f"stock/ai_{prefix}_{i}.png"}
+    try:
+        parts = data["candidates"][0]["content"]["parts"]
+    except (KeyError, IndexError):
+        return None  # sin cuota / error -> el llamante cae a stock
+    for p in parts:
+        inline = p.get("inlineData") or p.get("inline_data")
+        if inline and inline.get("data"):
+            dst = os.path.join(OUT, f"ai_{prefix}_{i}.png")
+            with open(dst, "wb") as f:
+                f.write(base64.b64decode(inline["data"]))
+            if os.path.getsize(dst) >= 8000:
+                return {"file": f"stock/ai_{prefix}_{i}.png"}
     return None
 
 
