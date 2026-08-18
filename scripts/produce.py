@@ -16,6 +16,14 @@ def slug(t):
     return (re.sub(r"[^a-zA-Z0-9]+", "_", t).strip("_").lower())[:60] or "video"
 
 
+def clean_title(t):
+    # nombre de archivo legible = el titulo del guion (sin caracteres invalidos en Windows)
+    t = t.replace("¿", "").replace("¡", "")
+    t = re.sub(r'[\\/:*?"<>|]', "", t)
+    t = re.sub(r"\s+", " ", t).strip()
+    return t[:110] or "video"
+
+
 def run(cmd, **kw):
     print("»", " ".join(str(c) for c in cmd))
     r = subprocess.run(cmd, cwd=ROOT, **kw)
@@ -82,7 +90,7 @@ def main():
                    cwd=ROOT, capture_output=True)
     os.makedirs(FINAL, exist_ok=True)
     n = len([f for f in os.listdir(FINAL) if f.endswith(".mp4")]) + 1
-    base = f"{n:02d} - {slug(idea)}"
+    base = f"{n:02d} - {clean_title(idea)}"   # nombre = titulo legible del guion
     dst = os.path.join(FINAL, base + ".mp4")
     shutil.copy(web if os.path.exists(web) else raw, dst)
     # metadatos para YouTube (titulo/descripcion/keywords)

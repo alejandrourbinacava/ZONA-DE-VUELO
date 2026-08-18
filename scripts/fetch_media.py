@@ -39,34 +39,45 @@ def download(url, dst, ua=False):
 
 
 # ---------- CLIPS ----------
+USED = set()   # ids de clips ya usados en este video (para NO repetir)
+
+
 def best_pexels(query):
     url = (f"https://api.pexels.com/videos/search?query={query.replace(' ', '%20')}"
-           f"&per_page=8&orientation=landscape&size=medium")
+           f"&per_page=12&orientation=landscape&size=medium")
     data = curl_json(url, [f"Authorization: {PEXELS}"])
     best = None
     for vid in data.get("videos", []):
+        vid_id = f"px{vid.get('id')}"
+        if vid_id in USED:          # ya usado -> saltar (sin repeticiones)
+            continue
         for f in vid.get("video_files", []):
             if f.get("file_type") != "video/mp4":
                 continue
             h = f.get("height") or 0
             if h > 1080:            # descarta 4K (pesado y lento de renderizar)
                 continue
-            score = h                # preferimos mayor resolucion hasta 1080
-            if not best or score > best[0]:
-                best = (score, f["link"], vid.get("duration", 0), vid.get("user", {}).get("name", ""))
-    return best  # (score, link, duration, credit) | None
+            if not best or h > best[0]:
+                best = (h, f["link"], vid.get("duration", 0), vid.get("user", {}).get("name", ""), vid_id)
+    if best:
+        USED.add(best[4])
+    return best  # (score, link, duration, credit, id) | None
 
 
 def best_pixabay(query):
     if not PIXABAY:
         return None
-    url = f"https://pixabay.com/api/videos/?key={PIXABAY}&q={query.replace(' ', '+')}&per_page=5"
+    url = f"https://pixabay.com/api/videos/?key={PIXABAY}&q={query.replace(' ', '+')}&per_page=8"
     data = curl_json(url)
     for hit in data.get("hits", []):
+        vid_id = f"pb{hit.get('id')}"
+        if vid_id in USED:
+            continue
         v = (hit.get("videos", {}) or {})
         f = v.get("large") or v.get("medium")
         if f and f.get("url"):
-            return (f.get("height", 0), f["url"], hit.get("duration", 0), hit.get("user", ""))
+            USED.add(vid_id)
+            return (f.get("height", 0), f["url"], hit.get("duration", 0), hit.get("user", ""), vid_id)
     return None
 
 
