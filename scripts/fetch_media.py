@@ -1,24 +1,29 @@
 #!/usr/bin/env python3
-"""Resuelve el shot-list en medios reales:
-- kind 'broll' -> clip de Pexels (query en ingles)
-- kind 'image' -> imagen de Wikipedia de esa entidad (query)
+"""Resuelve el shot-list en medios reales, con varias fuentes:
+- kind 'broll' -> mejor clip de Pexels (elige el de mas resolucion de varios; opcional Pixabay)
+- kind 'image' -> imagen de la entidad: Wikipedia -> Openverse (ambos libres)
+- kind 'ai'    -> imagen generada con Google Imagen (si hay GOOGLE_API_KEY), si no cae a stock
 - kind stat/fact/outro -> sin medio (beat grafico)
-Descarga a public/stock/ y escribe public/stock/media.json (planos ordenados por seccion,
-conservando 'text' para sincronizar en el render). Requiere PEXELS_KEY."""
-import os, sys, json, subprocess, hashlib
+Descarga a public/stock/ y escribe public/stock/media.json. Requiere PEXELS_KEY.
+Opcionales: PIXABAY_KEY, GOOGLE_API_KEY."""
+import os, sys, json, base64, subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-KEY = os.environ.get("PEXELS_KEY")
+PEXELS = os.environ.get("PEXELS_KEY")
+PIXABAY = os.environ.get("PIXABAY_KEY")
+GOOGLE = os.environ.get("GOOGLE_API_KEY")
 OUT = os.path.join(ROOT, "public", "stock")
 SHOT = os.path.join(ROOT, "out", "shotlist.json")
 UA = "ZonaDeVueloBot/1.0 (canal educativo aviacion)"
 
 
-def curl_json(url, headers=None):
+def curl_json(url, headers=None, data=None):
     cmd = ["curl", "-s", url]
     for h in (headers or []):
         cmd += ["-H", h]
-    out = subprocess.run(cmd, capture_output=True, encoding="utf-8", errors="replace", timeout=60).stdout
+    if data is not None:
+        cmd += ["-H", "Content-Type: application/json", "-d", json.dumps(data)]
+    out = subprocess.run(cmd, capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
     try:
         return json.loads(out)
     except json.JSONDecodeError:
@@ -33,46 +38,117 @@ def download(url, dst, ua=False):
     return os.path.exists(dst) and os.path.getsize(dst) > 1500
 
 
-def pexels_clip(query, key_prefix, i):
+# ---------- CLIPS ----------
+def best_pexels(query):
     url = (f"https://api.pexels.com/videos/search?query={query.replace(' ', '%20')}"
-           f"&per_page=3&orientation=landscape&size=medium")
-    data = curl_json(url, [f"Authorization: {KEY}"])
-    for vid in data.get("videos", [])[:1]:
-        files = [f for f in vid.get("video_files", []) if f.get("file_type") == "video/mp4"]
-        if not files:
-            continue
-        files.sort(key=lambda f: abs((f.get("height") or 0) - 720))
-        fn = f"{key_prefix}_{i}_{vid['id']}.mp4"
-        dst = os.path.join(OUT, fn)
-        if download(files[0]["link"], dst):
-            return {"file": f"stock/{fn}", "duration": vid.get("duration", 0),
-                    "credit": vid.get("user", {}).get("name", "")}
+           f"&per_page=8&orientation=landscape&size=medium")
+    data = curl_json(url, [f"Authorization: {PEXELS}"])
+    best = None
+    for vid in data.get("videos", []):
+        for f in vid.get("video_files", []):
+            if f.get("file_type") != "video/mp4":
+                continue
+            h = f.get("height") or 0
+            if h > 1080:            # descarta 4K (pesado y lento de renderizar)
+                continue
+            score = h                # preferimos mayor resolucion hasta 1080
+            if not best or score > best[0]:
+                best = (score, f["link"], vid.get("duration", 0), vid.get("user", {}).get("name", ""))
+    return best  # (score, link, duration, credit) | None
+
+
+def best_pixabay(query):
+    if not PIXABAY:
+        return None
+    url = f"https://pixabay.com/api/videos/?key={PIXABAY}&q={query.replace(' ', '+')}&per_page=5"
+    data = curl_json(url)
+    for hit in data.get("hits", []):
+        v = (hit.get("videos", {}) or {})
+        f = v.get("large") or v.get("medium")
+        if f and f.get("url"):
+            return (f.get("height", 0), f["url"], hit.get("duration", 0), hit.get("user", ""))
     return None
 
 
-def wiki_image(query, key_prefix, i):
+def get_clip(query, prefix, i):
+    cand = best_pexels(query) or best_pixabay(query)
+    if not cand:
+        return None
+    fn = f"{prefix}_{i}.mp4"
+    dst = os.path.join(OUT, fn)
+    if download(cand[1], dst):
+        return {"file": f"stock/{fn}", "duration": cand[2], "credit": cand[3]}
+    return None
+
+
+# ---------- IMAGENES DE ENTIDAD ----------
+def wiki_image(query, prefix, i):
     for lang in ("es", "en"):
         url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&format=json"
                f"&generator=search&gsrsearch={query.replace(' ', '%20')}&gsrlimit=1"
                f"&prop=pageimages&piprop=thumbnail&pithumbsize=1280")
         data = curl_json(url, [f"User-Agent: {UA}"])
-        pages = (data.get("query", {}) or {}).get("pages", {}) or {}
-        for p in pages.values():
+        for p in ((data.get("query", {}) or {}).get("pages", {}) or {}).values():
             thumb = (p.get("thumbnail") or {}).get("source")
             if thumb:
                 ext = ".png" if ".png" in thumb.lower() else ".jpg"
-                fn = f"img_{key_prefix}_{i}{ext}"
-                dst = os.path.join(OUT, fn)
-                # imagen valida = >8KB (evita thumbnails rotos que rompen el render)
+                dst = os.path.join(OUT, f"img_{prefix}_{i}{ext}")
                 if download(thumb, dst, ua=True) and os.path.getsize(dst) >= 8000:
-                    return {"file": f"stock/{fn}"}
+                    return {"file": f"stock/img_{prefix}_{i}{ext}"}
                 if os.path.exists(dst):
                     os.remove(dst)
     return None
 
 
+def openverse_image(query, prefix, i):
+    url = (f"https://api.openverse.org/v1/images/?q={query.replace(' ', '%20')}"
+           f"&license_type=commercial&page_size=4")
+    data = curl_json(url, [f"User-Agent: {UA}"])
+    for r in data.get("results", []):
+        src = r.get("url") or r.get("thumbnail")
+        if not src:
+            continue
+        dst = os.path.join(OUT, f"ov_{prefix}_{i}.jpg")
+        if download(src, dst, ua=True) and os.path.getsize(dst) >= 8000:
+            return {"file": f"stock/ov_{prefix}_{i}.jpg"}
+        if os.path.exists(dst):
+            os.remove(dst)
+    return None
+
+
+def get_entity_image(query, prefix, i):
+    return wiki_image(query, prefix, i) or openverse_image(query, prefix, i)
+
+
+# ---------- IMAGEN IA (Google Imagen) ----------
+def ai_image(prompt, prefix, i):
+    if not GOOGLE:
+        return None
+    url = ("https://generativelanguage.googleapis.com/v1beta/models/"
+           f"imagen-3.0-generate-002:predict?key={GOOGLE}")
+    body = {"instances": [{"prompt": prompt + ", cinematic, realistic, aviation documentary style"}],
+            "parameters": {"sampleCount": 1, "aspectRatio": "16:9"}}
+    data = curl_json(url, data=body)
+    preds = data.get("predictions", [])
+    if preds and preds[0].get("bytesBase64Encoded"):
+        dst = os.path.join(OUT, f"ai_{prefix}_{i}.png")
+        with open(dst, "wb") as f:
+            f.write(base64.b64decode(preds[0]["bytesBase64Encoded"]))
+        if os.path.getsize(dst) >= 8000:
+            return {"file": f"stock/ai_{prefix}_{i}.png"}
+    return None
+
+
+def decodable(rel):
+    p = os.path.join(ROOT, "public", rel)
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                        "-show_entries", "stream=width", "-of", "csv=p=0", p],
+                       capture_output=True, text=True)
+    return r.returncode == 0 and r.stdout.strip().isdigit()
+
+
 def main():
-    if not KEY:
+    if not PEXELS:
         print("FALTA PEXELS_KEY"); sys.exit(1)
     os.makedirs(OUT, exist_ok=True)
     for f in os.listdir(OUT):
@@ -88,43 +164,41 @@ def main():
             kind = sh.get("kind")
             item = {"kind": kind, "text": sh.get("text", "")}
             if kind == "image":
-                media = wiki_image(sh.get("query", ""), key, i) \
-                        or pexels_clip(sh.get("query", ""), key, i)
-                if media and media["file"].endswith((".jpg", ".png")):
-                    item.update({"kind": "image", "file": media["file"], "label": sh.get("label", "")})
-                elif media:
-                    item.update({"kind": "broll", "file": media["file"], "duration": media.get("duration", 0)})
+                m = get_entity_image(sh.get("query", ""), key, i)
+                if m:
+                    item.update({"kind": "image", "file": m["file"], "label": sh.get("label", "")})
                 else:
-                    m = pexels_clip("aircraft aviation", key, i)
-                    item.update({"kind": "broll", "file": m["file"] if m else "", "duration": m.get("duration", 0) if m else 0})
-                print(f"[{key}] {item['kind']:5} {sh.get('query','')[:30]}")
+                    c = get_clip(sh.get("query", ""), key, i) or get_clip("aviation aircraft", key, i)
+                    item.update({"kind": "broll", "file": c["file"] if c else "", "duration": c.get("duration", 0) if c else 0})
+                print(f"[{key}] {item['kind']:5} {sh.get('query','')[:28]}")
+            elif kind == "ai":
+                m = ai_image(sh.get("query", "") or sh.get("text", ""), key, i)
+                if m:
+                    item.update({"kind": "image", "file": m["file"], "label": sh.get("label", "")})
+                else:  # sin key de Google -> cae a stock
+                    c = get_clip(sh.get("query", ""), key, i) or get_clip("aviation", key, i)
+                    item.update({"kind": "broll", "file": c["file"] if c else "", "duration": c.get("duration", 0) if c else 0})
+                print(f"[{key}] {item['kind']:5} (ai) {sh.get('query','')[:24]}")
             elif kind == "broll":
-                m = pexels_clip(sh.get("query", ""), key, i) or pexels_clip("aircraft aviation clouds", key, i)
-                item.update({"file": m["file"] if m else "", "duration": m.get("duration", 0) if m else 0})
-                print(f"[{key}] broll {sh.get('query','')[:30]}")
-            else:  # stat / fact / outro -> beat grafico
+                c = get_clip(sh.get("query", ""), key, i) or get_clip("aircraft aviation clouds", key, i)
+                item.update({"file": c["file"] if c else "", "duration": c.get("duration", 0) if c else 0})
+                print(f"[{key}] broll {sh.get('query','')[:28]}")
+            else:
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
                     if k in sh:
                         item[k] = sh[k]
             resolved.append(item)
         out_sections.append({"key": key, "shots": resolved})
-    # validacion final: neutraliza cualquier medio que ffprobe no pueda decodificar
-    def decodable(rel):
-        p = os.path.join(os.path.dirname(OUT), os.path.basename(os.path.dirname(OUT)), "") if False else os.path.join(ROOT, "public", rel)
-        r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
-                            "-show_entries", "stream=width", "-of", "csv=p=0", p],
-                           capture_output=True, text=True)
-        return r.returncode == 0 and r.stdout.strip().isdigit()
+    # validacion final con ffprobe
     for sec in out_sections:
         for sh in sec["shots"]:
             if sh.get("file") and not decodable(sh["file"]):
                 print("  ! medio corrupto neutralizado:", sh["file"]); sh["file"] = ""
-    media = {"sections": out_sections}
-    json.dump(media, open(os.path.join(OUT, "media.json"), "w", encoding="utf-8"),
+    json.dump({"sections": out_sections}, open(os.path.join(OUT, "media.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     nimg = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "image")
     nvid = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "broll")
-    print(f"\nLISTO -> public/stock/media.json  ({nimg} imagenes, {nvid} clips)")
+    print(f"\nLISTO -> media.json  ({nimg} imagenes, {nvid} clips) | Pixabay:{'si' if PIXABAY else 'no'} IA:{'si' if GOOGLE else 'no'}")
 
 
 if __name__ == "__main__":

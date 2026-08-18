@@ -24,6 +24,10 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
 - {"text":"<fragmento>", "kind":"broll", "query":"<consulta EN INGLES para banco de video Pexels, concreta y visual>"}
     USA ESTO para acciones o conceptos generales sin entidad concreta (un avion volando, una cabina,
     turbulencia, un radar, el mar). La consulta debe describir EXACTAMENTE lo que se dice.
+- {"text":"<fragmento>", "kind":"ai", "query":"<prompt EN INGLES describiendo la imagen a generar>", "label":"<etiqueta opcional>"}
+    USA ESTO solo para escenas concretas que NO existen en bancos de stock ni en Wikipedia: recreaciones
+    historicas de un momento (ej. "cinco aviones torpederos desapareciendo sobre el mar en 1945"), o una
+    imagen conceptual muy especifica. Se generara con IA. Usalo con moderacion (1-2 por seccion como mucho).
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}
