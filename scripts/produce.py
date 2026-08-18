@@ -102,6 +102,20 @@ def main():
             open(meta_path, "w", encoding="utf-8").write(r.stdout.strip())
     except Exception as e:
         print("aviso: metadatos fallaron:", e)
+    # informe de planos: fuente de cada plano (IA / FOTO / CLIP / GRAFICO)
+    try:
+        lines = [f"INFORME DE PLANOS — {clean_title(idea)}", "=" * 50]
+        cnt = {}
+        for sec in media["sections"]:
+            for sh in sec["shots"]:
+                src = sh.get("source", "?")
+                cnt[src] = cnt.get(src, 0) + 1
+                lines.append(f"[{sec['key']:12}] {src:7} | {sh.get('text','')[:70]}")
+        lines.append("")
+        lines.append("RESUMEN: " + " · ".join(f"{v} {k}" for k, v in sorted(cnt.items())))
+        open(os.path.join(FINAL, base + " - PLANOS.txt"), "w", encoding="utf-8").write("\n".join(lines))
+    except Exception as e:
+        print("aviso: informe de planos fallo:", e)
     print(f"\n✔ LISTO -> {dst}")
     print(f"VIDEO::{dst}")
     print(f"META::{meta_path if os.path.exists(meta_path) else ''}")

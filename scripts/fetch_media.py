@@ -167,31 +167,48 @@ def main():
         resolved = []
         for i, sh in enumerate(sec.get("shots", [])):
             kind = sh.get("kind")
+            q = sh.get("query", "") or sh.get("text", "")
             item = {"kind": kind, "text": sh.get("text", "")}
+
+            def as_image(m, src):
+                item.update({"kind": "image", "file": m["file"], "label": sh.get("label", ""), "source": src})
+
+            def as_clip(c, src):
+                item.update({"kind": "broll", "file": c["file"] if c else "", "source": src,
+                             "duration": c.get("duration", 0) if c else 0})
+
             if kind == "image":
-                m = get_entity_image(sh.get("query", ""), key, i)
+                m = get_entity_image(sh.get("query", ""), key, i)          # 1) foto real
                 if m:
-                    item.update({"kind": "image", "file": m["file"], "label": sh.get("label", "")})
+                    as_image(m, "FOTO")
                 else:
-                    c = get_clip(sh.get("query", ""), key, i) or get_clip("aviation aircraft", key, i)
-                    item.update({"kind": "broll", "file": c["file"] if c else "", "duration": c.get("duration", 0) if c else 0})
-                print(f"[{key}] {item['kind']:5} {sh.get('query','')[:28]}")
+                    a = ai_image(q, key, i)                                 # 2) IA a medida
+                    if a:
+                        as_image(a, "IA")
+                    else:
+                        as_clip(get_clip(q, key, i), "CLIP")               # 3) ultimo recurso: clip
             elif kind == "ai":
-                m = ai_image(sh.get("query", "") or sh.get("text", ""), key, i)
-                if m:
-                    item.update({"kind": "image", "file": m["file"], "label": sh.get("label", "")})
-                else:  # sin key de Google -> cae a stock
-                    c = get_clip(sh.get("query", ""), key, i) or get_clip("aviation", key, i)
-                    item.update({"kind": "broll", "file": c["file"] if c else "", "duration": c.get("duration", 0) if c else 0})
-                print(f"[{key}] {item['kind']:5} (ai) {sh.get('query','')[:24]}")
+                a = ai_image(q, key, i)                                     # 1) IA (lo pedido)
+                if a:
+                    as_image(a, "IA")
+                else:
+                    as_clip(get_clip(q, key, i) or get_clip("aircraft aviation", key, i), "CLIP")
             elif kind == "broll":
-                c = get_clip(sh.get("query", ""), key, i) or get_clip("aircraft aviation clouds", key, i)
-                item.update({"file": c["file"] if c else "", "duration": c.get("duration", 0) if c else 0})
-                print(f"[{key}] broll {sh.get('query','')[:28]}")
+                c = get_clip(sh.get("query", ""), key, i)                  # 1) clip que describe
+                if c:
+                    as_clip(c, "CLIP")
+                else:
+                    a = ai_image(q, key, i)                                 # 2) si no hay clip -> IA a medida (nunca generico)
+                    if a:
+                        as_image(a, "IA")
+                    else:
+                        as_clip(get_clip("aircraft aviation", key, i), "CLIP")
             else:
+                item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
                     if k in sh:
                         item[k] = sh[k]
+            print(f"[{key}] {item.get('source','?'):7} {sh.get('query', sh.get('text',''))[:34]}")
             resolved.append(item)
         out_sections.append({"key": key, "shots": resolved})
     # validacion final con ffprobe
