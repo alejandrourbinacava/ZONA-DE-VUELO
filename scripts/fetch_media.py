@@ -6,7 +6,7 @@
 - kind stat/fact/outro -> sin medio (beat grafico)
 Descarga a public/stock/ y escribe public/stock/media.json. Requiere PEXELS_KEY.
 Opcionales: PIXABAY_KEY, GOOGLE_API_KEY."""
-import os, sys, json, base64, subprocess
+import os, sys, json, base64, subprocess, urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PEXELS = os.environ.get("PEXELS_KEY")
@@ -132,30 +132,15 @@ def get_entity_image(query, prefix, i):
 
 
 # ---------- IMAGEN IA (Google Imagen) ----------
-AI_MODEL = os.environ.get("GOOGLE_IMAGE_MODEL", "gemini-2.5-flash-image")
-
-
 def ai_image(prompt, prefix, i):
-    if not GOOGLE:
-        return None
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/{AI_MODEL}"
-           f":generateContent?key={GOOGLE}")
-    full = prompt + ", cinematic, photorealistic, aviation documentary style, 16:9, high detail"
-    body = {"contents": [{"parts": [{"text": full}]}],
-            "generationConfig": {"responseModalities": ["IMAGE"]}}
-    data = curl_json(url, data=body)
-    try:
-        parts = data["candidates"][0]["content"]["parts"]
-    except (KeyError, IndexError):
-        return None  # sin cuota / error -> el llamante cae a stock
-    for p in parts:
-        inline = p.get("inlineData") or p.get("inline_data")
-        if inline and inline.get("data"):
-            dst = os.path.join(OUT, f"ai_{prefix}_{i}.png")
-            with open(dst, "wb") as f:
-                f.write(base64.b64decode(inline["data"]))
-            if os.path.getsize(dst) >= 8000:
-                return {"file": f"stock/ai_{prefix}_{i}.png"}
+    # Pollinations (Flux): generacion de imagen IA GRATIS, sin key ni facturacion.
+    full = prompt + ", cinematic, photorealistic, aviation documentary style, dramatic, high detail"
+    q = urllib.parse.quote(full, safe="")
+    url = (f"https://image.pollinations.ai/prompt/{q}"
+           f"?width=1280&height=720&nologo=true&model=flux&seed={abs(hash(prompt)) % 100000}")
+    dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
+    if download(url, dst) and os.path.getsize(dst) >= 8000:
+        return {"file": f"stock/ai_{prefix}_{i}.jpg"}
     return None
 
 
@@ -218,7 +203,7 @@ def main():
               ensure_ascii=False, indent=1)
     nimg = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "image")
     nvid = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "broll")
-    print(f"\nLISTO -> media.json  ({nimg} imagenes, {nvid} clips) | Pixabay:{'si' if PIXABAY else 'no'} IA:{'si' if GOOGLE else 'no'}")
+    print(f"\nLISTO -> media.json  ({nimg} imagenes, {nvid} clips) | Pixabay:{'si' if PIXABAY else 'no'} | IA:Pollinations(gratis)")
 
 
 if __name__ == "__main__":
