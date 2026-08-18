@@ -1,4 +1,4 @@
-name: Publicar video diario (Zona de Vuelo)
+name: Publicar video (Zona de Vuelo)
 
 on:
   schedule:
@@ -12,18 +12,16 @@ jobs:
   publicar:
     runs-on: ubuntu-latest
     timeout-minutes: 330
+    env:
+      HAS_YT: ${{ secrets.YT_REFRESH_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-
+        with: { node-version: "20" }
       - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
+        with: { python-version: "3.12" }
 
-      - name: Instalar dependencias del sistema (FFmpeg + libs de Chrome)
+      - name: Dependencias del sistema (FFmpeg + libs de Chrome)
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg libnss3 libdbus-1-3 libatk1.0-0 libgbm1 \
@@ -36,27 +34,41 @@ jobs:
           npx remotion browser ensure
           pip install -r requirements.txt
 
-      - name: Producir y publicar
+      - name: Producir el video
+        id: producir
         env:
           GENAIPRO_API_KEY: ${{ secrets.GENAIPRO_API_KEY }}
           GENAIPRO_BASE: https://genaipro.io/api
           PEXELS_KEY: ${{ secrets.PEXELS_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
-          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           VIDEOS_DIR: ./salidas
         run: |
           set -e
           if ! IDEA=$(python scripts/pick_next_idea.py); then
-            echo "No quedan ideas en la cola. Nada que hacer."; exit 0
+            echo "No quedan ideas en la cola."; echo "skip=1" >> "$GITHUB_OUTPUT"; exit 0
           fi
           echo "Idea de hoy: $IDEA"
           python scripts/produce.py "$IDEA" | tee produce.log
-          VIDEO=$(grep '^VIDEO::' produce.log | tail -1 | sed 's/^VIDEO:://')
-          META=$(grep '^META::'  produce.log | tail -1 | sed 's/^META:://')
-          echo "Subiendo: $VIDEO"
-          python scripts/upload_youtube.py "$VIDEO" "$META" public
+          echo "video=$(grep '^VIDEO::' produce.log | tail -1 | sed 's/^VIDEO:://')" >> "$GITHUB_OUTPUT"
+          echo "meta=$(grep '^META::'  produce.log | tail -1 | sed 's/^META:://')"  >> "$GITHUB_OUTPUT"
+
+      - name: Guardar el video como artefacto (descargable)
+        if: steps.producir.outputs.skip != '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-zona-de-vuelo
+          path: salidas/*
+
+      - name: Publicar en YouTube (si esta configurado)
+        if: ${{ env.HAS_YT != '' && steps.producir.outputs.skip != '1' }}
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: |
+          python scripts/upload_youtube.py "${{ steps.producir.outputs.video }}" "${{ steps.producir.outputs.meta }}" public
 
       - name: Guardar el puntero de la cola
         if: always()
