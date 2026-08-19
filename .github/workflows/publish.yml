@@ -22,7 +22,7 @@ jobs:
         with: { python-version: "3.12" }
 
       - name: Dependencias del sistema (FFmpeg + libs de Chrome)
-        timeout-minutes: 18          # si apt se cuelga pese a los reintentos, falla rapido
+        timeout-minutes: 22          # margen; con `timeout` por comando ningun apt bloquea de verdad
         env:
           DEBIAN_FRONTEND: noninteractive   # nunca esperar respuesta interactiva
           NEEDRESTART_MODE: a               # needrestart en automatico (no pregunta)
@@ -33,32 +33,40 @@ jobs:
           # aborta cualquier descarga estancada a los 25s y reintenta (mirror Azure a veces se atasca)
           APTOPTS: -y --no-install-recommends -o Acquire::Retries=6 -o Acquire::http::Timeout=25 -o Acquire::https::Timeout=25
         run: |
-          sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock 2>/dev/null || true
-          sudo apt-get update -o Acquire::Retries=6 -o Acquire::http::Timeout=25 || true
-          # ffmpeg via binario estatico (evita descargar libcodec2/librav1e/etc del mirror lento)
-          if ! command -v ffmpeg >/dev/null; then
+          set -u
+          # 1) ffmpeg+ffprobe estaticos PRIMERO desde CDN (independiente de apt/mirror Ubuntu).
+          #    Ambos binarios: los builds BtbN (GitHub CDN) y johnvansickle incluyen ffmpeg Y ffprobe.
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
             for u in \
-              "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz" \
-              "https://github.com/eugeneware/ffmpeg-static/releases/latest/download/ffmpeg-linux-x64" ; do
-              echo "Bajando ffmpeg de $u"
-              if [ "${u##*.}" = "xz" ]; then
-                curl -fsSL --retry 5 --retry-all-errors --max-time 180 "$u" -o /tmp/ff.tar.xz \
-                  && mkdir -p /tmp/ff && tar -xf /tmp/ff.tar.xz -C /tmp/ff --strip-components=1 \
-                  && sudo cp /tmp/ff/ffmpeg /tmp/ff/ffprobe /usr/local/bin/ && break
-              else
-                curl -fsSL --retry 5 --retry-all-errors --max-time 180 "$u" -o /usr/local/bin/ffmpeg \
-                  && sudo chmod +x /usr/local/bin/ffmpeg && break
+              "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz" \
+              "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz" ; do
+              echo ">> ffmpeg desde $u"
+              if curl -fsSL --retry 5 --retry-all-errors --max-time 240 "$u" -o /tmp/ff.tar.xz \
+                 && mkdir -p /tmp/ff && tar -xf /tmp/ff.tar.xz -C /tmp/ff --strip-components=1; then
+                FF=$(find /tmp/ff -name ffmpeg -type f | head -1)
+                FP=$(find /tmp/ff -name ffprobe -type f | head -1)
+                [ -n "$FF" ] && [ -n "$FP" ] && sudo install -m755 "$FF" /usr/local/bin/ffmpeg \
+                  && sudo install -m755 "$FP" /usr/local/bin/ffprobe && break
               fi
             done
           fi
-          # librerias de Chrome (paquetes pequeños) con reintentos; si un intento se atasca, repetimos
+          hash -r
+          ffmpeg  -version | head -1 || { echo "ffmpeg NO disponible";  exit 1; }
+          ffprobe -version | head -1 || { echo "ffprobe NO disponible"; exit 1; }
+
+          # 2) libs de Chrome (best-effort): el runner ubuntu-latest ya trae Google Chrome y casi
+          #    todas estas libs. Intentamos instalarlas por si falta alguna, con `timeout` para que
+          #    un cuelgue del mirror se MATE (no bloquee) y SIN tumbar el job si apt no responde.
+          sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock 2>/dev/null || true
           for try in 1 2 3; do
-            echo "== intento apt install libs Chrome ($try) =="
-            sudo apt-get install $APTOPTS $PKGS && break
-            echo "fallo intento $try, reintento..."; sleep 5
+            echo "== apt libs Chrome, intento $try =="
+            sudo timeout 90 apt-get update $APTOPTS >/dev/null 2>&1 || echo "  (update excedio 90s, sigo)"
+            if sudo timeout 150 apt-get install $APTOPTS --fix-missing $PKGS; then
+              echo "Chrome libs: instaladas"; break
+            fi
+            echo "  intento $try sin exito, reintento en 6s"; sleep 6
           done
-          ffmpeg -version | head -1
-          echo "Chrome libs: OK"
+          echo "Fin dependencias (ffmpeg garantizado; libs Chrome best-effort)."
 
       - name: Instalar Node + Python deps
         run: |
