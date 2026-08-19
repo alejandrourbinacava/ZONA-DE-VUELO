@@ -24,10 +24,17 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
 - {"text":"<fragmento>", "kind":"broll", "query":"<consulta EN INGLES para banco de video Pexels, concreta y visual>"}
     USA ESTO para acciones o conceptos generales sin entidad concreta (un avion volando, una cabina,
     turbulencia, un radar, el mar). La consulta debe describir EXACTAMENTE lo que se dice.
-- {"text":"<fragmento>", "kind":"ai", "query":"<prompt EN INGLES describiendo la imagen a generar>", "label":"<etiqueta opcional>"}
-    USA ESTO solo para escenas concretas que NO existen en bancos de stock ni en Wikipedia: recreaciones
-    historicas de un momento (ej. "cinco aviones torpederos desapareciendo sobre el mar en 1945"), o una
-    imagen conceptual muy especifica. Se generara con IA. Usalo con moderacion (1-2 por seccion como mucho).
+- {"text":"<fragmento>", "kind":"ai", "query":"<PROMPT EN INGLES rico y cinematografico>", "label":"<opcional>"}
+    USA ESTO GENEROSAMENTE, no lo raciones. Es para TODO lo que no sea una toma real y literal de aviacion:
+    conceptos, fenomenos fisicos, metaforas/analogias, recreaciones historicas e ideas abstractas.
+    El prompt debe ser DETALLADO (sujeto + escena + estilo + luz) y SIEMPRE anclado a aviacion/cielo/atmosfera.
+    Ejemplos de buen prompt:
+      "a powerful jet stream shown as a glowing ribbon of fast-moving air high in the stratosphere, an airliner
+       riding it, volumetric light, cinematic, photorealistic, 16:9"
+      "cross-section diagram-like view of warm equator air and cold polar air colliding, forming a fast wind
+       band, dramatic atmospheric lighting, cinematic, photorealistic"
+    Apunta a que un BUEN numero de planos por seccion sean "ai" cuando el tema es conceptual (fisica, fenomenos):
+    en esos casos "ai" puede ser la mayoria de los planos. Si dudas entre broll y ai, elige ai.
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}

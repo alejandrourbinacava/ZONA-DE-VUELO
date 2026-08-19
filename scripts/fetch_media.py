@@ -134,7 +134,8 @@ def get_entity_image(query, prefix, i):
 # ---------- IMAGEN IA (Google Imagen) ----------
 def ai_image(prompt, prefix, i):
     # Pollinations (Flux): generacion de imagen IA GRATIS, sin key ni facturacion.
-    full = prompt + ", cinematic, photorealistic, aviation documentary style, dramatic, high detail"
+    full = (prompt + ", aviation and sky context, cinematic film still, photorealistic, ultra detailed, "
+            "volumetric dramatic lighting, professional color grading, shallow depth of field, 8k, 16:9")
     q = urllib.parse.quote(full, safe="")
     url = (f"https://image.pollinations.ai/prompt/{q}"
            f"?width=1280&height=720&nologo=true&model=flux&seed={abs(hash(prompt)) % 100000}")
