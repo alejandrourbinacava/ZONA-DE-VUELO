@@ -87,9 +87,9 @@ const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
   const { durationInFrames } = useVideoConfig();
   const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
   const dir = i % 2 === 0 ? 1 : -1;
-  const scale = interpolate(frame, [0, durationInFrames], [1.12, 1.34]);   // zoom fuerte = sensacion de clip
-  const panX = interpolate(frame, [0, durationInFrames], [0, 40 * dir]);
-  const panY = interpolate(frame, [0, durationInFrames], [0, -18]);
+  const scale = interpolate(frame, [0, durationInFrames], [1.03, 1.12]);   // zoom suave (imagen 1080p se mantiene nitida)
+  const panX = interpolate(frame, [0, durationInFrames], [0, 16 * dir]);
+  const panY = interpolate(frame, [0, durationInFrames], [0, -8]);
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div style={{ position: "absolute", inset: "10% 8%", borderRadius: 30, overflow: "hidden",

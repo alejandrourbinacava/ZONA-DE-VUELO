@@ -137,8 +137,9 @@ def ai_image(prompt, prefix, i):
     full = (prompt + ", aviation and sky context, cinematic film still, photorealistic, ultra detailed, "
             "volumetric dramatic lighting, professional color grading, shallow depth of field, 8k, 16:9")
     q = urllib.parse.quote(full, safe="")
+    # 1080p para que se vea nitida (el zoom del render ya no la ablanda); flux = mejor calidad
     url = (f"https://image.pollinations.ai/prompt/{q}"
-           f"?width=1280&height=720&nologo=true&enhance=true&model=flux&seed={abs(hash(prompt)) % 100000}")
+           f"?width=1920&height=1080&nologo=true&model=flux&seed={abs(hash(prompt)) % 100000}")
     dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
     if download(url, dst) and os.path.getsize(dst) >= 8000:
         return {"file": f"stock/ai_{prefix}_{i}.jpg"}
