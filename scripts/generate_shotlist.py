@@ -25,16 +25,13 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     USA ESTO para acciones o conceptos generales sin entidad concreta (un avion volando, una cabina,
     turbulencia, un radar, el mar). La consulta debe describir EXACTAMENTE lo que se dice.
 - {"text":"<fragmento>", "kind":"ai", "query":"<PROMPT EN INGLES rico y cinematografico>", "label":"<opcional>"}
-    USA ESTO GENEROSAMENTE, no lo raciones. Es para TODO lo que no sea una toma real y literal de aviacion:
-    conceptos, fenomenos fisicos, metaforas/analogias, recreaciones historicas e ideas abstractas.
-    El prompt debe ser DETALLADO (sujeto + escena + estilo + luz) y SIEMPRE anclado a aviacion/cielo/atmosfera.
-    Ejemplos de buen prompt:
+    Es para conceptos, fenomenos fisicos, metaforas/analogias, recreaciones historicas e ideas abstractas
+    que el stock NO puede mostrar. El prompt debe ser DETALLADO (sujeto + escena + estilo + luz) y SIEMPRE
+    anclado a aviacion/cielo/atmosfera. Ejemplo:
       "a powerful jet stream shown as a glowing ribbon of fast-moving air high in the stratosphere, an airliner
        riding it, volumetric light, cinematic, photorealistic, 16:9"
-      "cross-section diagram-like view of warm equator air and cold polar air colliding, forming a fast wind
-       band, dramatic atmospheric lighting, cinematic, photorealistic"
-    Apunta a que un BUEN numero de planos por seccion sean "ai" cuando el tema es conceptual (fisica, fenomenos):
-    en esos casos "ai" puede ser la mayoria de los planos. Si dudas entre broll y ai, elige ai.
+    EQUILIBRIO: usa "ai" para lo abstracto/metaforico, pero para ACCIONES REALES de aviacion (avion despegando,
+    cabina, pista, motor, nubes) PREFIERE un clip real ("broll"). No abuses de "ai": mezcla clips reales e IA.
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}
@@ -65,6 +62,9 @@ NUNCA como clip de stock.
 
 Reglas:
 - No inventes cifras. Fragmentos en el idioma del guion (español). Consultas "broll" en ingles.
+- SINCRONIA (critico): el campo "text" de cada plano debe ser el fragmento de narracion COPIADO TEXTUALMENTE
+  del guion, palabra por palabra. Los fragmentos, en orden, deben CUBRIR TODO el texto de la seccion SIN saltarse
+  ni resumir nada (el sistema usa la longitud de cada fragmento para sincronizar con la voz; si resumes, se desfasa).
 - RITMO: fragmentos CORTOS de ~1 frase. Entre 12 y 18 planos por seccion (cuantos mas, mas dinamico).
 - En el cierre, el ultimo plano debe ser {"text":"<cierre>","kind":"outro"}.
 - Devuelve UNICAMENTE JSON valido:

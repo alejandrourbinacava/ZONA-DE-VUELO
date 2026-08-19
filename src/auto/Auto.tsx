@@ -7,7 +7,7 @@ import { Cue } from "../antartida/Subtitles";
 export type Section = { key: string; title: string; offset: number; duration: number; cues: Cue[] };
 export type Manifest = { total_duration: number; fps: number; sections: Section[] };
 type Shot = {
-  kind: string; text: string; file?: string; label?: string;
+  kind: string; text: string; file?: string; label?: string; source?: string;
   value?: number; suffix?: string; color?: string; kicker?: string; body?: string; accent?: string;
 };
 export type Media = { sections: { key: string; shots: Shot[] }[] };
@@ -76,6 +76,27 @@ const ImageCard: React.FC<{ file: string; label?: string; i: number }> = ({ file
             <div style={{ fontSize: 36, fontWeight: 800, color: "#fff", textShadow: "0 3px 14px rgba(0,0,0,0.9)" }}>{label}</div>
           </div>
         ) : null}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// ---------- imagen IA como CLIP: pantalla completa, movimiento fuerte (parece metraje) ----------
+const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
+  const dir = i % 2 === 0 ? 1 : -1;
+  const scale = interpolate(frame, [0, durationInFrames], [1.12, 1.34]);   // zoom fuerte = sensacion de clip
+  const panX = interpolate(frame, [0, durationInFrames], [0, 40 * dir]);
+  const panY = interpolate(frame, [0, durationInFrames], [0, -18]);
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+      <div style={{ position: "absolute", inset: "10% 8%", borderRadius: 30, overflow: "hidden",
+        boxShadow: "0 40px 90px rgba(0,0,0,0.6)", border: "3px solid rgba(140,190,255,0.22)",
+        opacity: enter, transform: `scale(${0.94 + enter * 0.06})` }}>
+        <Img src={staticFile(file)} style={{ width: "100%", height: "100%", objectFit: "cover",
+          transform: `scale(${scale}) translate(${panX}px, ${panY}px)` }} />
       </div>
     </AbsoluteFill>
   );
@@ -179,7 +200,11 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
 const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
   switch (shot.kind) {
     case "image":
-      return shot.file ? <ImageCard file={shot.file} label={shot.label} i={sub} /> : null;
+      if (!shot.file) return null;
+      // foto real de entidad -> tarjeta premium con rotulo; imagen IA -> clip a pantalla completa con movimiento
+      return shot.source === "FOTO"
+        ? <ImageCard file={shot.file} label={shot.label} i={sub} />
+        : <AiClip file={shot.file} i={sub} />;
     case "broll":
       return shot.file ? <ClipCard file={shot.file} startFrom={sub * MAX_CELL} /> : null;
     case "stat":

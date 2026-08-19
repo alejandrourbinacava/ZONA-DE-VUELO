@@ -102,16 +102,25 @@ def main():
             open(meta_path, "w", encoding="utf-8").write(r.stdout.strip())
     except Exception as e:
         print("aviso: metadatos fallaron:", e)
-    # informe de planos: fuente de cada plano (IA / FOTO / CLIP / GRAFICO)
+    # informe de planos: minuto:segundo + fuente de cada plano (IA / FOTO / CLIP / GRAFICO)
     try:
-        lines = [f"INFORME DE PLANOS — {clean_title(idea)}", "=" * 50]
+        secoff = {s["key"]: (s["offset"], s["duration"]) for s in manifest["sections"]}
+        lines = [f"INFORME DE PLANOS — {clean_title(idea)}", "=" * 60,
+                 "TIEMPO   FUENTE  | texto", "-" * 60]
         cnt = {}
         for sec in media["sections"]:
-            for sh in sec["shots"]:
+            off, dur = secoff.get(sec["key"], (0, 0))
+            shots = sec["shots"]
+            weights = [max(8, len(sh.get("text", ""))) for sh in shots]
+            tot = sum(weights) or 1
+            t = off
+            for sh, w in zip(shots, weights):
+                mm, ss = int(t // 60), int(t % 60)
                 src = sh.get("source", "?")
                 cnt[src] = cnt.get(src, 0) + 1
-                lines.append(f"[{sec['key']:12}] {src:7} | {sh.get('text','')[:70]}")
-        lines.append("")
+                lines.append(f"{mm:2d}:{ss:02d}   {src:7} | {sh.get('text','')[:66]}")
+                t += dur * w / tot
+        lines.append("-" * 60)
         lines.append("RESUMEN: " + " · ".join(f"{v} {k}" for k, v in sorted(cnt.items())))
         open(os.path.join(FINAL, base + " - PLANOS.txt"), "w", encoding="utf-8").write("\n".join(lines))
     except Exception as e:
