@@ -22,17 +22,43 @@ jobs:
         with: { python-version: "3.12" }
 
       - name: Dependencias del sistema (FFmpeg + libs de Chrome)
-        timeout-minutes: 15          # si apt se cuelga, falla rapido (no 5h)
+        timeout-minutes: 18          # si apt se cuelga pese a los reintentos, falla rapido
         env:
           DEBIAN_FRONTEND: noninteractive   # nunca esperar respuesta interactiva
           NEEDRESTART_MODE: a               # needrestart en automatico (no pregunta)
+          PKGS: >-
+            libnss3 libdbus-1-3 libatk1.0-0 libgbm1 libasound2t64 libxrandr2
+            libxkbcommon0 libxfixes3 libxcomposite1 libxdamage1 libatk-bridge2.0-0
+            libpango-1.0-0 libcairo2 libcups2
+          # aborta cualquier descarga estancada a los 25s y reintenta (mirror Azure a veces se atasca)
+          APTOPTS: -y --no-install-recommends -o Acquire::Retries=6 -o Acquire::http::Timeout=25 -o Acquire::https::Timeout=25
         run: |
           sudo rm -f /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock 2>/dev/null || true
-          sudo apt-get update -y
-          sudo apt-get install -y --no-install-recommends \
-            ffmpeg libnss3 libdbus-1-3 libatk1.0-0 libgbm1 \
-            libasound2t64 libxrandr2 libxkbcommon0 libxfixes3 libxcomposite1 \
-            libxdamage1 libatk-bridge2.0-0 libpango-1.0-0 libcairo2 libcups2
+          sudo apt-get update -o Acquire::Retries=6 -o Acquire::http::Timeout=25 || true
+          # ffmpeg via binario estatico (evita descargar libcodec2/librav1e/etc del mirror lento)
+          if ! command -v ffmpeg >/dev/null; then
+            for u in \
+              "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz" \
+              "https://github.com/eugeneware/ffmpeg-static/releases/latest/download/ffmpeg-linux-x64" ; do
+              echo "Bajando ffmpeg de $u"
+              if [ "${u##*.}" = "xz" ]; then
+                curl -fsSL --retry 5 --retry-all-errors --max-time 180 "$u" -o /tmp/ff.tar.xz \
+                  && mkdir -p /tmp/ff && tar -xf /tmp/ff.tar.xz -C /tmp/ff --strip-components=1 \
+                  && sudo cp /tmp/ff/ffmpeg /tmp/ff/ffprobe /usr/local/bin/ && break
+              else
+                curl -fsSL --retry 5 --retry-all-errors --max-time 180 "$u" -o /usr/local/bin/ffmpeg \
+                  && sudo chmod +x /usr/local/bin/ffmpeg && break
+              fi
+            done
+          fi
+          # librerias de Chrome (paquetes pequeños) con reintentos; si un intento se atasca, repetimos
+          for try in 1 2 3; do
+            echo "== intento apt install libs Chrome ($try) =="
+            sudo apt-get install $APTOPTS $PKGS && break
+            echo "fallo intento $try, reintento..."; sleep 5
+          done
+          ffmpeg -version | head -1
+          echo "Chrome libs: OK"
 
       - name: Instalar Node + Python deps
         run: |
