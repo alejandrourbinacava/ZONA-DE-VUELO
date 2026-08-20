@@ -94,7 +94,9 @@ def main():
             r = tts.synth(sec["text"], VOICE, mp3, model=MODEL,
                           stability=0.5, similarity=0.75, style=0.0, speed=1.0)
             if not r:
-                print("  ! fallo TTS"); return
+                # cortar YA con error (no seguir con medios y morir 90 min despues)
+                print(f"  ! fallo TTS en seccion '{key}' -> abortando", file=sys.stderr)
+                sys.exit(1)
         d = dur(mp3)
         cues = make_cues(sec["text"], offset, d)
         manifest.append({"key": key, "title": sec["title"], "mp3": os.path.relpath(mp3, ROOT).replace("\\", "/"),
