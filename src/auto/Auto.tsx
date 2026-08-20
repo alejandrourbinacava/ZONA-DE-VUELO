@@ -102,6 +102,28 @@ const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
   );
 };
 
+// ---------- tarjeta de respaldo: si un plano se queda SIN visual, mostramos la frase con estilo
+//            (nunca una rejilla vacia). Texto legible, no gigante, para frases largas. ----------
+const FallbackCard: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const s = spring({ frame, fps: 30, config: { damping: 16 } });
+  const scale = interpolate(frame, [0, durationInFrames], [1.0, 1.06]);
+  const clean = (text || "").replace(/\s+/g, " ").trim();
+  const t = clean.length > 120 ? clean.slice(0, 117).trimEnd() + "…" : clean;
+  return (
+    <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+      <AbsoluteFill style={{ background: "radial-gradient(circle at 50% 45%, rgba(20,45,85,0.55), rgba(5,10,20,0.9) 80%)" }} />
+      <div style={{ maxWidth: "72%", textAlign: "center", opacity: s,
+        transform: `translateY(${(1 - s) * 30}px) scale(${(0.92 + s * 0.08) * scale})` }}>
+        <div style={{ fontSize: 30, letterSpacing: 6, color: COLORS.cyan, marginBottom: 22, fontWeight: 800 }}>🛩️ ZONA DE VUELO</div>
+        <div style={{ fontSize: 58, fontWeight: 800, color: "#fff", lineHeight: 1.18,
+          textShadow: "0 4px 24px rgba(0,0,0,0.85)" }}>{t}</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 // ---------- frase clave: texto blanco gigante sobre fondo oscuro (estilo editora) ----------
 const KeyPhrase: React.FC<{ text: string }> = ({ text }) => {
   const frame = useCurrentFrame();
@@ -200,13 +222,13 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
 const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
   switch (shot.kind) {
     case "image":
-      if (!shot.file) return null;
+      if (!shot.file) return <FallbackCard text={shot.text} />;   // nunca vacio
       // foto real de entidad -> tarjeta premium con rotulo; imagen IA -> clip a pantalla completa con movimiento
       return shot.source === "FOTO"
         ? <ImageCard file={shot.file} label={shot.label} i={sub} />
         : <AiClip file={shot.file} i={sub} />;
     case "broll":
-      return shot.file ? <ClipCard file={shot.file} startFrom={sub * MAX_CELL} /> : null;
+      return shot.file ? <ClipCard file={shot.file} startFrom={sub * MAX_CELL} /> : <FallbackCard text={shot.text} />;
     case "stat":
       return <StatCard value={shot.value || 0} suffix={shot.suffix} label={shot.label} color={shot.color} />;
     case "fact":

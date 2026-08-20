@@ -82,13 +82,16 @@ def best_pixabay(query):
 
 
 def get_clip(query, prefix, i):
-    cand = best_pexels(query) or best_pixabay(query)
-    if not cand:
-        return None
-    fn = f"{prefix}_{i}.mp4"
-    dst = os.path.join(OUT, fn)
-    if download(cand[1], dst):
-        return {"file": f"stock/{fn}", "duration": cand[2], "credit": cand[3]}
+    # prueba hasta 2 candidatos: si el 1o descarga corrupto, va al siguiente (evita huecos)
+    for cand in (best_pexels(query), best_pixabay(query)):
+        if not cand:
+            continue
+        fn = f"{prefix}_{i}.mp4"
+        dst = os.path.join(OUT, fn)
+        if download(cand[1], dst) and decodable(f"stock/{fn}"):
+            return {"file": f"stock/{fn}", "duration": cand[2], "credit": cand[3]}
+        if os.path.exists(dst):
+            os.remove(dst)
     return None
 
 
@@ -131,18 +134,40 @@ def get_entity_image(query, prefix, i):
     return wiki_image(query, prefix, i) or openverse_image(query, prefix, i)
 
 
-# ---------- IMAGEN IA (Google Imagen) ----------
+# ---------- IMAGEN IA (Pollinations / Flux, gratis) ----------
+def img_dims(path):
+    """(ancho, alto) de una imagen via ffprobe, o (0,0) si no se puede leer."""
+    r = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0",
+                        "-show_entries", "stream=width,height", "-of", "csv=p=0:s=x", path],
+                       capture_output=True, text=True)
+    try:
+        w, h = r.stdout.strip().split("x")
+        return int(w), int(h)
+    except (ValueError, AttributeError):
+        return 0, 0
+
+
 def ai_image(prompt, prefix, i):
     # Pollinations (Flux): generacion de imagen IA GRATIS, sin key ni facturacion.
-    full = (prompt + ", aviation and sky context, cinematic film still, photorealistic, ultra detailed, "
-            "volumetric dramatic lighting, professional color grading, shallow depth of field, 8k, 16:9")
+    # Prompt mas sobrio = menos artefactos/distorsion; anclado a aviacion.
+    full = (prompt + ", aviation and sky context, cinematic photograph, photorealistic, "
+            "natural lighting, sharp focus, high detail, 16:9")
     q = urllib.parse.quote(full, safe="")
-    # 1080p para que se vea nitida (el zoom del render ya no la ablanda); flux = mejor calidad
-    url = (f"https://image.pollinations.ai/prompt/{q}"
-           f"?width=1920&height=1080&nologo=true&model=flux&seed={abs(hash(prompt)) % 100000}")
-    dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
-    if download(url, dst) and os.path.getsize(dst) >= 8000:
-        return {"file": f"stock/ai_{prefix}_{i}.jpg"}
+    # Reintenta con semillas distintas: si Flux devuelve una imagen rota/basura, probamos otra.
+    for attempt in range(3):
+        seed = (abs(hash(prompt)) + attempt * 7919) % 100000
+        url = (f"https://image.pollinations.ai/prompt/{q}"
+               f"?width=1920&height=1080&nologo=true&model=flux&seed={seed}")
+        dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
+        if not download(url, dst):
+            continue
+        # validacion: peso razonable Y dimensiones reales grandes (descarta placeholders de error)
+        if os.path.getsize(dst) >= 30000:
+            w, h = img_dims(dst)
+            if w >= 1200 and h >= 600:
+                return {"file": f"stock/ai_{prefix}_{i}.jpg"}
+        if os.path.exists(dst):
+            os.remove(dst)
     return None
 
 
@@ -213,11 +238,17 @@ def main():
             print(f"[{key}] {item.get('source','?'):7} {sh.get('query', sh.get('text',''))[:34]}")
             resolved.append(item)
         out_sections.append({"key": key, "shots": resolved})
-    # validacion final con ffprobe
-    for sec in out_sections:
-        for sh in sec["shots"]:
+    # validacion final con ffprobe: cualquier medio corrupto se REEMPLAZA por IA a medida
+    # (nunca se deja un hueco vacio; si la IA tambien fallara, el render pone tarjeta de texto)
+    for si, sec in enumerate(out_sections):
+        for sj, sh in enumerate(sec["shots"]):
             if sh.get("file") and not decodable(sh["file"]):
-                print("  ! medio corrupto neutralizado:", sh["file"]); sh["file"] = ""
+                print("  ! medio corrupto, reemplazando por IA:", sh["file"])
+                repl = ai_image(sh.get("text", "") or "aviation sky", sec["key"], f"fix_{si}_{sj}")
+                if repl:
+                    sh.update({"kind": "image", "file": repl["file"], "source": "IA"})
+                else:
+                    sh["file"] = ""
     json.dump({"sections": out_sections}, open(os.path.join(OUT, "media.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
     nimg = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "image")
