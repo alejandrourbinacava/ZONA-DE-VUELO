@@ -53,7 +53,7 @@ def synth(text, voice_id, out_path, model="eleven_multilingual_v2",
             print(f"  no se pudo crear la tarea (ronda {ronda+1}/3)", flush=True)
             time.sleep(8); continue
         print(f"  task_id={tid}  ...generando", end="", flush=True)
-        for _ in range(150):
+        for _ in range(255):   # hasta ~8.5 min por ronda (GenAIPro a veces va lento con secciones largas)
             time.sleep(2)
             try:
                 t = _req("GET", f"/v1/labs/task/{tid}")
