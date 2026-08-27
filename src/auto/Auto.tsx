@@ -81,15 +81,24 @@ const ImageCard: React.FC<{ file: string; label?: string; i: number }> = ({ file
   );
 };
 
-// ---------- imagen IA como CLIP: pantalla completa, movimiento fuerte (parece metraje) ----------
+// ---------- imagen IA como CLIP: pantalla completa, MOVIMIENTO cinematografico (parece metraje) ----------
+// Alterna 3 patrones (push-in, pull-out, paneo) segun el indice para que NUNCA parezca una foto fija.
 const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
   const dir = i % 2 === 0 ? 1 : -1;
-  const scale = interpolate(frame, [0, durationInFrames], [1.03, 1.12]);   // zoom suave (imagen 1080p se mantiene nitida)
-  const panX = interpolate(frame, [0, durationInFrames], [0, 16 * dir]);
-  const panY = interpolate(frame, [0, durationInFrames], [0, -8]);
+  const patt = i % 3;
+  // [scaleFrom, scaleTo, panXfrom, panXto, panYfrom, panYto] — movimiento amplio pero suave
+  const P = patt === 0
+    ? [1.06, 1.26, -26 * dir, 26 * dir, 0, -18]      // acercamiento con deriva
+    : patt === 1
+    ? [1.28, 1.10, 22 * dir, -14 * dir, -12, 8]      // alejamiento lento
+    : [1.12, 1.22, -40 * dir, 40 * dir, 6, -8];      // paneo lateral con leve zoom
+  const ease = { easing: Easing.inOut(Easing.ease) } as const;
+  const scale = interpolate(frame, [0, durationInFrames], [P[0], P[1]], ease);
+  const panX = interpolate(frame, [0, durationInFrames], [P[2], P[3]], ease);
+  const panY = interpolate(frame, [0, durationInFrames], [P[4], P[5]], ease);
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div style={{ position: "absolute", inset: "10% 8%", borderRadius: 30, overflow: "hidden",
