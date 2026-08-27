@@ -84,8 +84,8 @@ jobs:
       - name: Producir el video
         id: producir
         env:
-          GENAIPRO_API_KEY: ${{ secrets.GENAIPRO_API_KEY }}
-          GENAIPRO_BASE: https://genaipro.io/api
+          AI33_API_KEY: ${{ secrets.AI33_API_KEY }}
+          AI33_BASE: https://api.ai33.pro
           PEXELS_KEY: ${{ secrets.PEXELS_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
