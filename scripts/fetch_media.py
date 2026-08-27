@@ -42,12 +42,29 @@ def download(url, dst, ua=False):
 
 
 # ---------- CLIPS ----------
-USED = set()   # ids de clips ya usados en este video (para NO repetir)
+USED = set()   # ids de clips ya usados (este video + los de videos anteriores) para NO repetir
+USED_FILE = os.path.join(ROOT, "queue", "used_clips.json")   # dedup GLOBAL entre videos
+
+
+def load_used():
+    try:
+        for x in json.load(open(USED_FILE, encoding="utf-8")):
+            USED.add(x)
+    except (OSError, json.JSONDecodeError):
+        pass
+
+
+def save_used():
+    try:
+        os.makedirs(os.path.dirname(USED_FILE), exist_ok=True)
+        json.dump(sorted(USED), open(USED_FILE, "w", encoding="utf-8"))
+    except OSError:
+        pass
 
 
 def best_pexels(query):
     url = (f"https://api.pexels.com/videos/search?query={query.replace(' ', '%20')}"
-           f"&per_page=12&orientation=landscape&size=medium")
+           f"&per_page=30&orientation=landscape&size=medium")   # mas candidatos = mas variedad (anti-repeticion)
     data = curl_json(url, [f"Authorization: {PEXELS}"])
     best = None
     for vid in data.get("videos", []):
@@ -199,28 +216,68 @@ def ai33_image(prompt, prefix, i):
     return None
 
 
-def pollinations_image(prompt, prefix, i):
-    """Respaldo GRATIS (Flux) por si ai33 falla. Reintenta con semillas distintas."""
-    q = urllib.parse.quote(_ai33_prompt(prompt), safe="")
-    for attempt in range(3):
-        seed = (abs(hash(prompt)) + attempt * 7919) % 100000
-        url = (f"https://image.pollinations.ai/prompt/{q}"
-               f"?width=1920&height=1080&nologo=true&model=flux&seed={seed}")
-        dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
-        if not download(url, dst):
-            continue
-        if os.path.getsize(dst) >= 30000:
-            w, h = img_dims(dst)
-            if w >= 1200 and h >= 600:
-                return {"file": f"stock/ai_{prefix}_{i}.jpg"}
-        if os.path.exists(dst):
-            os.remove(dst)
+# ---------- CLIP DE VIDEO IA (ai33) — para lo que el stock no tiene, con aspecto REAL ----------
+AI33_VIDEO_PATH = os.environ.get("AI33_VIDEO_PATH", "/v1v/task/generate-video")
+AI33_VIDEO_MODEL = os.environ.get("AI33_VIDEO_MODEL", "kling-2.5")
+_VIDEO_OK = None   # cache: ¿la cuenta tiene plan de video activo?
+
+
+def video_available():
+    """Comprueba UNA vez si la cuenta ai33 puede generar video (evita 50 llamadas inutiles)."""
+    global _VIDEO_OK
+    if _VIDEO_OK is None:
+        if not AI33_KEY:
+            _VIDEO_OK = False
+        else:
+            r = subprocess.run(["curl", "-s", "-o", "/dev/null", "-w", "%{http_code}",
+                                f"{AI33_BASE}/v1v/models", "-H", f"xi-api-key: {AI33_KEY}"],
+                               capture_output=True, text=True).stdout.strip()
+            _VIDEO_OK = (r == "200")
+            print(f"   [ai33 video: {'DISPONIBLE' if _VIDEO_OK else 'no activado (usare stock)'}]")
+    return _VIDEO_OK
+
+
+def ai33_video(prompt, prefix, i):
+    """Genera un CLIP DE VIDEO IA fotorealista con ai33 (cuando la cuenta tenga plan de video)."""
+    if not video_available():
+        return None
+    full = (prompt + ", photorealistic real footage, cinematic, natural lighting, 16:9")
+    tf = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8")
+    tf.write(full); tf.close()
+    try:
+        out = subprocess.run(
+            ["curl", "-s", "-X", "POST", f"{AI33_BASE}{AI33_VIDEO_PATH}", "-H", f"xi-api-key: {AI33_KEY}",
+             "-F", f"prompt=<{tf.name}", "-F", f"model_id={AI33_VIDEO_MODEL}",
+             "-F", "duration=5", "-F", 'model_parameters={"aspect_ratio":"16:9","resolution":"1080p"}'],
+            capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
+    finally:
+        try: os.remove(tf.name)
+        except OSError: pass
+    try:
+        tid = json.loads(out).get("task_id")
+    except json.JSONDecodeError:
+        tid = None
+    if not tid:
+        return None
+    for _ in range(120):   # el video tarda mas (hasta ~6 min)
+        time.sleep(3)
+        t = curl_json(f"{AI33_BASE}/v1/task/{tid}", [f"xi-api-key: {AI33_KEY}"])
+        st = t.get("status")
+        if st == "done":
+            md = t.get("metadata") or {}
+            url = md.get("video_url")
+            if not url:
+                vids = md.get("result_videos") or []
+                url = (vids[0].get("videoUrl") or vids[0].get("url")) if vids else None
+            if not url:
+                return None
+            dst = os.path.join(OUT, f"aiv_{prefix}_{i}.mp4")
+            if download(url, dst) and decodable(f"stock/aiv_{prefix}_{i}.mp4"):
+                return {"file": f"stock/aiv_{prefix}_{i}.mp4", "duration": 5}
+            return None
+        if st == "error":
+            return None
     return None
-
-
-def ai_image(prompt, prefix, i):
-    # 1) ai33 (seedream) = calidad alta;  2) Pollinations gratis como respaldo
-    return ai33_image(prompt, prefix, i) or pollinations_image(prompt, prefix, i)
 
 
 def decodable(rel):
@@ -234,6 +291,7 @@ def decodable(rel):
 def main():
     if not PEXELS:
         print("FALTA PEXELS_KEY"); sys.exit(1)
+    load_used()   # cargar ids de clips usados en videos anteriores (dedup global)
     os.makedirs(OUT, exist_ok=True)
     for f in os.listdir(OUT):
         if f.endswith((".mp4", ".jpg", ".png")):
@@ -257,31 +315,26 @@ def main():
                              "duration": c.get("duration", 0) if c else 0})
 
             if kind == "image":
-                m = get_entity_image(sh.get("query", ""), key, i)          # 1) foto real
+                # SOLO entidades con nombre (personaje/marca/objeto). Sin foto -> clip (NUNCA imagen IA).
+                m = get_entity_image(sh.get("query", ""), key, i)
                 if m:
                     as_image(m, "FOTO")
                 else:
-                    a = ai_image(q, key, i)                                 # 2) IA a medida
-                    if a:
-                        as_image(a, "IA")
-                    else:
-                        as_clip(get_clip(q, key, i), "CLIP")               # 3) ultimo recurso: clip
+                    as_clip(get_clip(q, key, i), "CLIP")
             elif kind == "ai":
-                a = ai_image(q, key, i)                                     # 1) IA (lo pedido)
-                if a:
-                    as_image(a, "IA")
+                # metafora/concepto/recreacion -> CLIP DE VIDEO IA; si no hay plan de video, clip de stock.
+                v = ai33_video(q, key, i)
+                if v:
+                    as_clip(v, "CLIP-IA")
                 else:
-                    as_clip(get_clip(q, key, i) or get_clip("aircraft aviation", key, i), "CLIP")
+                    as_clip(get_clip(q, key, i), "CLIP")
             elif kind == "broll":
-                c = get_clip(sh.get("query", ""), key, i)                  # 1) clip que describe
+                c = get_clip(sh.get("query", ""), key, i)                  # 1) clip real que describe
                 if c:
                     as_clip(c, "CLIP")
                 else:
-                    a = ai_image(q, key, i)                                 # 2) si no hay clip -> IA a medida (nunca generico)
-                    if a:
-                        as_image(a, "IA")
-                    else:
-                        as_clip(get_clip("aircraft aviation", key, i), "CLIP")
+                    v = ai33_video(q, key, i)                               # 2) si no hay stock -> clip video IA
+                    as_clip(v, "CLIP-IA") if v else as_clip(None, "")      # 3) nada -> tarjeta de texto (NO imagen IA)
             else:
                 item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
@@ -290,22 +343,24 @@ def main():
             print(f"[{key}] {item.get('source','?'):7} {sh.get('query', sh.get('text',''))[:34]}")
             resolved.append(item)
         out_sections.append({"key": key, "shots": resolved})
-    # validacion final con ffprobe: cualquier medio corrupto se REEMPLAZA por IA a medida
-    # (nunca se deja un hueco vacio; si la IA tambien fallara, el render pone tarjeta de texto)
+    # validacion final con ffprobe: medio corrupto -> re-buscar otro clip (o video IA); nunca imagen IA
     for si, sec in enumerate(out_sections):
         for sj, sh in enumerate(sec["shots"]):
             if sh.get("file") and not decodable(sh["file"]):
-                print("  ! medio corrupto, reemplazando por IA:", sh["file"])
-                repl = ai_image(sh.get("text", "") or "aviation sky", sec["key"], f"fix_{si}_{sj}")
+                print("  ! medio corrupto, re-buscando clip:", sh["file"])
+                repl = get_clip(sh.get("text", "") or "aviation aircraft", sec["key"], f"fix_{si}_{sj}") \
+                    or ai33_video(sh.get("text", "") or "aviation", sec["key"], f"fix_{si}_{sj}")
                 if repl:
-                    sh.update({"kind": "image", "file": repl["file"], "source": "IA"})
+                    sh.update({"kind": "broll", "file": repl["file"], "source": "CLIP",
+                               "duration": repl.get("duration", 0)})
                 else:
                     sh["file"] = ""
+    save_used()   # persistir clips usados para NO repetirlos en futuros videos
     json.dump({"sections": out_sections}, open(os.path.join(OUT, "media.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
-    nimg = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "image")
-    nvid = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "broll")
-    print(f"\nLISTO -> media.json  ({nimg} imagenes, {nvid} clips) | Pixabay:{'si' if PIXABAY else 'no'} | IA:Pollinations(gratis)")
+    nfoto = sum(1 for s in out_sections for sh in s["shots"] if sh.get("source") == "FOTO")
+    nclip = sum(1 for s in out_sections for sh in s["shots"] if sh["kind"] == "broll")
+    print(f"\nLISTO -> media.json  ({nclip} clips, {nfoto} fotos de entidad) | dedup global: {len(USED)} ids usados")
 
 
 if __name__ == "__main__":

@@ -17,24 +17,24 @@ para un montaje automatico donde lo que se VE debe coincidir con lo que se DICE 
 Para cada seccion, divide su texto narrado en fragmentos CONSECUTIVOS de ~1 frase que cubran TODO el
 texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plano ("shot") es:
 
-- {"text":"<el fragmento de narracion, textual>", "kind":"image", "query":"<termino para Wikipedia en español>", "label":"<etiqueta corta en pantalla>"}
-    USA ESTO cuando el fragmento menciona algo CONCRETO Y VISUAL: un lugar con nombre (Bermudas, Florida,
-    el Tibet), una persona con nombre propio (Charles Berlitz), un modelo o tipo de avion concreto, un
-    suceso historico con nombre (el Vuelo 19), un barco, un objeto identificable. La imagen debe ser DE ESA COSA.
-- {"text":"<fragmento>", "kind":"broll", "query":"<consulta EN INGLES para banco de video Pexels, concreta y visual>"}
-    USA ESTO para acciones o conceptos generales sin entidad concreta (un avion volando, una cabina,
-    turbulencia, un radar, el mar). La consulta debe describir EXACTAMENTE lo que se dice.
-- {"text":"<fragmento>", "kind":"ai", "query":"<PROMPT EN INGLES rico y cinematografico>", "label":"<opcional>"}
-    Es para conceptos, fenomenos fisicos, metaforas/analogias, recreaciones historicas e ideas abstractas
-    que el stock NO puede mostrar. El prompt debe ser DETALLADO (sujeto + escena + estilo + luz) y SIEMPRE
-    anclado a aviacion/cielo/atmosfera. Ejemplo:
-      "a powerful jet stream shown as a glowing ribbon of fast-moving air high in the stratosphere, an airliner
-       riding it, volumetric light, cinematic, photorealistic, 16:9"
-    La IA ahora es de ALTA CALIDAD (fotorealista): USA "ai" SIN MIEDO para toda metafora, analogia, comparacion,
-    concepto abstracto, fenomeno fisico o recreacion historica (eso NUNCA va a stock). Para escenas LITERALES y
-    reales de aviacion (un avion despegando, una cabina, nubes, una pista, un aeropuerto, un motor) sigue
-    prefiriendo "broll" (clip real), que aporta veracidad. Regla simple: literal y real -> broll; idea, metafora
-    o concepto -> ai. No fuerces stock para algo que el banco no tiene tal cual: mejor "ai" a medida.
+- {"text":"<fragmento>", "kind":"broll", "query":"<consulta EN INGLES para banco de video, concreta y visual>"}
+    ESTE ES EL PLANO POR DEFECTO: casi TODO es un CLIP REAL de lo que se dice. Acciones, escenas, objetos,
+    fenomenos Y TAMBIEN CIUDADES/LUGARES (¡una ciudad se muestra con un CLIP de la ciudad, NUNCA con una bandera
+    ni un mapa!). Ejemplos: "Madrid" -> "Madrid Spain city aerial skyline"; "Nueva York" -> "New York City
+    skyline aerial"; "una cabina" -> "airliner cockpit pilots"; "turbulencia" -> "airplane turbulence clouds".
+    La consulta describe EXACTAMENTE lo que se ve, en ingles. Prioriza SIEMPRE clip real.
+- {"text":"<fragmento>", "kind":"ai", "query":"<PROMPT EN INGLES de un CLIP DE VIDEO realista>", "label":"<opcional>"}
+    SOLO cuando NINGUN banco de stock tendra ese plano concreto: metaforas/analogias visuales, fenomenos
+    fisicos, recreaciones historicas concretas o escenas muy especificas. Se generara un CLIP DE VIDEO IA que
+    DEBE VERSE REAL (metraje fotorealista, NO ilustracion ni dibujo). El prompt describe una TOMA de video real:
+    sujeto + accion + escena + camara/luz. Ej.: "aerial tracking shot of an airliner flying along a glowing
+    jet-stream ribbon of fast air in the stratosphere, photorealistic footage, cinematic". Uselo con MODERACION;
+    si el stock puede tenerlo, usa "broll".
+- {"text":"<fragmento>", "kind":"image", "query":"<termino para Wikipedia en español>", "label":"<etiqueta>"}
+    USO MUY RESTRINGIDO: SOLO para PERSONAJES PUBLICOS con nombre propio (un piloto famoso, un investigador,
+    un politico), MARCAS/EMPRESAS con nombre (Airbus, Boeing, una aerolinea concreta) o un OBJETO/PRODUCTO
+    concreto que hay que ver tal cual. NUNCA para ciudades, paises ni conceptos (esos van SIEMPRE como "broll"
+    con clip real). Si dudas, NO uses "image": usa "broll".
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}
@@ -42,22 +42,20 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
 
 REGLA DE ORO (obligatoria): CADA plano debe mostrar EXACTAMENTE lo que dice su fragmento.
 
-COMO ELEGIR LA FUENTE DE CADA PLANO (piensa esto para cada fragmento):
-1. ¿Nombra una entidad REAL y concreta con fotos (persona con nombre, lugar/pais, modelo de avion, suceso
-   historico, barco, objeto identificable)? -> "image" (foto real de esa cosa).
-2. ¿Describe una accion o escena LITERAL de aviacion/cielo/aeropuerto que un banco de stock SEGURO tiene
-   grabada TAL CUAL (un avion despegando, nubes, una cabina, una pista, un panel de salidas, un motor)?
-   -> "broll", con una consulta que sea esa escena REAL de aviacion. La consulta NUNCA es una metafora.
-3. ¿Es un CONCEPTO, un fenomeno fisico, o una METAFORA/ANALOGIA ("como una cinta transportadora", "un rio de
-   aire", "como un pez en el agua", "el viento empuja/frena", "la radiacion solar en los polos", "el aire se
-   desvia por la rotacion") o una recreacion historica? -> "ai" SIEMPRE. Se genera la idea EN CONTEXTO DE
-   AVIACION/ATMOSFERA (ej. "jet stream as a glowing river of air in the sky pushing an airliner").
-4. ¿Es una cifra, una frase de remate, o una llamada a la accion (suscribete/like/comenta)? -> "stat"/"fact"/"outro".
+COMO ELEGIR LA FUENTE DE CADA PLANO (por defecto, CLIP REAL):
+1. ¿Es un PERSONAJE PUBLICO con nombre, una MARCA/EMPRESA o un OBJETO concreto que hay que ver tal cual?
+   -> "image". (Esto es la EXCEPCION, poco frecuente.)
+2. TODO LO DEMAS que sea real y grabable -acciones, escenas, aviones, cabinas, cielo, aeropuertos, CIUDADES,
+   paises, mar, objetos- -> "broll" (CLIP REAL de eso). Una ciudad = clip de la ciudad, NO una bandera/mapa.
+3. ¿Es una metafora/analogia visual, un fenomeno fisico o una recreacion que NINGUN stock tendra tal cual?
+   -> "ai" (CLIP DE VIDEO IA fotorealista, con moderacion). El objetivo es que SIEMPRE parezca metraje real.
+4. ¿Cifra, frase de remate, o llamada a la accion? -> "stat"/"fact"/"outro".
 
-REGLA ANTI-DESAJUSTE (obligatoria): NUNCA mandes a stock ("broll") una metafora, una analogia, una comparacion
-("como...", "imagina...", "es como si...") ni un concepto abstracto. El stock devuelve cosas literales sin
-relacion (una moto para "cinta transportadora", una melena para "viento", una carretera para "no ir recto").
-Todo eso va como "ai". El "broll" es SOLO para escenas de aviacion reales y literales.
+META: que el 80-90% de los planos sean "broll" (clips reales). "image" solo para nombres propios/marcas.
+"ai" solo para lo que el stock no puede dar. TODO debe verse REAL: nada de ilustraciones ni dibujos.
+
+REGLA ANTI-DESAJUSTE: NUNCA mandes a "broll" una metafora pura ("como una cinta transportadora"). Si el stock
+no lo tiene literal, va como "ai" (clip video). Pero una CIUDAD, un avion, una cabina, el mar... SI van a "broll".
 
 PROHIBIDO: usar "broll" para botones de YouTube, "subscribe/like button", pantallas de croma verde, o cualquier
 cosa que no aparezca literalmente en el guion. Las llamadas a la accion del cierre van SIEMPRE como "outro"/"fact",
