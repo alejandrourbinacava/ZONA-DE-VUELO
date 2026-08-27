@@ -30,9 +30,11 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     anclado a aviacion/cielo/atmosfera. Ejemplo:
       "a powerful jet stream shown as a glowing ribbon of fast-moving air high in the stratosphere, an airliner
        riding it, volumetric light, cinematic, photorealistic, 16:9"
-    USA "ai" CON MODERACION (pocos por seccion, idealmente 2-4). Solo cuando el stock daria algo SIN RELACION.
-    Para casi todo -incluidas nubes, cielo, atmosfera, aviones, cabinas, aeropuertos, mapas- usa clips REALES
-    ("broll"), que se ven mejor. La IA es el ultimo recurso para conceptos/metaforas puras, no la norma.
+    La IA ahora es de ALTA CALIDAD (fotorealista): USA "ai" SIN MIEDO para toda metafora, analogia, comparacion,
+    concepto abstracto, fenomeno fisico o recreacion historica (eso NUNCA va a stock). Para escenas LITERALES y
+    reales de aviacion (un avion despegando, una cabina, nubes, una pista, un aeropuerto, un motor) sigue
+    prefiriendo "broll" (clip real), que aporta veracidad. Regla simple: literal y real -> broll; idea, metafora
+    o concepto -> ai. No fuerces stock para algo que el banco no tiene tal cual: mejor "ai" a medida.
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}

@@ -6,12 +6,15 @@
 - kind stat/fact/outro -> sin medio (beat grafico)
 Descarga a public/stock/ y escribe public/stock/media.json. Requiere PEXELS_KEY.
 Opcionales: PIXABAY_KEY, GOOGLE_API_KEY."""
-import os, sys, json, base64, subprocess, urllib.parse
+import os, sys, json, base64, time, tempfile, subprocess, urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PEXELS = os.environ.get("PEXELS_KEY")
 PIXABAY = os.environ.get("PIXABAY_KEY")
 GOOGLE = os.environ.get("GOOGLE_API_KEY")
+AI33_KEY = os.environ.get("AI33_API_KEY")
+AI33_BASE = os.environ.get("AI33_BASE", "https://api.ai33.pro")
+AI33_MODEL = "bytedance-seedream-4"     # 16:9 1080p, buena calidad/coste (~800 cr/imagen)
 OUT = os.path.join(ROOT, "public", "stock")
 SHOT = os.path.join(ROOT, "out", "shotlist.json")
 UA = "ZonaDeVueloBot/1.0 (canal educativo aviacion)"
@@ -147,13 +150,58 @@ def img_dims(path):
         return 0, 0
 
 
-def ai_image(prompt, prefix, i):
-    # Pollinations (Flux): generacion de imagen IA GRATIS, sin key ni facturacion.
-    # Prompt mas sobrio = menos artefactos/distorsion; anclado a aviacion.
-    full = (prompt + ", aviation and sky context, cinematic photograph, photorealistic, "
-            "natural lighting, sharp focus, high detail, 16:9")
-    q = urllib.parse.quote(full, safe="")
-    # Reintenta con semillas distintas: si Flux devuelve una imagen rota/basura, probamos otra.
+def _ai33_prompt(prompt):
+    return (prompt + ", aviation and sky context, cinematic film still, photorealistic, "
+            "dramatic natural lighting, sharp focus, ultra detailed, professional color grading, 16:9")
+
+
+def ai33_image(prompt, prefix, i):
+    """Genera imagen IA con ai33.pro (seedream, 16:9 1080p). Calidad muy superior a Pollinations."""
+    if not AI33_KEY:
+        return None
+    tf = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8")
+    tf.write(_ai33_prompt(prompt)); tf.close()
+    try:
+        out = subprocess.run(
+            ["curl", "-s", "-X", "POST", f"{AI33_BASE}/v1i/task/generate-image",
+             "-H", f"xi-api-key: {AI33_KEY}",
+             "-F", f"prompt=<{tf.name}",
+             "-F", f"model_id={AI33_MODEL}",
+             "-F", "generations_count=1",
+             "-F", 'model_parameters={"aspect_ratio":"16:9","resolution":"1080p"}'],
+            capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
+    finally:
+        try: os.remove(tf.name)
+        except OSError: pass
+    try:
+        tid = json.loads(out).get("task_id")
+    except json.JSONDecodeError:
+        tid = None
+    if not tid:
+        print("   (ai33 sin task_id:", (out or "")[:100], ")"); return None
+    for _ in range(60):   # hasta ~3 min
+        time.sleep(3)
+        t = curl_json(f"{AI33_BASE}/v1/task/{tid}", [f"xi-api-key: {AI33_KEY}"])
+        st = t.get("status")
+        if st == "done":
+            imgs = (t.get("metadata") or {}).get("result_images") or []
+            url = imgs[0].get("imageUrl") if imgs else None
+            if not url:
+                return None
+            dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
+            if download(url, dst) and os.path.getsize(dst) >= 30000:
+                w, h = img_dims(dst)
+                if w >= 1200 and h >= 600:
+                    return {"file": f"stock/ai_{prefix}_{i}.jpg"}
+            return None
+        if st == "error":
+            print("   (ai33 error:", json.dumps(t)[:120], ")"); return None
+    return None
+
+
+def pollinations_image(prompt, prefix, i):
+    """Respaldo GRATIS (Flux) por si ai33 falla. Reintenta con semillas distintas."""
+    q = urllib.parse.quote(_ai33_prompt(prompt), safe="")
     for attempt in range(3):
         seed = (abs(hash(prompt)) + attempt * 7919) % 100000
         url = (f"https://image.pollinations.ai/prompt/{q}"
@@ -161,7 +209,6 @@ def ai_image(prompt, prefix, i):
         dst = os.path.join(OUT, f"ai_{prefix}_{i}.jpg")
         if not download(url, dst):
             continue
-        # validacion: peso razonable Y dimensiones reales grandes (descarta placeholders de error)
         if os.path.getsize(dst) >= 30000:
             w, h = img_dims(dst)
             if w >= 1200 and h >= 600:
@@ -169,6 +216,11 @@ def ai_image(prompt, prefix, i):
         if os.path.exists(dst):
             os.remove(dst)
     return None
+
+
+def ai_image(prompt, prefix, i):
+    # 1) ai33 (seedream) = calidad alta;  2) Pollinations gratis como respaldo
+    return ai33_image(prompt, prefix, i) or pollinations_image(prompt, prefix, i)
 
 
 def decodable(rel):
