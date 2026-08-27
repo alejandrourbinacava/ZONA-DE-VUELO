@@ -1,13 +1,11 @@
 # Cola de ideas de Zona de Vuelo (una por linea).
 # El sistema coge la siguiente idea sin usar cada vez que publica.
+# El puntero (queue/state.json) SOLO avanza cuando el video se produce con exito.
 # Las lineas que empiezan por # son comentarios y se ignoran.
 
 # --- Geografia y rutas ---
 ¿Por qué los aviones sobrevuelan el Polo Norte y no el Sur?
 ¿Por qué hay aeropuertos donde aterrizar es casi imposible?
-¿Por qué algunos vuelos tardan el doble de ida que de vuelta?
-¿Cuál es la ruta aérea más peligrosa del mundo?
-¿Por qué el vuelo más largo del mundo dura casi 19 horas?
 ¿Por qué los aviones no vuelan en línea recta entre dos ciudades?
 
 # --- Miedos y sensaciones del pasajero ---

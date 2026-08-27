@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Devuelve la siguiente idea sin usar de queue/ideas.txt y avanza el puntero.
-Imprime SOLO la idea (para usar en el workflow). Si no quedan ideas, sale con codigo 2."""
+"""Devuelve la siguiente idea sin usar de queue/ideas.txt (SIN avanzar el puntero).
+Imprime SOLO la idea (para usar en el workflow). Si no quedan ideas, sale con codigo 2.
+El puntero SOLO se avanza despues de producir el video con exito (scripts/advance_queue.py)."""
 import os, sys, json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,9 +26,7 @@ def main():
     if idx >= len(ideas):
         print("SIN_IDEAS", file=sys.stderr); sys.exit(2)
     idea = ideas[idx]
-    # avanzar puntero
-    json.dump({"index": idx + 1}, open(STATE, "w", encoding="utf-8"))
-    print(idea)
+    print(idea)   # NO se avanza aqui; lo hace advance_queue.py tras un render con exito
 
 
 if __name__ == "__main__":
