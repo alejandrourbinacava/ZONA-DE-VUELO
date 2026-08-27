@@ -74,16 +74,46 @@ Reglas:
 {"sections":[{"key":"hook","shots":[ ... ]}, ... 7 secciones en orden ...]}"""
 
 
+def salvage_json(text):
+    """Intenta recuperar un JSON de secciones aunque venga truncado: recorta al ultimo
+    shot completo y cierra los corchetes. Devuelve dict o None."""
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+    # cortar tras el ultimo objeto-shot completo ('}' seguido de coma o cierre) y cerrar estructura
+    cut = max(text.rfind("},"), text.rfind("}]"))
+    if cut == -1:
+        return None
+    frag = text[:cut + 1]
+    for tail in ("]}]}", "}]}]}", "]}", "}]}"):   # varios cierres posibles
+        try:
+            return json.loads(frag + tail)
+        except json.JSONDecodeError:
+            continue
+    return None
+
+
 def main():
     src = sys.argv[1]
     guion = open(src, encoding="utf-8").read()
     user = f"GUION:\n\n{guion}\n\nGenera el plan de planos JSON de las 7 secciones."
-    text, usage = gs.call_claude(SYSTEM, user, max_tokens=13000, thinking={"type": "disabled"})
-    text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.M).strip()
-    try:
-        data = json.loads(text)
-    except json.JSONDecodeError:
-        print("No devolvio JSON valido:\n", text[:800], file=sys.stderr); sys.exit(1)
+    data = None
+    for intento in range(3):
+        text, usage = gs.call_claude(SYSTEM, user, max_tokens=20000, thinking={"type": "disabled"})
+        text = re.sub(r"^```(json)?|```$", "", text.strip(), flags=re.M).strip()
+        try:
+            data = json.loads(text)
+            break
+        except json.JSONDecodeError:
+            data = salvage_json(text)   # rescatar truncado
+            if data and data.get("sections"):
+                print(f"  (JSON rescatado en intento {intento+1}: {len(data['sections'])} secciones)", file=sys.stderr)
+                break
+            print(f"  (intento {intento+1}/3 JSON invalido, reintento)", file=sys.stderr)
+            data = None
+    if not data or not data.get("sections"):
+        print("No devolvio JSON valido tras 3 intentos:\n", (text or "")[:800], file=sys.stderr); sys.exit(1)
     secs = data.get("sections", [])
     for i, s in enumerate(secs[:7]):
         s["key"] = KEYS[i]
