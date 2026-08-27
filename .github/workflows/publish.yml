@@ -2,7 +2,9 @@ name: Publicar video (Zona de Vuelo)
 
 on:
   schedule:
-    - cron: "0 9 * * *"     # cada dia a las 09:00 UTC (cambia aqui la cadencia)
+    # 01:00 UTC = 03:00 Madrid (verano) / 02:00 Madrid (invierno). Con ~3h de produccion,
+    # el video queda LISTO para descargar sobre las 05:00-06:00 Madrid, antes de las 8:00.
+    - cron: "0 1 * * *"
   workflow_dispatch:         # boton para lanzarlo a mano (pruebas)
     inputs:
       idea:
