@@ -23,11 +23,14 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     ni un mapa!). Ejemplos: "Madrid" -> "Madrid Spain city aerial skyline"; "Nueva York" -> "New York City
     skyline aerial"; "una cabina" -> "airliner cockpit pilots"; "turbulencia" -> "airplane turbulence clouds".
     La consulta describe EXACTAMENTE lo que se ve, en ingles. Prioriza SIEMPRE clip real.
-    IMPORTANTE (metaforas/conceptos): NO hay generacion de video IA disponible. Asi que para una metafora,
-    analogia o concepto, NO uses un plano fantastico: elige "broll" con una consulta que describa la MEJOR
-    ESCENA REAL que transmita esa idea con metraje real. Ej.: "el avion cabalga un rio de aire" -> broll
-    "airliner flying high above clouds at cruise altitude"; "como una cinta transportadora" -> broll
-    "airport moving walkway travelator people". Piensa: ¿que grabacion REAL existe que ilustre esto?
+    IMPORTANTE (metaforas/conceptos): NO hay generacion de video IA disponible. Para una metafora o concepto,
+    elige "broll" con la MEJOR ESCENA REAL DE AVIACION/CIELO que transmita la idea. REGLA CRITICA: cuando la
+    metafora usa un objeto de TIERRA para hablar del cielo (autopistas/carreteras del cielo, rios de aire,
+    fronteras invisibles, obstaculos...), la consulta debe ser SIEMPRE de AVIACION, NUNCA del objeto terrestre.
+    Ej.: "autopistas/carreteras del cielo", "aerovias" -> "air traffic control radar screen flight routes" o
+    "airplanes flying busy sky" (NUNCA "highway"/"road"/"cars"). "fronteras/espacio aereo soberano" ->
+    "world map with country borders" o "airplane over map" (NUNCA carteles ni protestas). "obstaculos en la
+    ruta" -> "storm clouds airplane" o "mountains aerial" (NUNCA objetos random). Piensa SIEMPRE en aviacion.
 - {"text":"<fragmento>", "kind":"ai", "query":"<escena real que transmita la idea>", "label":"<opcional>"}
     Casi NUNCA. Solo si de verdad no existe NINGUNA escena real que sirva. Aun asi, el sistema buscara metraje
     o FOTO REAL (nunca imagenes IA). Prefiere SIEMPRE "broll".

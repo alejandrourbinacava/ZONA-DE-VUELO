@@ -42,6 +42,17 @@ def download(url, dst, ua=False):
 
 
 # ---------- CLIPS ----------
+# Terminos que NUNCA salen en contenido de aviacion: si el slug del clip/foto los contiene, se descarta.
+BLOCK = ("covid", "coronavirus", "pandemic", "face-mask", "protest", "riot", "election",
+         "wedding", "funeral", "birthday", "-party", "dancing", "food", "cooking", "recipe",
+         "makeup", "fashion-model", "baby", "puppy", "kitten", "gym", "yoga", "influencer")
+
+
+def off_topic(url):
+    u = (url or "").lower()
+    return any(b in u for b in BLOCK)
+
+
 USED = set()   # ids de clips ya usados (este video + los de videos anteriores) para NO repetir
 USED_FILE = os.path.join(ROOT, "queue", "used_clips.json")   # dedup GLOBAL entre videos
 
@@ -70,6 +81,8 @@ def best_pexels(query):
     for vid in data.get("videos", []):
         vid_id = f"px{vid.get('id')}"
         if vid_id in USED:          # ya usado -> saltar (sin repeticiones)
+            continue
+        if off_topic(vid.get("url")):   # descartar clips claramente fuera de tema (covid, boda, etc.)
             continue
         for f in vid.get("video_files", []):
             if f.get("file_type") != "video/mp4":
@@ -162,6 +175,8 @@ def stock_photo(query, prefix, i):
     for p in data.get("photos", []):
         pid = f"pxph{p.get('id')}"
         if pid in USED:
+            continue
+        if off_topic(p.get("url")):
             continue
         src = p.get("src") or {}
         u = src.get("large2x") or src.get("large") or src.get("original")
