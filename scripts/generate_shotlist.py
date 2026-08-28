@@ -23,13 +23,14 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     ni un mapa!). Ejemplos: "Madrid" -> "Madrid Spain city aerial skyline"; "Nueva York" -> "New York City
     skyline aerial"; "una cabina" -> "airliner cockpit pilots"; "turbulencia" -> "airplane turbulence clouds".
     La consulta describe EXACTAMENTE lo que se ve, en ingles. Prioriza SIEMPRE clip real.
-- {"text":"<fragmento>", "kind":"ai", "query":"<PROMPT EN INGLES de un CLIP DE VIDEO realista>", "label":"<opcional>"}
-    SOLO cuando NINGUN banco de stock tendra ese plano concreto: metaforas/analogias visuales, fenomenos
-    fisicos, recreaciones historicas concretas o escenas muy especificas. Se generara un CLIP DE VIDEO IA que
-    DEBE VERSE REAL (metraje fotorealista, NO ilustracion ni dibujo). El prompt describe una TOMA de video real:
-    sujeto + accion + escena + camara/luz. Ej.: "aerial tracking shot of an airliner flying along a glowing
-    jet-stream ribbon of fast air in the stratosphere, photorealistic footage, cinematic". Uselo con MODERACION;
-    si el stock puede tenerlo, usa "broll".
+    IMPORTANTE (metaforas/conceptos): NO hay generacion de video IA disponible. Asi que para una metafora,
+    analogia o concepto, NO uses un plano fantastico: elige "broll" con una consulta que describa la MEJOR
+    ESCENA REAL que transmita esa idea con metraje real. Ej.: "el avion cabalga un rio de aire" -> broll
+    "airliner flying high above clouds at cruise altitude"; "como una cinta transportadora" -> broll
+    "airport moving walkway travelator people". Piensa: ¿que grabacion REAL existe que ilustre esto?
+- {"text":"<fragmento>", "kind":"ai", "query":"<escena real que transmita la idea>", "label":"<opcional>"}
+    Casi NUNCA. Solo si de verdad no existe NINGUNA escena real que sirva. Aun asi, el sistema buscara metraje
+    o FOTO REAL (nunca imagenes IA). Prefiere SIEMPRE "broll".
 - {"text":"<fragmento>", "kind":"image", "query":"<termino para Wikipedia en español>", "label":"<etiqueta>"}
     USO MUY RESTRINGIDO: SOLO para PERSONAJES PUBLICOS con nombre propio (un piloto famoso, un investigador,
     un politico), MARCAS/EMPRESAS con nombre (Airbus, Boeing, una aerolinea concreta) o un OBJETO/PRODUCTO

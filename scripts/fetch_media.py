@@ -154,6 +154,30 @@ def get_entity_image(query, prefix, i):
     return wiki_image(query, prefix, i) or openverse_image(query, prefix, i)
 
 
+def stock_photo(query, prefix, i):
+    """Foto REAL de stock (Pexels) — respaldo cuando no hay clip. NUNCA IA."""
+    url = (f"https://api.pexels.com/v1/search?query={query.replace(' ', '%20')}"
+           f"&per_page=20&orientation=landscape&size=large")
+    data = curl_json(url, [f"Authorization: {PEXELS}"])
+    for p in data.get("photos", []):
+        pid = f"pxph{p.get('id')}"
+        if pid in USED:
+            continue
+        src = p.get("src") or {}
+        u = src.get("large2x") or src.get("large") or src.get("original")
+        if not u:
+            continue
+        dst = os.path.join(OUT, f"ph_{prefix}_{i}.jpg")
+        if download(u, dst) and os.path.getsize(dst) >= 20000:
+            w, h = img_dims(dst)
+            if w >= 1000 and h >= 560:
+                USED.add(pid)
+                return {"file": f"stock/ph_{prefix}_{i}.jpg"}
+        if os.path.exists(dst):
+            os.remove(dst)
+    return None
+
+
 # ---------- IMAGEN IA (Pollinations / Flux, gratis) ----------
 def img_dims(path):
     """(ancho, alto) de una imagen via ffprobe, o (0,0) si no se puede leer."""
@@ -314,27 +338,38 @@ def main():
                 item.update({"kind": "broll", "file": c["file"] if c else "", "source": src,
                              "duration": c.get("duration", 0) if c else 0})
 
+            def as_photo(m):   # foto REAL de stock, a pantalla completa con movimiento (no tarjeta de entidad)
+                item.update({"kind": "image", "file": m["file"], "label": "", "source": "FOTO-STOCK"})
+
             if kind == "image":
-                # SOLO entidades con nombre (personaje/marca/objeto). Sin foto -> clip (NUNCA imagen IA).
+                # entidad con nombre -> foto de la entidad (tarjeta premium); si no, clip real; si no, foto real
                 m = get_entity_image(sh.get("query", ""), key, i)
                 if m:
                     as_image(m, "FOTO")
                 else:
-                    as_clip(get_clip(q, key, i), "CLIP")
+                    c = get_clip(q, key, i)
+                    p = None if c else stock_photo(q, key, i)
+                    as_clip(c, "CLIP") if c else (as_photo(p) if p else as_clip(None, ""))
             elif kind == "ai":
-                # metafora/concepto/recreacion -> CLIP DE VIDEO IA; si no hay plan de video, clip de stock.
+                # metafora/concepto: clip video IA si el plan esta activo; si no, CLIP real; si no, FOTO real
                 v = ai33_video(q, key, i)
                 if v:
                     as_clip(v, "CLIP-IA")
                 else:
-                    as_clip(get_clip(q, key, i), "CLIP")
+                    c = get_clip(q, key, i)
+                    p = None if c else stock_photo(q, key, i)
+                    as_clip(c, "CLIP") if c else (as_photo(p) if p else as_clip(None, ""))
             elif kind == "broll":
                 c = get_clip(sh.get("query", ""), key, i)                  # 1) clip real que describe
                 if c:
                     as_clip(c, "CLIP")
                 else:
-                    v = ai33_video(q, key, i)                               # 2) si no hay stock -> clip video IA
-                    as_clip(v, "CLIP-IA") if v else as_clip(None, "")      # 3) nada -> tarjeta de texto (NO imagen IA)
+                    v = ai33_video(q, key, i)                               # 2) clip video IA (si activo)
+                    if v:
+                        as_clip(v, "CLIP-IA")
+                    else:
+                        p = stock_photo(q, key, i)                          # 3) foto REAL (nunca IA)
+                        as_photo(p) if p else as_clip(None, "")             # 4) nada -> tarjeta de texto
             else:
                 item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
