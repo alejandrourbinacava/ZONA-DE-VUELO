@@ -91,8 +91,9 @@ def main():
             print(f"[{i+1}/{len(secs)}] {key}: reuso audio")
         else:
             print(f"[{i+1}/{len(secs)}] {key}: generando ({len(sec['text'])}c)")
+            # Voz "B": mas agil (speed 1.1) y menos monotona (stability baja + style alto), v2 preciso
             r = tts.synth(sec["text"], VOICE, mp3, model=MODEL,
-                          stability=0.5, similarity=0.75, style=0.0, speed=1.0)
+                          stability=0.3, similarity=0.8, style=0.5, speed=1.1)
             if not r:
                 # cortar YA con error (no seguir con medios y morir 90 min despues)
                 print(f"  ! fallo TTS en seccion '{key}' -> abortando", file=sys.stderr)

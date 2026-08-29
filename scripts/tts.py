@@ -25,9 +25,10 @@ def _download(url, out_path):
     subprocess.run(["curl", "-s", "-L", url, "-o", out_path], timeout=180)
 
 
-def _create_task(text, voice_id, speed):
+def _create_task(text, voice_id, speed, stability, similarity, style):
     """Crea la tarea TTS (FormData) y devuelve su task_id, reintentando si no hay id.
-    El texto se pasa desde un fichero para preservar acentos, comillas y saltos de linea."""
+    El texto se pasa desde un fichero para preservar acentos, comillas y saltos de linea.
+    Ajustes expresivos (menos monotona): stability baja + style alto."""
     tf = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8")
     tf.write(text); tf.close(); tpath = tf.name
     try:
@@ -36,7 +37,10 @@ def _create_task(text, voice_id, speed):
                 ["curl", "-s", "-X", "POST", API + "/v3/text-to-speech", "-H", HDR,
                  "-F", f"text=<{tpath}",
                  "-F", f"voice_id={voice_id}",
-                 "-F", f"speed={speed}"],
+                 "-F", f"speed={speed}",
+                 "-F", f"stability={stability}",
+                 "-F", f"similarity={similarity}",
+                 "-F", f"style={style}"],
                 capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
             try:
                 d = json.loads(out)
@@ -61,7 +65,7 @@ def synth(text, voice_id, out_path, model="eleven_multilingual_v2",
     if not voice_id.startswith(PREFIXES):
         voice_id = "elevenlabs_" + voice_id
     for ronda in range(3):
-        tid = _create_task(text, voice_id, speed)
+        tid = _create_task(text, voice_id, speed, stability, similarity, style)
         if not tid:
             print(f"  no se pudo crear la tarea (ronda {ronda+1}/3)", flush=True)
             time.sleep(8); continue
