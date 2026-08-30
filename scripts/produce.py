@@ -67,7 +67,7 @@ def main():
     os.makedirs(os.path.join(ROOT, "public"), exist_ok=True)
     shutil.copy(os.path.join(ROOT, "out", "voz", "narration_full.mp3"),
                 os.path.join(ROOT, "public", "narration_full.mp3"))
-    for a in ("grid.mp4", "music.mp3", "worldmap.jpg"):
+    for a in ("grid.mp4", "music.mp3", "worldmap.jpg", "whoosh1.mp3", "whoosh2.mp3", "tick.mp3"):
         src = os.path.join(ROOT, "assets", a)
         if os.path.exists(src):
             shutil.copy(src, os.path.join(ROOT, "public", a))

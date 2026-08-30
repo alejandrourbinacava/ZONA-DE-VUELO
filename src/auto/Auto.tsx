@@ -260,6 +260,28 @@ const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
   }
 };
 
+// ---------- transicion entre escenas: barrido de luz + whoosh en los cambios notables ----------
+const GRAPHIC_KINDS = new Set(["map", "annotate", "stat", "fact", "image"]);
+const TransitionFX: React.FC<{ index: number; kind: string; dur: number }> = ({ index, kind, dur }) => {
+  const frame = useCurrentFrame();
+  const { width } = useVideoConfig();
+  const notable = GRAPHIC_KINDS.has(kind) || index % 3 === 0;   // whoosh en escenas graficas y de vez en cuando
+  const whoosh = index % 2 === 0 ? "whoosh1.mp3" : "whoosh2.mp3";
+  const p = interpolate(frame, [0, 11], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
+  const x = interpolate(p, [0, 1], [-0.55, 1.55]) * width;
+  const op = interpolate(frame, [0, 3, 11], [0, 0.55, 0], { extrapolateRight: "clamp" });
+  return (
+    <>
+      {notable && dur > 22 ? <Audio src={staticFile(whoosh)} volume={GRAPHIC_KINDS.has(kind) ? 0.32 : 0.18} /> : null}
+      <AbsoluteFill style={{ overflow: "hidden", pointerEvents: "none", zIndex: 15 }}>
+        <div style={{ position: "absolute", top: -40, bottom: -40, left: x, width: width * 0.22,
+          background: "linear-gradient(90deg, transparent, rgba(180,220,255,0.55), transparent)",
+          opacity: op, transform: "skewX(-16deg)", filter: "blur(7px)" }} />
+      </AbsoluteFill>
+    </>
+  );
+};
+
 export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest, media }) => {
   const fps = manifest.fps || 30;
   const totalFrames = Math.ceil(manifest.total_duration * fps);
@@ -272,6 +294,7 @@ export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest,
       {cells.map((c, i) => (
         <Sequence key={i} from={c.from} durationInFrames={c.dur}>
           <CellView shot={c.shot} sub={c.sub} />
+          <TransitionFX index={i} kind={c.shot.kind} dur={c.dur} />
         </Sequence>
       ))}
       <BrandCorner />

@@ -1,11 +1,10 @@
 name: Publicar video (Zona de Vuelo)
 
 on:
-  schedule:
-    # 01:00 UTC = 03:00 Madrid (verano) / 02:00 Madrid (invierno). Con ~3h de produccion,
-    # el video queda LISTO para descargar sobre las 05:00-06:00 Madrid, antes de las 8:00.
-    - cron: "0 1 * * *"
-  workflow_dispatch:         # boton para lanzarlo a mano (pruebas)
+  # CRON DIARIO DESACTIVADO (a peticion del user). Para reactivarlo, descomenta el schedule.
+  # schedule:
+  #   - cron: "0 1 * * *"     # 01:00 UTC = 03:00 Madrid (verano)
+  workflow_dispatch:         # solo lanzamiento manual / a demanda
     inputs:
       idea:
         description: "Idea concreta a producir (si se deja vacio, usa la siguiente de la cola)"
