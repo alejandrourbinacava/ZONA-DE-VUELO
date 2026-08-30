@@ -48,7 +48,9 @@ BLOCK = ("covid", "coronavirus", "pandemic", "face-mask", "protest", "riot", "el
          "makeup", "fashion-model", "baby", "puppy", "kitten", "gym", "yoga", "influencer",
          # transporte terrestre: casi nunca encaja en aviacion (los "-car-" evitan pillar cargo/aircraft)
          "-car-", "-cars-", "sports-car", "highway", "traffic", "driving", "motorway",
-         "road-trip", "-vehicle", "steering-wheel", "-truck", "motorcycle", "bicycle", "train-")
+         "road-trip", "-vehicle", "steering-wheel", "-truck", "motorcycle", "bicycle", "train-",
+         # personas en escenas domesticas que se cuelan por analogias (bañera, etc.)
+         "bath", "bathing", "shower", "-child", "children", "toddler", "-kid", "swimming-pool")
 
 
 def off_topic(url):
