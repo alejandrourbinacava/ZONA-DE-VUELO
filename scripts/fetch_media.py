@@ -45,7 +45,10 @@ def download(url, dst, ua=False):
 # Terminos que NUNCA salen en contenido de aviacion: si el slug del clip/foto los contiene, se descarta.
 BLOCK = ("covid", "coronavirus", "pandemic", "face-mask", "protest", "riot", "election",
          "wedding", "funeral", "birthday", "-party", "dancing", "food", "cooking", "recipe",
-         "makeup", "fashion-model", "baby", "puppy", "kitten", "gym", "yoga", "influencer")
+         "makeup", "fashion-model", "baby", "puppy", "kitten", "gym", "yoga", "influencer",
+         # transporte terrestre: casi nunca encaja en aviacion (los "-car-" evitan pillar cargo/aircraft)
+         "-car-", "-cars-", "sports-car", "highway", "traffic", "driving", "motorway",
+         "road-trip", "-vehicle", "steering-wheel", "-truck", "motorcycle", "bicycle", "train-")
 
 
 def off_topic(url):

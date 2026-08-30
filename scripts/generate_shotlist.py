@@ -31,6 +31,10 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     "airplanes flying busy sky" (NUNCA "highway"/"road"/"cars"). "fronteras/espacio aereo soberano" ->
     "world map with country borders" o "airplane over map" (NUNCA carteles ni protestas). "obstaculos en la
     ruta" -> "storm clouds airplane" o "mountains aerial" (NUNCA objetos random). Piensa SIEMPRE en aviacion.
+    PROHIBIDO ABSOLUTO en la consulta: coche, carretera, autopista, trafico terrestre, camion, tren, moto,
+    conduccion. Cuando el guion diga que un VUELO "se desvia", "hace un quiebro", "cambia de ruta", "da un
+    rodeo" -> usa MAPA ("map") con las dos ciudades, o "airplane turning in the sky" / "flight radar screen".
+    Un desvio de un AVION jamas se ilustra con un coche en una carretera.
 - {"text":"<fragmento>", "kind":"ai", "query":"<escena real que transmita la idea>", "label":"<opcional>"}
     Casi NUNCA. Solo si de verdad no existe NINGUNA escena real que sirva. Aun asi, el sistema buscara metraje
     o FOTO REAL (nunca imagenes IA). Prefiere SIEMPRE "broll".
