@@ -185,8 +185,8 @@ def get_clip(query, text, prefix, i):
     return None
 
 
-# ---------- IMAGENES DE ENTIDAD ----------
-def wiki_image(query, prefix, i):
+# ---------- IMAGENES DE ENTIDAD (revisadas por vision) ----------
+def wiki_image(query, text, prefix, i):
     for lang in ("es", "en"):
         url = (f"https://{lang}.wikipedia.org/w/api.php?action=query&format=json"
                f"&generator=search&gsrsearch={query.replace(' ', '%20')}&gsrlimit=1"
@@ -195,6 +195,8 @@ def wiki_image(query, prefix, i):
         for p in ((data.get("query", {}) or {}).get("pages", {}) or {}).values():
             thumb = (p.get("thumbnail") or {}).get("source")
             if thumb:
+                if text and vision_match(text, [thumb]) == 0:   # revision: descarta si no encaja
+                    continue
                 ext = ".png" if ".png" in thumb.lower() else ".jpg"
                 dst = os.path.join(OUT, f"img_{prefix}_{i}{ext}")
                 if download(thumb, dst, ua=True) and os.path.getsize(dst) >= 8000:
@@ -204,13 +206,15 @@ def wiki_image(query, prefix, i):
     return None
 
 
-def openverse_image(query, prefix, i):
+def openverse_image(query, text, prefix, i):
     url = (f"https://api.openverse.org/v1/images/?q={query.replace(' ', '%20')}"
            f"&license_type=commercial&page_size=4")
     data = curl_json(url, [f"User-Agent: {UA}"])
     for r in data.get("results", []):
         src = r.get("url") or r.get("thumbnail")
         if not src:
+            continue
+        if text and vision_match(text, [src]) == 0:   # revision: descarta si no encaja
             continue
         dst = os.path.join(OUT, f"ov_{prefix}_{i}.jpg")
         if download(src, dst, ua=True) and os.path.getsize(dst) >= 8000:
@@ -220,8 +224,8 @@ def openverse_image(query, prefix, i):
     return None
 
 
-def get_entity_image(query, prefix, i):
-    return wiki_image(query, prefix, i) or openverse_image(query, prefix, i)
+def get_entity_image(query, text, prefix, i):
+    return wiki_image(query, text, prefix, i) or openverse_image(query, text, prefix, i)
 
 
 def stock_photo(query, text, prefix, i):
@@ -426,7 +430,7 @@ def main():
 
             if kind == "image":
                 # entidad con nombre -> foto de la entidad (tarjeta premium); si no, clip real; si no, foto real
-                m = get_entity_image(sh.get("query", ""), key, i)
+                m = get_entity_image(sh.get("query", ""), t, key, i)
                 if m:
                     as_image(m, "FOTO")
                 else:
@@ -461,7 +465,7 @@ def main():
                         item[k] = sh[k]
             elif kind == "annotate":
                 # explicador anotado: foto REAL del sujeto + flechas/textos (los pone el render)
-                p = get_entity_image(sh.get("query", ""), key, i) or stock_photo(q, t, key, i)
+                p = get_entity_image(sh.get("query", ""), t, key, i) or stock_photo(q, t, key, i)
                 if p:
                     item.update({"file": p["file"], "source": "ANOTADO"})
                     for k in ("callouts", "label"):
