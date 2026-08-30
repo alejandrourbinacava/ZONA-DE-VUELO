@@ -3,12 +3,15 @@ import { AbsoluteFill, Audio, OffthreadVideo, Img, Sequence, staticFile,
   useCurrentFrame, useVideoConfig, interpolate, spring, Easing } from "remotion";
 import { COLORS } from "../theme";
 import { Cue } from "../antartida/Subtitles";
+import { MapRoute, Annotate } from "./MotionGraphics";
 
 export type Section = { key: string; title: string; offset: number; duration: number; cues: Cue[] };
 export type Manifest = { total_duration: number; fps: number; sections: Section[] };
+type Pt = { name?: string; lat: number; lon: number };
 type Shot = {
   kind: string; text: string; file?: string; label?: string; source?: string;
   value?: number; suffix?: string; color?: string; kicker?: string; body?: string; accent?: string;
+  from?: Pt; to?: Pt; callouts?: { label: string }[];
 };
 export type Media = { sections: { key: string; shots: Shot[] }[] };
 
@@ -238,6 +241,14 @@ const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
         : <AiClip file={shot.file} i={sub} />;
     case "broll":
       return shot.file ? <ClipCard file={shot.file} startFrom={sub * MAX_CELL} /> : <FallbackCard text={shot.text} />;
+    case "map":
+      return shot.from && shot.to
+        ? <MapRoute from={shot.from} to={shot.to} label={shot.label} />
+        : <FallbackCard text={shot.text} />;
+    case "annotate":
+      return shot.file
+        ? <Annotate file={shot.file} callouts={shot.callouts || []} label={shot.label} />
+        : <FallbackCard text={shot.text} />;
     case "stat":
       return <StatCard value={shot.value || 0} suffix={shot.suffix} label={shot.label} color={shot.color} />;
     case "fact":

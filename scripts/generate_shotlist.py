@@ -39,6 +39,16 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     un politico), MARCAS/EMPRESAS con nombre (Airbus, Boeing, una aerolinea concreta) o un OBJETO/PRODUCTO
     concreto que hay que ver tal cual. NUNCA para ciudades, paises ni conceptos (esos van SIEMPRE como "broll"
     con clip real). Si dudas, NO uses "image": usa "broll".
+- {"text":"<fragmento>", "kind":"map", "from":{"name":"Madrid","lat":40.42,"lon":-3.70}, "to":{"name":"Nueva York","lat":40.71,"lon":-74.01}, "label":"<opcional>"}
+    MOTION GRAPHICS (mapa animado con arco de vuelo entre dos ciudades). USA ESTO SIEMPRE que el fragmento
+    hable de una RUTA, un vuelo de X a Y, cruzar un oceano, una distancia entre dos lugares, el trazado de un
+    trayecto, "de A a B", circulo maximo, rutas polares, etc. Pon las coordenadas REALES (lat/lon) de las dos
+    ciudades/lugares. Es MUCHO mejor que un clip: se dibuja el mapa, el arco y un avion recorriendolo.
+- {"text":"<fragmento>", "kind":"annotate", "query":"<consulta EN INGLES de una FOTO del sujeto>", "callouts":[{"label":"Turbina"},{"label":"Alabes del fan"}], "label":"<ETIQUETA>"}
+    MOTION GRAPHICS (explicador). USA ESTO cuando el fragmento EXPLICA las PARTES o elementos de algo (el motor
+    y sus piezas, las partes del ala, la cabina, un sistema): se coge una foto real del sujeto, se hace ZOOM y
+    entran FLECHAS con TEXTOS señalando 2-4 elementos. En "callouts" pon 2-4 etiquetas cortas (lo que se nombra).
+    Hace el video dinamico, no un simple clip.
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}
@@ -55,8 +65,11 @@ COMO ELEGIR LA FUENTE DE CADA PLANO (por defecto, CLIP REAL):
    -> "ai" (CLIP DE VIDEO IA fotorealista, con moderacion). El objetivo es que SIEMPRE parezca metraje real.
 4. ¿Cifra, frase de remate, o llamada a la accion? -> "stat"/"fact"/"outro".
 
-META: que el 80-90% de los planos sean "broll" (clips reales). "image" solo para nombres propios/marcas.
-"ai" solo para lo que el stock no puede dar. TODO debe verse REAL: nada de ilustraciones ni dibujos.
+META de dinamismo: NO todo clips. Aprovecha los MOTION GRAPHICS siempre que el guion lo permita para que el
+video no sea plano: usa "map" en cuanto se hable de rutas/vuelos entre lugares, "annotate" cuando se expliquen
+partes de algo, y "stat"/"fact" para cifras y remates. Apunta a meter varios "map"/"annotate" por video cuando
+el tema lo permita (rutas, motores, partes del avion...). El resto, "broll" (clips reales). "image" solo para
+nombres propios/marcas. Nada de ilustraciones ni dibujos: mapas reales, fotos reales, clips reales.
 
 REGLA ANTI-DESAJUSTE: NUNCA mandes a "broll" una metafora pura ("como una cinta transportadora"). Si el stock
 no lo tiene literal, va como "ai" (clip video). Pero una CIUDAD, un avion, una cabina, el mar... SI van a "broll".

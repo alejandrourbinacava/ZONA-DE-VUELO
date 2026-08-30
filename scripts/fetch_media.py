@@ -385,6 +385,22 @@ def main():
                     else:
                         p = stock_photo(q, key, i)                          # 3) foto REAL (nunca IA)
                         as_photo(p) if p else as_clip(None, "")             # 4) nada -> tarjeta de texto
+            elif kind == "map":
+                # mapa con ruta animada (motion graphics, sin media): pasa coords
+                item["source"] = "MAPA"
+                for k in ("from", "to", "label"):
+                    if k in sh:
+                        item[k] = sh[k]
+            elif kind == "annotate":
+                # explicador anotado: foto REAL del sujeto + flechas/textos (los pone el render)
+                p = get_entity_image(sh.get("query", ""), key, i) or stock_photo(q, key, i)
+                if p:
+                    item.update({"file": p["file"], "source": "ANOTADO"})
+                    for k in ("callouts", "label"):
+                        if k in sh:
+                            item[k] = sh[k]
+                else:
+                    as_clip(get_clip(q, key, i), "CLIP")   # sin foto -> clip normal del sujeto
             else:
                 item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
