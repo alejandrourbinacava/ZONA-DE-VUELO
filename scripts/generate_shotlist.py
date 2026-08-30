@@ -133,6 +133,7 @@ def main():
     for i, s in enumerate(secs[:7]):
         s["key"] = KEYS[i]
     out = {"sections": secs[:7]}
+    os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)   # out/ puede no existir si el guion se reuso
     dst = os.path.join(ROOT, "out", "shotlist.json")
     json.dump(out, open(dst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print(f"LISTO -> {dst}  (tokens salida={usage.get('output_tokens')})")
