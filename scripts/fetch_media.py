@@ -78,28 +78,69 @@ def save_used():
         pass
 
 
-def best_pexels(query):
+ANTH_KEY = os.environ.get("ANTHROPIC_API_KEY")
+
+
+def vision_match(narration, image_urls):
+    """REVISION IA: mira las miniaturas candidatas y devuelve el NUMERO (1-based) de la que
+    de verdad ilustra la narracion en un canal de AVIACION, o 0 si NINGUNA encaja.
+    Devuelve None si no hay clave/imagenes o si la llamada falla (=> el caller usa la 1a)."""
+    if not ANTH_KEY or not image_urls:
+        return None
+    content = [{"type": "text", "text":
+        "Eres el revisor de un canal de AVIACION. La narracion en este momento dice:\n"
+        f"\"{narration}\"\n\n"
+        f"Abajo van {len(image_urls)} miniaturas de clips candidatos, numeradas. Elige el NUMERO del clip "
+        "que MEJOR ilustra de forma LITERAL lo que dice la narracion. Debe encajar con la frase Y con aviacion. "
+        "RECHAZA (no elijas) clips de: personas aleatorias, ninos, casas, coches, objetos domesticos, o "
+        "cualquier cosa sin relacion con la frase o con la aviacion (p.ej. si se habla de la PUERTA DE UN AVION, "
+        "una puerta de casa NO vale). Si NINGUNA miniatura encaja bien, responde 0.\n"
+        f"Responde SOLO con un numero del 0 al {len(image_urls)}."}]
+    for idx, u in enumerate(image_urls):
+        if "pexels.com" in u:            # miniatura pequeña -> revision ~4x mas barata
+            u = u.split("?")[0] + "?auto=compress&w=420&h=236&fit=crop"
+        content.append({"type": "text", "text": f"Clip {idx + 1}:"})
+        content.append({"type": "image", "source": {"type": "url", "url": u}})
+    body = {"model": "claude-haiku-4-5", "max_tokens": 8,
+            "messages": [{"role": "user", "content": content}]}
+    try:
+        out = subprocess.run(["curl", "-s", "https://api.anthropic.com/v1/messages",
+                              "-H", f"x-api-key: {ANTH_KEY}", "-H", "anthropic-version: 2023-06-01",
+                              "-H", "content-type: application/json", "-d", json.dumps(body)],
+                             capture_output=True, encoding="utf-8", errors="replace", timeout=60).stdout
+        d = json.loads(out)
+        txt = "".join(b.get("text", "") for b in d.get("content", []) if b.get("type") == "text")
+        digits = "".join(ch for ch in txt if ch.isdigit())
+        return int(digits) if digits else None
+    except Exception:
+        return None
+
+
+def pexels_candidates(query, n=5):
+    """Devuelve hasta n candidatos de Pexels (sin usar, no fuera de tema) con su miniatura."""
     url = (f"https://api.pexels.com/videos/search?query={query.replace(' ', '%20')}"
-           f"&per_page=30&orientation=landscape&size=medium")   # mas candidatos = mas variedad (anti-repeticion)
+           f"&per_page=30&orientation=landscape&size=medium")
     data = curl_json(url, [f"Authorization: {PEXELS}"])
-    best = None
+    out = []
     for vid in data.get("videos", []):
         vid_id = f"px{vid.get('id')}"
-        if vid_id in USED:          # ya usado -> saltar (sin repeticiones)
+        if vid_id in USED or off_topic(vid.get("url")):
             continue
-        if off_topic(vid.get("url")):   # descartar clips claramente fuera de tema (covid, boda, etc.)
-            continue
+        best = None
         for f in vid.get("video_files", []):
             if f.get("file_type") != "video/mp4":
                 continue
             h = f.get("height") or 0
-            if h > 1080:            # descarta 4K (pesado y lento de renderizar)
+            if h > 1080:
                 continue
             if not best or h > best[0]:
-                best = (h, f["link"], vid.get("duration", 0), vid.get("user", {}).get("name", ""), vid_id)
-    if best:
-        USED.add(best[4])
-    return best  # (score, link, duration, credit, id) | None
+                best = (h, f["link"])
+        if best:
+            out.append({"id": vid_id, "link": best[1], "duration": vid.get("duration", 0),
+                        "credit": vid.get("user", {}).get("name", ""), "image": vid.get("image", "")})
+        if len(out) >= n:
+            break
+    return out
 
 
 def best_pixabay(query):
@@ -119,15 +160,26 @@ def best_pixabay(query):
     return None
 
 
-def get_clip(query, prefix, i):
-    # prueba hasta 2 candidatos: si el 1o descarga corrupto, va al siguiente (evita huecos)
-    for cand in (best_pexels(query), best_pixabay(query)):
-        if not cand:
-            continue
+def get_clip(query, text, prefix, i):
+    """Busca candidatos, la IA de vision revisa que ENCAJEN con la narracion y elige el bueno.
+    Si ninguno encaja, devuelve None (el caller usa foto real / otro recurso). `text` = la frase narrada."""
+    cands = pexels_candidates(query)
+    if not cands:
+        return None
+    imgs = [c.get("image") for c in cands if c.get("image")]
+    pick = vision_match(text or query, imgs) if imgs else None
+    # pick: None=fallo/sin clave -> usar el 1o; 0=ninguno encaja -> rechazar; 1..n=indice elegido
+    if pick == 0:
+        print(f"   [vision: ningun clip encaja con '{(text or query)[:40]}' -> descarto]")
+        return None
+    order = [cands[pick - 1]] if (pick and 1 <= pick <= len(cands)) else []
+    order += [c for c in cands if c not in order]   # el elegido primero; el resto por si el descargar falla
+    for c in order:
         fn = f"{prefix}_{i}.mp4"
         dst = os.path.join(OUT, fn)
-        if download(cand[1], dst) and decodable(f"stock/{fn}"):
-            return {"file": f"stock/{fn}", "duration": cand[2], "credit": cand[3]}
+        if download(c["link"], dst) and decodable(f"stock/{fn}"):
+            USED.add(c["id"])
+            return {"file": f"stock/{fn}", "duration": c["duration"], "credit": c["credit"]}
         if os.path.exists(dst):
             os.remove(dst)
     return None
@@ -172,26 +224,36 @@ def get_entity_image(query, prefix, i):
     return wiki_image(query, prefix, i) or openverse_image(query, prefix, i)
 
 
-def stock_photo(query, prefix, i):
-    """Foto REAL de stock (Pexels) — respaldo cuando no hay clip. NUNCA IA."""
+def stock_photo(query, text, prefix, i):
+    """Foto REAL de stock (Pexels) REVISADA por vision — respaldo cuando no hay clip. NUNCA IA."""
     url = (f"https://api.pexels.com/v1/search?query={query.replace(' ', '%20')}"
            f"&per_page=20&orientation=landscape&size=large")
     data = curl_json(url, [f"Authorization: {PEXELS}"])
+    cands = []
     for p in data.get("photos", []):
         pid = f"pxph{p.get('id')}"
-        if pid in USED:
-            continue
-        if off_topic(p.get("url")):
+        if pid in USED or off_topic(p.get("url")):
             continue
         src = p.get("src") or {}
         u = src.get("large2x") or src.get("large") or src.get("original")
-        if not u:
-            continue
+        prev = src.get("medium") or src.get("small") or u
+        if u:
+            cands.append({"id": pid, "url": u, "image": prev})
+        if len(cands) >= 5:
+            break
+    if not cands:
+        return None
+    pick = vision_match(text or query, [c["image"] for c in cands])
+    if pick == 0:
+        return None
+    order = [cands[pick - 1]] if (pick and 1 <= pick <= len(cands)) else []
+    order += [c for c in cands if c not in order]
+    for c in order:
         dst = os.path.join(OUT, f"ph_{prefix}_{i}.jpg")
-        if download(u, dst) and os.path.getsize(dst) >= 20000:
+        if download(c["url"], dst) and os.path.getsize(dst) >= 20000:
             w, h = img_dims(dst)
             if w >= 1000 and h >= 560:
-                USED.add(pid)
+                USED.add(c["id"])
                 return {"file": f"stock/ph_{prefix}_{i}.jpg"}
         if os.path.exists(dst):
             os.remove(dst)
@@ -349,7 +411,8 @@ def main():
         for i, sh in enumerate(sec.get("shots", [])):
             kind = sh.get("kind")
             q = sh.get("query", "") or sh.get("text", "")
-            item = {"kind": kind, "text": sh.get("text", "")}
+            t = sh.get("text", "")   # frase narrada -> se usa para la REVISION por vision
+            item = {"kind": kind, "text": t}
 
             def as_image(m, src):
                 item.update({"kind": "image", "file": m["file"], "label": sh.get("label", ""), "source": src})
@@ -367,8 +430,8 @@ def main():
                 if m:
                     as_image(m, "FOTO")
                 else:
-                    c = get_clip(q, key, i)
-                    p = None if c else stock_photo(q, key, i)
+                    c = get_clip(q, t, key, i)
+                    p = None if c else stock_photo(q, t, key, i)
                     as_clip(c, "CLIP") if c else (as_photo(p) if p else as_clip(None, ""))
             elif kind == "ai":
                 # metafora/concepto: clip video IA si el plan esta activo; si no, CLIP real; si no, FOTO real
@@ -376,11 +439,11 @@ def main():
                 if v:
                     as_clip(v, "CLIP-IA")
                 else:
-                    c = get_clip(q, key, i)
-                    p = None if c else stock_photo(q, key, i)
+                    c = get_clip(q, t, key, i)
+                    p = None if c else stock_photo(q, t, key, i)
                     as_clip(c, "CLIP") if c else (as_photo(p) if p else as_clip(None, ""))
             elif kind == "broll":
-                c = get_clip(sh.get("query", ""), key, i)                  # 1) clip real que describe
+                c = get_clip(sh.get("query", ""), t, key, i)               # 1) clip real REVISADO por vision
                 if c:
                     as_clip(c, "CLIP")
                 else:
@@ -388,7 +451,7 @@ def main():
                     if v:
                         as_clip(v, "CLIP-IA")
                     else:
-                        p = stock_photo(q, key, i)                          # 3) foto REAL (nunca IA)
+                        p = stock_photo(q, t, key, i)                       # 3) foto REAL revisada (nunca IA)
                         as_photo(p) if p else as_clip(None, "")             # 4) nada -> tarjeta de texto
             elif kind == "map":
                 # mapa con ruta animada (motion graphics, sin media): pasa coords
@@ -398,14 +461,14 @@ def main():
                         item[k] = sh[k]
             elif kind == "annotate":
                 # explicador anotado: foto REAL del sujeto + flechas/textos (los pone el render)
-                p = get_entity_image(sh.get("query", ""), key, i) or stock_photo(q, key, i)
+                p = get_entity_image(sh.get("query", ""), key, i) or stock_photo(q, t, key, i)
                 if p:
                     item.update({"file": p["file"], "source": "ANOTADO"})
                     for k in ("callouts", "label"):
                         if k in sh:
                             item[k] = sh[k]
                 else:
-                    as_clip(get_clip(q, key, i), "CLIP")   # sin foto -> clip normal del sujeto
+                    as_clip(get_clip(q, t, key, i), "CLIP")   # sin foto -> clip normal del sujeto
             else:
                 item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
@@ -419,8 +482,9 @@ def main():
         for sj, sh in enumerate(sec["shots"]):
             if sh.get("file") and not decodable(sh["file"]):
                 print("  ! medio corrupto, re-buscando clip:", sh["file"])
-                repl = get_clip(sh.get("text", "") or "aviation aircraft", sec["key"], f"fix_{si}_{sj}") \
-                    or ai33_video(sh.get("text", "") or "aviation", sec["key"], f"fix_{si}_{sj}")
+                txt = sh.get("text", "")
+                repl = get_clip(txt or "aviation aircraft", txt, sec["key"], f"fix_{si}_{sj}") \
+                    or ai33_video(txt or "aviation", sec["key"], f"fix_{si}_{sj}")
                 if repl:
                     sh.update({"kind": "broll", "file": repl["file"], "source": "CLIP",
                                "duration": repl.get("duration", 0)})
