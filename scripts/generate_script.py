@@ -8,7 +8,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KEY = os.environ.get("ANTHROPIC_API_KEY")
 MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
 SYS_PATH = os.path.join(ROOT, "brain", "system_prompt.md")
-OUTDIR = os.path.join(ROOT, "out", "guiones")
+OUTDIR = os.path.join(ROOT, "guiones")   # trackeado en git -> reuso entre renders (no regenera Opus)
 
 
 def slugify(text):

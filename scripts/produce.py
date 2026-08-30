@@ -38,11 +38,11 @@ def main():
     if not idea:
         print('Uso: python scripts/produce.py "idea" [--norender]'); sys.exit(1)
     s = slug(idea)
-    guion = os.path.join(ROOT, "out", "guiones", s + ".md")
+    guion = os.path.join(ROOT, "guiones", s + ".md")   # carpeta trackeada -> reuso entre renders
 
     print("\n=== 1/6 GUION ===")
     if os.path.exists(guion) and os.path.getsize(guion) > 500:
-        print("guion ya existe, lo reuso:", guion)
+        print("guion ya existe -> lo REUSO (no gasta Opus):", guion)
     else:
         run([PY, "scripts/generate_script.py", idea])
 

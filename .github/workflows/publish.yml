@@ -134,7 +134,7 @@ jobs:
           if [ -z "${{ github.event.inputs.idea }}" ]; then
             python scripts/advance_queue.py         # solo runs de cola avanzan el puntero
           fi
-          git add queue/state.json queue/used_clips.json || true
-          git commit -m "estado: clips usados (dedup) + cola" || echo "sin cambios"
+          git add queue/state.json queue/used_clips.json guiones/*.md || true
+          git commit -m "estado: guion (reuso) + clips usados (dedup) + cola" || echo "sin cambios"
           git pull --rebase --autostash || true     # por si el bot ya empujo (evita rechazo)
           git push || echo "nada que empujar"
