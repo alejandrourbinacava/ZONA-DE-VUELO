@@ -48,11 +48,14 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     hable de una RUTA, un vuelo de X a Y, cruzar un oceano, una distancia entre dos lugares, el trazado de un
     trayecto, "de A a B", circulo maximo, rutas polares, etc. Pon las coordenadas REALES (lat/lon) de las dos
     ciudades/lugares. Es MUCHO mejor que un clip: se dibuja el mapa, el arco y un avion recorriendolo.
-- {"text":"<fragmento>", "kind":"annotate", "query":"<consulta EN INGLES de una FOTO del sujeto>", "callouts":[{"label":"Turbina"},{"label":"Alabes del fan"}], "label":"<ETIQUETA>"}
-    MOTION GRAPHICS (explicador). USA ESTO cuando el fragmento EXPLICA las PARTES o elementos de algo (el motor
-    y sus piezas, las partes del ala, la cabina, un sistema): se coge una foto real del sujeto, se hace ZOOM y
-    entran FLECHAS con TEXTOS señalando 2-4 elementos. En "callouts" pon 2-4 etiquetas cortas (lo que se nombra).
-    Hace el video dinamico, no un simple clip.
+- {"text":"<fragmento>", "kind":"annotate", "query":"<consulta EN INGLES: PRIMER PLANO del sujeto>", "callouts":[{"label":"Turbina"},{"label":"Alabes del fan"}], "label":"<ETIQUETA>"}
+    MOTION GRAPHICS (explicador con flechas). USA ESTO SOLO cuando el fragmento nombra 2+ PARTES FISICAS
+    CONCRETAS de UN MISMO objeto que se verian en un PRIMER PLANO (ej.: el motor y sus alabes/tobera; la puerta
+    y su manija/pestillo; la cabina y sus mandos). La "query" DEBE pedir un PRIMER PLANO claro del objeto donde
+    se vean esas partes (ej.: "aircraft turbofan engine close up", "airplane cabin door handle close up"), NO un
+    avion entero de lejos. Las "callouts" son las 2-4 partes nombradas. Un sistema de vision comprobara que esas
+    partes SE VEN en la imagen y pondra las flechas donde esten; si no se ven, se usara un clip normal. NO uses
+    "annotate" para ideas abstractas ni si no hay partes fisicas visibles: para eso, "broll".
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
     Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}

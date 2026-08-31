@@ -97,54 +97,43 @@ export const MapRoute: React.FC<{ from: Pt; to: Pt; label?: string }> = ({ from,
 // ============================================================
 //  EXPLICADOR ANOTADO: imagen con zoom + flechas + textos que entran
 // ============================================================
-type Callout = { label: string; tx?: number; ty?: number };
-// posiciones de destino (fraccion del cuadro) segun cuantos callouts haya
-const TARGETS: Record<number, Array<[number, number]>> = {
-  1: [[0.5, 0.42]],
-  2: [[0.36, 0.4], [0.64, 0.55]],
-  3: [[0.34, 0.38], [0.6, 0.42], [0.5, 0.66]],
-  4: [[0.32, 0.36], [0.66, 0.4], [0.36, 0.66], [0.66, 0.66]],
-};
+type Callout = { label: string; x?: number; y?: number };   // x,y = fraccion 0..1 (donde ESTA la parte)
 
 export const Annotate: React.FC<{ file: string; callouts: Callout[]; label?: string }> = ({ file, callouts, label }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
   const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
-  const cs = (callouts || []).slice(0, 4);
-  const layout = TARGETS[Math.max(1, cs.length)] || TARGETS[4];
+  const cs = (callouts || []).filter((c) => typeof c.x === "number" && typeof c.y === "number").slice(0, 4);
 
-  // zoom lento hacia el centro de masa de los callouts (o centro)
-  const cx = layout.reduce((a, t) => a + t[0], 0) / layout.length;
-  const cy = layout.reduce((a, t) => a + t[1], 0) / layout.length;
-  const scale = interpolate(frame, [0, durationInFrames], [1.06, 1.24], EASE);
-  const ox = interpolate(frame, [0, durationInFrames], [0, (0.5 - cx) * 120], EASE);
-  const oy = interpolate(frame, [0, durationInFrames], [0, (0.5 - cy) * 120], EASE);
+  // zoom SINCRONIZADO con la imagen (escala respecto al centro) para que las flechas no se despeguen
+  const s = interpolate(frame, [0, durationInFrames], [1.05, 1.16], EASE);
+  const cxpx = width / 2, cypx = height / 2;
+  const mapPt = (fx: number, fy: number) => ({ x: cxpx + (fx * width - cxpx) * s, y: cypx + (fy * height - cypx) * s });
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom, overflow: "hidden" }}>
       <AbsoluteFill style={{ opacity: enter }}>
         <Img src={staticFile(file)} style={{ width: "100%", height: "100%", objectFit: "cover",
-          transform: `scale(${scale}) translate(${ox}px, ${oy}px)` }} />
+          transform: `scale(${s})`, transformOrigin: "50% 50%" }} />
       </AbsoluteFill>
-      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(4,9,20,0.35) 0%, transparent 30%, transparent 60%, rgba(4,9,20,0.6) 100%)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(4,9,20,0.4) 0%, transparent 28%, transparent 62%, rgba(4,9,20,0.65) 100%)" }} />
       <svg width={width} height={height} style={{ position: "absolute", inset: 0 }}>
         {cs.map((c, i) => {
-          const [fx, fy] = layout[i];
-          const tx = fx * width, ty = fy * height;
-          const fromLeft = fx < 0.5;
-          const lx = fromLeft ? Math.max(70, tx - 260) : Math.min(width - 70, tx + 260);
-          const ly = ty - 70 - i * 4;
-          const delay = 10 + i * Math.max(12, Math.round((durationInFrames - 20) / (cs.length + 1)));
+          const p = mapPt(c.x as number, c.y as number);
+          const fromLeft = (c.x as number) < 0.5;
+          const lx = fromLeft ? Math.max(60, p.x - 230) : Math.min(width - 60, p.x + 230);
+          const ly = Math.max(70, Math.min(height - 90, p.y - 56));
+          const delay = 10 + i * Math.max(14, Math.round((durationInFrames - 24) / (cs.length + 1)));
           const app = interpolate(frame, [delay, delay + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-          const grow = interpolate(frame, [delay, delay + 14], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", ...EASE });
-          const ex = lx + (tx - lx) * grow, ey = ly + (ty - ly) * grow;   // punta de la flecha crece hacia el destino
+          const grow = interpolate(frame, [delay, delay + 15], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", ...EASE });
+          const ex = lx + (p.x - lx) * grow, ey = ly + (p.y - ly) * grow;
           return (
             <g key={i} opacity={app}>
+              <circle cx={p.x} cy={p.y} r={15} fill="none" stroke={COLORS.cyan} strokeWidth={2.5} opacity={grow * 0.8} />
+              <circle cx={p.x} cy={p.y} r={4} fill={COLORS.cyan} opacity={grow} />
               <line x1={lx} y1={ly} x2={ex} y2={ey} stroke={COLORS.cyan} strokeWidth={3}
                 style={{ filter: `drop-shadow(0 0 5px ${COLORS.cyan})` }} />
-              <circle cx={ex} cy={ey} r={7} fill={COLORS.cyan} opacity={grow} />
-              <circle cx={tx} cy={ty} r={16} fill="none" stroke={COLORS.cyan} strokeWidth={2.5} opacity={grow * 0.7} />
-              <text x={lx} y={ly - 16} fontSize={38} fontWeight={800} fill="#fff"
+              <text x={lx} y={ly - 14} fontSize={38} fontWeight={800} fill="#fff"
                 textAnchor={fromLeft ? "start" : "end"}
                 style={{ paintOrder: "stroke", stroke: "rgba(3,8,18,0.92)", strokeWidth: 7 }}>{c.label}</text>
             </g>

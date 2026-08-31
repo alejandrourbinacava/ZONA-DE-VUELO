@@ -6,7 +6,7 @@
 - kind stat/fact/outro -> sin medio (beat grafico)
 Descarga a public/stock/ y escribe public/stock/media.json. Requiere PEXELS_KEY.
 Opcionales: PIXABAY_KEY, GOOGLE_API_KEY."""
-import os, sys, json, base64, time, tempfile, subprocess, urllib.parse
+import os, sys, json, base64, time, tempfile, subprocess, urllib.parse, io, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PEXELS = os.environ.get("PEXELS_KEY")
@@ -107,14 +107,70 @@ def vision_match(narration, image_urls):
     body = {"model": "claude-haiku-4-5", "max_tokens": 8,
             "messages": [{"role": "user", "content": content}]}
     try:
-        out = subprocess.run(["curl", "-s", "https://api.anthropic.com/v1/messages",
-                              "-H", f"x-api-key: {ANTH_KEY}", "-H", "anthropic-version: 2023-06-01",
-                              "-H", "content-type: application/json", "-d", json.dumps(body)],
-                             capture_output=True, encoding="utf-8", errors="replace", timeout=60).stdout
+        out = _anthropic_curl(body)
         d = json.loads(out)
         txt = "".join(b.get("text", "") for b in d.get("content", []) if b.get("type") == "text")
         digits = "".join(ch for ch in txt if ch.isdigit())
         return int(digits) if digits else None
+    except Exception:
+        return None
+
+
+def _anthropic_curl(body):
+    """POST a Anthropic pasando el cuerpo por FICHERO (-d @) para no reventar el limite de linea de
+    comandos (imagenes base64 son enormes). Devuelve el stdout crudo."""
+    tf = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+    json.dump(body, tf); tf.close()
+    try:
+        return subprocess.run(["curl", "-s", "https://api.anthropic.com/v1/messages",
+                               "-H", f"x-api-key: {ANTH_KEY}", "-H", "anthropic-version: 2023-06-01",
+                               "-H", "content-type: application/json", "-d", "@" + tf.name],
+                              capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
+    finally:
+        try: os.remove(tf.name)
+        except OSError: pass
+
+
+def vision_locate(local_rel, labels, narration):
+    """Mira la imagen YA descargada y devuelve, por cada etiqueta, DONDE esta esa parte (x,y en 0..1)
+    o None si NO es visible. Sirve para colocar las flechas con logica. Devuelve lista alineada con
+    `labels` (cada elem {x,y} o None), o None si la imagen no vale / falla."""
+    if not ANTH_KEY or not labels:
+        return None
+    path = os.path.join(ROOT, "public", local_rel)
+    try:
+        from PIL import Image
+        im = Image.open(path).convert("RGB")
+        im.thumbnail((720, 720))
+        buf = io.BytesIO(); im.save(buf, "JPEG", quality=82)
+        b64 = base64.b64encode(buf.getvalue()).decode()
+    except Exception:
+        return None
+    labs = "\n".join(f"{j + 1}) {l}" for j, l in enumerate(labels))
+    prompt = ("Canal de aviacion. Esta imagen se usara para SEÑALAR partes con flechas mientras se narra:\n"
+              f"\"{narration}\"\n\n"
+              "Para CADA elemento de la lista, dime en QUE PUNTO de la imagen esta, como porcentajes "
+              "x,y (0-100; x izquierda->derecha, y arriba->abajo). Si un elemento NO se ve CLARAMENTE en "
+              "esta imagen concreta, pon null (no te lo inventes).\n"
+              f"Elementos:\n{labs}\n\n"
+              f"Responde SOLO un JSON: lista de {len(labels)} valores en orden, cada uno {{\"x\":num,\"y\":num}} "
+              "o null.")
+    body = {"model": "claude-haiku-4-5", "max_tokens": 300,
+            "messages": [{"role": "user", "content": [
+                {"type": "text", "text": prompt},
+                {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}}]}]}
+    try:
+        out = _anthropic_curl(body)
+        d = json.loads(out)
+        txt = "".join(b.get("text", "") for b in d.get("content", []) if b.get("type") == "text")
+        arr = json.loads(re.search(r"\[.*\]", txt, re.S).group(0))
+        res = []
+        for v in arr[:len(labels)]:
+            if isinstance(v, dict) and v.get("x") is not None and v.get("y") is not None:
+                res.append({"x": max(0.04, min(0.96, v["x"] / 100.0)), "y": max(0.06, min(0.94, v["y"] / 100.0))})
+            else:
+                res.append(None)
+        return res
     except Exception:
         return None
 
@@ -500,15 +556,18 @@ def main():
                     if k in sh:
                         item[k] = sh[k]
             elif kind == "annotate":
-                # explicador anotado: foto REAL del sujeto + flechas/textos (los pone el render)
+                # explicador: SOLO si la imagen muestra de verdad las partes y la vision las localiza.
+                labels = [c.get("label", "") for c in (sh.get("callouts") or []) if c.get("label")][:4]
                 p = get_entity_image(sh.get("query", ""), t, key, i) or stock_photo(q, t, key, i)
-                if p:
-                    item.update({"file": p["file"], "source": "ANOTADO"})
-                    for k in ("callouts", "label"):
-                        if k in sh:
-                            item[k] = sh[k]
+                coords = vision_locate(p["file"], labels, t) if (p and labels) else None
+                placed = ([{"label": labels[j], "x": coords[j]["x"], "y": coords[j]["y"]}
+                           for j in range(len(labels)) if j < len(coords) and coords[j]] if coords else [])
+                if p and placed:
+                    # arrows a coordenadas REALES; solo las partes que de verdad se ven
+                    item.update({"file": p["file"], "source": "ANOTADO", "callouts": placed,
+                                 "label": sh.get("label", "")})
                 else:
-                    apply_visual(*resolve_visual(q, t, key, i))   # sin foto -> cadena visual (clip/relleno)
+                    apply_visual(*resolve_visual(q, t, key, i))   # no se ven las partes -> clip normal
             else:
                 item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):

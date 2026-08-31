@@ -11,7 +11,7 @@ type Pt = { name?: string; lat: number; lon: number };
 type Shot = {
   kind: string; text: string; file?: string; label?: string; source?: string;
   value?: number; suffix?: string; color?: string; kicker?: string; body?: string; accent?: string;
-  from?: Pt; to?: Pt; callouts?: { label: string }[];
+  from?: Pt; to?: Pt; callouts?: { label: string; x?: number; y?: number }[];
 };
 export type Media = { sections: { key: string; shots: Shot[] }[] };
 

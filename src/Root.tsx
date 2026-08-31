@@ -11,7 +11,7 @@ const MGTestMap: React.FC = () => (
   <MapRoute from={{ name: "Madrid", lat: 40.42, lon: -3.70 }} to={{ name: "Nueva York", lat: 40.71, lon: -74.01 }} label="Madrid → Nueva York" />
 );
 const MGTestAnnotate: React.FC = () => (
-  <Annotate file="worldmap.jpg" callouts={[{ label: "Turbina de alta presión" }, { label: "Álabes del fan" }, { label: "Tobera de escape" }]} label="EL MOTOR" />
+  <Annotate file="worldmap.jpg" callouts={[{ label: "Turbina de alta presión", x: 0.28, y: 0.34 }, { label: "Álabes del fan", x: 0.7, y: 0.5 }, { label: "Tobera de escape", x: 0.5, y: 0.7 }]} label="EL MOTOR" />
 );
 
 export const RemotionRoot: React.FC = () => {
