@@ -163,6 +163,49 @@ def best_pixabay(query):
     return None
 
 
+# plano de aviacion GENERICO y bonito (relleno cuando no hay clip literal; nunca fuera de tema)
+SAFE_QUERIES = ["airliner flying above clouds", "airplane cockpit pilots hands", "jet engine turbine closeup",
+                "airplane wing view window clouds", "airport runway airplane taxi", "clouds sky aerial sunset",
+                "airplane cabin interior seats", "commercial airplane landing", "aerial view clouds sky",
+                "airplane tail vertical stabilizer sky", "control tower airport", "airplane taking off"]
+_safe_idx = [0]
+
+
+def safe_aviation_clip(prefix, i):
+    """Devuelve un clip real de aviacion generico (rotando el pool, sin repetir). Relleno on-brand."""
+    for _ in range(len(SAFE_QUERIES)):
+        q = SAFE_QUERIES[_safe_idx[0] % len(SAFE_QUERIES)]
+        _safe_idx[0] += 1
+        for c in pexels_candidates(q, 6):
+            fn = f"{prefix}_{i}.mp4"
+            dst = os.path.join(OUT, fn)
+            if download(c["link"], dst) and decodable(f"stock/{fn}"):
+                USED.add(c["id"])
+                return {"file": f"stock/{fn}", "duration": c["duration"], "credit": c["credit"]}
+            if os.path.exists(dst):
+                os.remove(dst)
+    return None
+
+
+def resolve_visual(q, text, key, i, allow_video=True):
+    """Cadena unica para un plano visual: clip literal revisado -> (video IA) -> foto revisada ->
+    plano de aviacion generico (relleno). Devuelve (source_tag, media, tipo) o (None,None,None)."""
+    c = get_clip(q, text, key, i)
+    if c:
+        return ("CLIP", c, "clip")
+    if allow_video:
+        v = ai33_video(q, key, i)
+        if v:
+            return ("CLIP-IA", v, "clip")
+    p = stock_photo(q, text, key, i)
+    if p:
+        return ("FOTO-STOCK", p, "photo")
+    s = safe_aviation_clip(key, i)   # mezcla inteligente: relleno de aviacion en vez de tarjeta de texto
+    if s:
+        return ("CLIP-AVIA", s, "clip")
+    return (None, None, None)
+
+
 def get_clip(query, text, prefix, i):
     """Busca candidatos, la IA de vision revisa que ENCAJEN con la narracion y elige el bueno.
     Si ninguno encaja, devuelve None (el caller usa foto real / otro recurso). `text` = la frase narrada."""
@@ -431,35 +474,25 @@ def main():
             def as_photo(m):   # foto REAL de stock, a pantalla completa con movimiento (no tarjeta de entidad)
                 item.update({"kind": "image", "file": m["file"], "label": "", "source": "FOTO-STOCK"})
 
+            def apply_visual(tag, media, typ):
+                if typ == "clip":
+                    as_clip(media, tag)
+                elif typ == "photo":
+                    as_photo(media)
+                else:
+                    as_clip(None, "")   # nada de nada -> tarjeta de texto (raro)
+
             if kind == "image":
-                # entidad con nombre -> foto de la entidad (tarjeta premium); si no, clip real; si no, foto real
+                # entidad con nombre -> foto de la entidad (tarjeta premium); si no, cadena visual normal
                 m = get_entity_image(sh.get("query", ""), t, key, i)
                 if m:
                     as_image(m, "FOTO")
                 else:
-                    c = get_clip(q, t, key, i)
-                    p = None if c else stock_photo(q, t, key, i)
-                    as_clip(c, "CLIP") if c else (as_photo(p) if p else as_clip(None, ""))
+                    apply_visual(*resolve_visual(q, t, key, i))
             elif kind == "ai":
-                # metafora/concepto: clip video IA si el plan esta activo; si no, CLIP real; si no, FOTO real
-                v = ai33_video(q, key, i)
-                if v:
-                    as_clip(v, "CLIP-IA")
-                else:
-                    c = get_clip(q, t, key, i)
-                    p = None if c else stock_photo(q, t, key, i)
-                    as_clip(c, "CLIP") if c else (as_photo(p) if p else as_clip(None, ""))
+                apply_visual(*resolve_visual(q, t, key, i))
             elif kind == "broll":
-                c = get_clip(sh.get("query", ""), t, key, i)               # 1) clip real REVISADO por vision
-                if c:
-                    as_clip(c, "CLIP")
-                else:
-                    v = ai33_video(q, key, i)                               # 2) clip video IA (si activo)
-                    if v:
-                        as_clip(v, "CLIP-IA")
-                    else:
-                        p = stock_photo(q, t, key, i)                       # 3) foto REAL revisada (nunca IA)
-                        as_photo(p) if p else as_clip(None, "")             # 4) nada -> tarjeta de texto
+                apply_visual(*resolve_visual(sh.get("query", "") or t, t, key, i))
             elif kind == "map":
                 # mapa con ruta animada (motion graphics, sin media): pasa coords
                 item["source"] = "MAPA"
@@ -475,7 +508,7 @@ def main():
                         if k in sh:
                             item[k] = sh[k]
                 else:
-                    as_clip(get_clip(q, t, key, i), "CLIP")   # sin foto -> clip normal del sujeto
+                    apply_visual(*resolve_visual(q, t, key, i))   # sin foto -> cadena visual (clip/relleno)
             else:
                 item["source"] = "GRAFICO"
                 for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
