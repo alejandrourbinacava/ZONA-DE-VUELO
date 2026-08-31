@@ -90,11 +90,14 @@ def vision_match(narration, image_urls):
     content = [{"type": "text", "text":
         "Eres el revisor de un canal de AVIACION. La narracion en este momento dice:\n"
         f"\"{narration}\"\n\n"
-        f"Abajo van {len(image_urls)} miniaturas de clips candidatos, numeradas. Elige el NUMERO del clip "
-        "que MEJOR ilustra de forma LITERAL lo que dice la narracion. Debe encajar con la frase Y con aviacion. "
-        "RECHAZA (no elijas) clips de: personas aleatorias, ninos, casas, coches, objetos domesticos, o "
-        "cualquier cosa sin relacion con la frase o con la aviacion (p.ej. si se habla de la PUERTA DE UN AVION, "
-        "una puerta de casa NO vale). Si NINGUNA miniatura encaja bien, responde 0.\n"
+        f"Abajo van {len(image_urls)} miniaturas candidatas, numeradas. Elige el NUMERO de la que muestra "
+        "DE FORMA CLARA Y LITERAL el SUJETO CONCRETO de esa frase. Se MUY ESTRICTO:\n"
+        "- NO basta con que 'salga un avion' de fondo: la imagen debe mostrar EXACTAMENTE lo que dice la frase.\n"
+        "- Si la frase habla de la PUERTA de un avion, la imagen debe mostrar una PUERTA de avion (no un avion "
+        "lejano, no una persona mirando, no un campo, no un coche, no una puerta de casa).\n"
+        "- RECHAZA personas aleatorias, gente de espaldas, ninos, campos, casas, coches, objetos domesticos, "
+        "paisajes genericos o cualquier cosa que no sea el sujeto exacto de la frase.\n"
+        "Si NINGUNA muestra claramente el sujeto de la frase, responde 0 (mejor 0 que una que no encaje).\n"
         f"Responde SOLO con un numero del 0 al {len(image_urls)}."}]
     for idx, u in enumerate(image_urls):
         if "pexels.com" in u:            # miniatura pequeña -> revision ~4x mas barata
