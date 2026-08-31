@@ -90,14 +90,13 @@ def vision_match(narration, image_urls):
     content = [{"type": "text", "text":
         "Eres el revisor de un canal de AVIACION. La narracion en este momento dice:\n"
         f"\"{narration}\"\n\n"
-        f"Abajo van {len(image_urls)} miniaturas candidatas, numeradas. Elige el NUMERO de la que muestra "
-        "DE FORMA CLARA Y LITERAL el SUJETO CONCRETO de esa frase. Se MUY ESTRICTO:\n"
-        "- NO basta con que 'salga un avion' de fondo: la imagen debe mostrar EXACTAMENTE lo que dice la frase.\n"
-        "- Si la frase habla de la PUERTA de un avion, la imagen debe mostrar una PUERTA de avion (no un avion "
-        "lejano, no una persona mirando, no un campo, no un coche, no una puerta de casa).\n"
-        "- RECHAZA personas aleatorias, gente de espaldas, ninos, campos, casas, coches, objetos domesticos, "
-        "paisajes genericos o cualquier cosa que no sea el sujeto exacto de la frase.\n"
-        "Si NINGUNA muestra claramente el sujeto de la frase, responde 0 (mejor 0 que una que no encaje).\n"
+        f"Abajo van {len(image_urls)} miniaturas candidatas, numeradas. Elige el NUMERO de la que MEJOR "
+        "ilustra lo que dice la frase en un canal de AVIACION. Criterio equilibrado:\n"
+        "- Prefiere la que muestre el sujeto de la frase; si no la hay, vale una escena de aviacion CLARAMENTE "
+        "relacionada con la frase (avion, cabina, motor, aeropuerto, cielo...).\n"
+        "- RECHAZA (nunca elijas) lo que NO sea de aviacion o no pegue: coches/carreteras, casas, puertas de "
+        "casa, personas aleatorias o de espaldas, ninos, campos, objetos domesticos, cosas sin relacion.\n"
+        "- Si TODAS son de fuera de tema o no pegan nada, responde 0.\n"
         f"Responde SOLO con un numero del 0 al {len(image_urls)}."}]
     for idx, u in enumerate(image_urls):
         if "pexels.com" in u:            # miniatura pequeña -> revision ~4x mas barata
@@ -176,14 +175,15 @@ def vision_locate(local_rel, labels, narration):
 
 
 def pexels_candidates(query, n=5):
-    """Devuelve hasta n candidatos de Pexels (sin usar, no fuera de tema) con su miniatura."""
+    """Candidatos de Pexels con miniatura. Dedup BLANDO: prefiere clips no usados, pero si no quedan,
+    permite reutilizar (mejor repetir un clip que dejar un hueco). Blocklist sigue siendo dura."""
     url = (f"https://api.pexels.com/videos/search?query={query.replace(' ', '%20')}"
            f"&per_page=30&orientation=landscape&size=medium")
     data = curl_json(url, [f"Authorization: {PEXELS}"])
-    out = []
+    fresh, used = [], []
     for vid in data.get("videos", []):
         vid_id = f"px{vid.get('id')}"
-        if vid_id in USED or off_topic(vid.get("url")):
+        if off_topic(vid.get("url")):
             continue
         best = None
         for f in vid.get("video_files", []):
@@ -195,11 +195,10 @@ def pexels_candidates(query, n=5):
             if not best or h > best[0]:
                 best = (h, f["link"])
         if best:
-            out.append({"id": vid_id, "link": best[1], "duration": vid.get("duration", 0),
-                        "credit": vid.get("user", {}).get("name", ""), "image": vid.get("image", "")})
-        if len(out) >= n:
-            break
-    return out
+            cand = {"id": vid_id, "link": best[1], "duration": vid.get("duration", 0),
+                    "credit": vid.get("user", {}).get("name", ""), "image": vid.get("image", "")}
+            (used if vid_id in USED else fresh).append(cand)
+    return (fresh + used)[:n]   # nuevos primero; usados como ultimo recurso (nunca vacio)
 
 
 def best_pixabay(query):
