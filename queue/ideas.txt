@@ -1,41 +1,44 @@
-# Cola de ideas de Zona de Vuelo (una por linea).
+# Cola de ideas de Zona de Vuelo (una por linea, EN ORDEN DE PRIORIDAD).
+# Reordenada 4-sep-2026 segun outliers del nicho (Aero Curiosidades + nicho ES en vidiq).
 # El sistema coge la siguiente idea sin usar cada vez que publica.
 # El puntero (queue/state.json) SOLO avanza cuando el video se produce con exito.
 # Las lineas que empiezan por # son comentarios y se ignoran.
 
-# --- Geografia y rutas ---
-¿Por qué los aviones sobrevuelan el Polo Norte y no el Sur?
-¿Por qué hay aeropuertos donde aterrizar es casi imposible?
-¿Por qué los aviones no vuelan en línea recta entre dos ciudades?
-
-# --- Miedos y sensaciones del pasajero ---
-¿Por qué el avión cae de golpe justo antes de aterrizar?
-¿Por qué el ala del avión se dobla tanto y no se rompe?
-¿Qué pasaría si se abriera una puerta a 10.000 metros?
-¿Por qué los aviones tiran combustible antes de aterrizar?
-¿Qué es esa sacudida rara justo después de despegar?
-¿Por qué sientes que el avión frena de golpe al despegar?
-
-# --- El negocio y los secretos de las aerolineas ---
-¿Por qué las aerolíneas sobrevenden los vuelos a propósito?
-¿Por qué tu asiento es cada vez más pequeño?
-¿A dónde van los aviones cuando se jubilan?
-¿Por qué el asiento del medio es el peor y nadie lo quiere?
-¿Por qué los billetes de avión cambian de precio cada hora?
-¿Por qué la primera clase cuesta 10 veces más si llega igual?
-
-# --- Curiosidades tecnicas ---
-¿Por qué los aviones tienen una bolita en la punta del ala?
-¿Por qué el humo de los aviones dibuja líneas en el cielo?
-¿Por qué los aviones no tienen fila 13?
-¿Por qué las luces del avión parpadean en la noche?
-¿Por qué el morro del avión es de un color diferente?
-¿Cuánto pesa realmente un avión lleno de pasajeros?
-
-# --- Historias reales ---
+# ================= TIER S — apuestas seguras (accidentes/supervivencia + fisica contraintuitiva) =================
+# (los reconstruidos de accidentes son la vena de mas VPH del nicho ES)
 El avión que perdió el techo en pleno vuelo y aterrizó — Aloha Airlines 243
 El vuelo que planeó 100 km sin combustible — el Gimli Glider
 El piloto que fue succionado fuera del avión y sobrevivió — British Airways 5390
-El avión que voló invertido sin que los pilotos supieran por qué
 El vuelo fantasma que voló 5 horas con todos inconscientes — Helios 522
+El avión que voló invertido sin que los pilotos supieran por qué
 El error de mantenimiento que hizo caer un avión entero
+¿Por qué el ala del avión se dobla tanto y no se rompe?
+¿Cuánto pesa realmente un avión lleno de pasajeros?
+
+# ================= TIER A — muy buenos (contraintuitivos "por qué NO" + secretos del negocio) =================
+¿Por qué los aviones no vuelan más rápido de 950 km/h?
+¿Por qué los motores van debajo del ala y no encima?
+¿Por qué los aviones no llevan paracaídas para los pasajeros?
+¿Por qué las aerolíneas sobrevenden los vuelos a propósito?
+¿Por qué los billetes de avión cambian de precio cada hora?
+¿Por qué la primera clase cuesta 10 veces más si llega igual?
+¿Por qué tu asiento es cada vez más pequeño?
+¿A dónde van los aviones cuando se jubilan?
+¿Por qué el avión cae de golpe justo antes de aterrizar?
+¿Por qué los aviones tiran combustible antes de aterrizar?
+¿Por qué el humo de los aviones dibuja líneas en el cielo?
+
+# ================= TIER B — funcionan, menor prioridad (curiosidades tecnicas / sensaciones) =================
+¿Por qué el morro del avión es de un color diferente?
+¿Por qué las luces del avión parpadean en la noche?
+¿Por qué los aviones tienen una bolita en la punta del ala?
+¿Por qué el asiento del medio es el peor y nadie lo quiere?
+¿Qué es esa sacudida rara justo después de despegar?
+¿Por qué sientes que el avión frena de golpe al despegar?
+¿Por qué los aviones no tienen fila 13?
+
+# ================= YA HECHOS Y SUBIDOS (no reproducir) =================
+# ¿Por qué los aviones sobrevuelan el Polo Norte y no el Sur?
+# ¿Por qué hay aeropuertos donde aterrizar es casi imposible?
+# ¿Por qué los aviones no vuelan en línea recta entre dos ciudades?
+# ¿Qué pasaría si se abriera una puerta a 10.000 metros?
