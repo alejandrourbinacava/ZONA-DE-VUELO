@@ -112,8 +112,11 @@ def _gemini_vision(prompt, b64_images, max_tokens=250):
                 d = json.loads(out)
             except json.JSONDecodeError:
                 d = None
-            if d and "candidates" in d:
-                return "".join(p.get("text", "") for p in d["candidates"][0]["content"]["parts"])
+            if d and d.get("candidates"):
+                c0 = d["candidates"][0]
+                parts = (c0.get("content") or {}).get("parts") or []
+                txt = "".join(p.get("text", "") for p in parts)
+                return txt if txt.strip() else None   # sin texto (bloqueo/MAX_TOKENS) -> el caller usa el 1o
             code = (d or {}).get("error", {}).get("code")
             if code not in (429, 500, 503) and d is not None:
                 return None                    # error no transitorio (p.ej. key mala) -> no insistir
