@@ -52,14 +52,18 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     hable de una RUTA, un vuelo de X a Y, cruzar un oceano, una distancia entre dos lugares, el trazado de un
     trayecto, "de A a B", circulo maximo, rutas polares, etc. Pon las coordenadas REALES (lat/lon) de las dos
     ciudades/lugares. Es MUCHO mejor que un clip: se dibuja el mapa, el arco y un avion recorriendolo.
-- {"text":"<fragmento>", "kind":"annotate", "query":"<consulta EN INGLES: PRIMER PLANO del sujeto>", "callouts":[{"label":"Turbina"},{"label":"Alabes del fan"}], "label":"<ETIQUETA>"}
-    MOTION GRAPHICS (explicador con flechas). USA ESTO SOLO cuando el fragmento nombra 2+ PARTES FISICAS
-    CONCRETAS de UN MISMO objeto que se verian en un PRIMER PLANO (ej.: el motor y sus alabes/tobera; la puerta
-    y su manija/pestillo; la cabina y sus mandos). La "query" DEBE pedir un PRIMER PLANO claro del objeto donde
-    se vean esas partes (ej.: "aircraft turbofan engine close up", "airplane cabin door handle close up"), NO un
-    avion entero de lejos. Las "callouts" son las 2-4 partes nombradas. Un sistema de vision comprobara que esas
-    partes SE VEN en la imagen y pondra las flechas donde esten; si no se ven, se usara un clip normal. NO uses
-    "annotate" para ideas abstractas ni si no hay partes fisicas visibles: para eso, "broll".
+- {"text":"<fragmento>", "kind":"annotate", "query":"<consulta EN INGLES describiendo el objeto Y sus partes visibles>", "callouts":[{"label":"Turbina"},{"label":"Alabes del fan"}], "label":"<ETIQUETA>"}
+    MOTION GRAPHICS (explicador con flechas sobre una ILUSTRACION 3D LIMPIA). USA ESTO cuando el fragmento
+    nombra 2+ PARTES FISICAS CONCRETAS de UN MISMO objeto (ej.: el motor y sus alabes/tobera; la puerta y su
+    palanca/ventanilla/tobogan; el ala y sus flaps/winglet; la cabina y sus mandos). El sistema GENERA una
+    ilustracion 3D tecnica limpia del objeto (modelo clay blanco sobre fondo neutro, sin texto) y una vision
+    coloca una flecha con texto sobre CADA parte que nombras. Por eso la "query" (EN INGLES) debe describir el
+    objeto EN PRIMER PLANO y ENUMERAR sus partes para que el render las incluya, ej.: "close-up airliner cabin
+    door showing the operating handle lever, viewing window, door seal and emergency slide pack" o "aircraft
+    turbofan engine close up showing fan blades, nacelle inlet and exhaust nozzle". Las "callouts" son esas 2-4
+    partes (en ESPAÑOL, como saldran escritas). Si una parte no se ve en el render, se salta; si no se ve
+    ninguna, se usa un clip normal. Ideal para explicar como funciona algo -> usalo siempre que se describan
+    piezas de un componente. NO lo uses para ideas abstractas sin partes fisicas: para eso, "broll".
 - {"text":"<fragmento>", "kind":"compare", "a":<num>, "b":<num>, "alabel":"<que es A, <=26car>", "blabel":"<que es B, <=26car>", "unit":"<km|kg|km/h|...>", "label":"<titulo opcional>", "color":"cyan|amber|red|green"}
     MOTION GRAPHICS (dos barras que crecen con las cifras subiendo). USA ESTO SIEMPRE que el fragmento COMPARE
     DOS CANTIDADES concretas: distancias, pesos, velocidades, alturas, precios, duraciones, nº de pasajeros,

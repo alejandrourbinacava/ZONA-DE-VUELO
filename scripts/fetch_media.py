@@ -383,12 +383,22 @@ def _ai33_prompt(prompt):
             "dramatic natural lighting, sharp focus, ultra detailed, professional color grading, 16:9")
 
 
-def ai33_image(prompt, prefix, i):
-    """Genera imagen IA con ai33.pro (seedream, 16:9 1080p). Calidad muy superior a Pollinations."""
+def _ai33_diagram_prompt(prompt):
+    # ILUSTRACION 3D TECNICA (no foto): render limpio tipo clay para EXPLICADORES con flechas.
+    return (prompt + ", clean 3D render, untextured matte white and light grey clay model, "
+            "neutral solid grey studio background, soft studio shadow, product visualization, "
+            "isometric technical illustration, no text, no labels, no logos, sharp, centered, 16:9")
+
+
+def ai33_image(prompt, prefix, i, style="real"):
+    """Genera imagen IA con ai33.pro (seedream, 16:9 1080p).
+    style='real' -> foto cinematografica (solo para 'ai' cuando no hay stock).
+    style='diagram' -> ilustracion 3D tecnica limpia (base de los explicadores 'annotate')."""
     if not AI33_KEY:
         return None
+    styled = _ai33_diagram_prompt(prompt) if style == "diagram" else _ai33_prompt(prompt)
     tf = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8")
-    tf.write(_ai33_prompt(prompt)); tf.close()
+    tf.write(styled); tf.close()
     try:
         out = subprocess.run(
             ["curl", "-s", "-X", "POST", f"{AI33_BASE}/v1i/task/generate-image",
@@ -555,9 +565,11 @@ def main():
                     if k in sh:
                         item[k] = sh[k]
             elif kind == "annotate":
-                # explicador: SOLO si la imagen muestra de verdad las partes y la vision las localiza.
+                # explicador: base = ILUSTRACION 3D tecnica limpia (clay, fondo neutro) generada con ai33.
+                # Es MUCHO mejor que una foto de stock para señalar piezas con flechas. Si falla, foto real.
                 labels = [c.get("label", "") for c in (sh.get("callouts") or []) if c.get("label")][:4]
-                p = get_entity_image(sh.get("query", ""), t, key, i) or stock_photo(q, t, key, i)
+                dq = sh.get("query", "") or q
+                p = ai33_image(dq, key, f"ann{i}", style="diagram") or get_entity_image(sh.get("query", ""), t, key, i) or stock_photo(q, t, key, i)
                 coords = vision_locate(p["file"], labels, t) if (p and labels) else None
                 placed = ([{"label": labels[j], "x": coords[j]["x"], "y": coords[j]["y"]}
                            for j in range(len(labels)) if j < len(coords) and coords[j]] if coords else [])
