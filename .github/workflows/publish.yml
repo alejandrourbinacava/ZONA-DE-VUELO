@@ -86,8 +86,9 @@ jobs:
           AI33_API_KEY: ${{ secrets.AI33_API_KEY }}
           AI33_BASE: https://api.ai33.pro
           PEXELS_KEY: ${{ secrets.PEXELS_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PIXABAY_KEY: ${{ secrets.PIXABAY_KEY }}
+          # Gemini (Google) mueve el REVISOR de clips por vision y el respaldo de texto (guion/shotlist/metadata).
+          # Anthropic retirado por coste. Asegurate de que el secret GOOGLE_API_KEY es la MISMA key que funciona en local.
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           VIDEOS_DIR: ./salidas
         run: |

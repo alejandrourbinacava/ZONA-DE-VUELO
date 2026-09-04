@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Orquestador: una idea -> video final en VIDEOS FINALIZADOS.
 Uso: python scripts/produce.py "idea del video" [--norender]
-Encadena: guion (Claude) -> shot-list (Claude) -> voz (GenAIPro) -> stock (Pexels)
-          -> props -> render (Remotion) -> mover + metadatos."""
+Encadena: guion (a mano en sesion / Gemini) -> shot-list (a mano / Gemini) -> voz (ai33) -> medios
+          (Pexels + ilustraciones 3D ai33, revisados por Gemini vision) -> props -> render (Remotion)
+          -> mover + metadatos. Sin Anthropic (retirado por coste)."""
 import os, re, sys, json, shutil, subprocess, unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,7 +48,15 @@ def main():
         run([PY, "scripts/generate_script.py", idea])
 
     print("\n=== 2/6 SHOT-LIST ===")
-    run([PY, "scripts/generate_shotlist.py", guion])
+    # Reuso: si hay un shotlist ESCRITO A MANO y commiteado en shotlists/<slug>.json, se usa (mejor
+    # control de motion-graphics y coste 0). Si no, lo genera Gemini automaticamente.
+    hand = os.path.join(ROOT, "shotlists", s + ".json")
+    if os.path.exists(hand) and os.path.getsize(hand) > 200:
+        print("shotlist a mano -> lo REUSO (no llama a Gemini):", hand)
+        os.makedirs(os.path.join(ROOT, "out"), exist_ok=True)
+        shutil.copy(hand, os.path.join(ROOT, "out", "shotlist.json"))
+    else:
+        run([PY, "scripts/generate_shotlist.py", guion])
 
     print("\n=== 3/6 VOZ (Gabriel) ===")
     voz_dir = os.path.join(ROOT, "out", "voz")

@@ -78,72 +78,101 @@ def save_used():
         pass
 
 
-ANTH_KEY = os.environ.get("ANTHROPIC_API_KEY")
+# ---------- REVISOR IA por VISION: Gemini (Google). Reemplaza a Anthropic (retirado por coste). ----------
+GEMINI_KEY = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-flash-latest")   # 'latest' no se deprecia
 
 
-def vision_match(narration, image_urls):
-    """REVISION IA: mira las miniaturas candidatas y devuelve el NUMERO (1-based) de la que
-    de verdad ilustra la narracion en un canal de AVIACION, o 0 si NINGUNA encaja.
-    Devuelve None si no hay clave/imagenes o si la llamada falla (=> el caller usa la 1a)."""
-    if not ANTH_KEY or not image_urls:
+def _gemini_vision(prompt, b64_images, max_tokens=250):
+    """Llama a Gemini (vision) con texto + imagenes base64. Cuerpo por fichero (-d @) para no reventar el
+    limite de linea de comandos. thinkingBudget=0 (si no, el modelo gasta los tokens 'pensando' y no responde).
+    Devuelve el TEXTO de respuesta, o None si falla."""
+    if not GEMINI_KEY:
         return None
-    content = [{"type": "text", "text":
-        "Eres el revisor de un canal de AVIACION. La narracion en este momento dice:\n"
-        f"\"{narration}\"\n\n"
-        f"Abajo van {len(image_urls)} miniaturas candidatas, numeradas. Elige el NUMERO de la que MEJOR "
-        "ilustra lo que dice la frase en un canal de AVIACION. Criterio equilibrado:\n"
-        "- Prefiere la que muestre el sujeto de la frase; si no la hay, vale una escena de aviacion CLARAMENTE "
-        "relacionada con la frase (avion, cabina, motor, aeropuerto, cielo...).\n"
-        "- RECHAZA (nunca elijas) lo que NO sea de aviacion o no pegue: coches/carreteras, casas, puertas de "
-        "casa, personas aleatorias o de espaldas, ninos, campos, objetos domesticos, cosas sin relacion.\n"
-        "- Si TODAS son de fuera de tema o no pegan nada, responde 0.\n"
-        f"Responde SOLO con un numero del 0 al {len(image_urls)}."}]
-    for idx, u in enumerate(image_urls):
-        if "pexels.com" in u:            # miniatura pequeña -> revision ~4x mas barata
-            u = u.split("?")[0] + "?auto=compress&w=420&h=236&fit=crop"
-        content.append({"type": "text", "text": f"Clip {idx + 1}:"})
-        content.append({"type": "image", "source": {"type": "url", "url": u}})
-    body = {"model": "claude-haiku-4-5", "max_tokens": 8,
-            "messages": [{"role": "user", "content": content}]}
+    parts = [{"text": prompt}]
+    for b in b64_images:
+        parts.append({"inline_data": {"mime_type": "image/jpeg", "data": b}})
+    body = {"contents": [{"parts": parts}],
+            "generationConfig": {"temperature": 0, "maxOutputTokens": max_tokens,
+                                 "thinkingConfig": {"thinkingBudget": 0}}}
+    tf = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
+    json.dump(body, tf); tf.close()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_KEY}"
     try:
-        out = _anthropic_curl(body)
-        d = json.loads(out)
-        txt = "".join(b.get("text", "") for b in d.get("content", []) if b.get("type") == "text")
-        digits = "".join(ch for ch in txt if ch.isdigit())
-        return int(digits) if digits else None
+        for intento in range(4):   # 503 por alta demanda -> reintento breve
+            out = subprocess.run(["curl", "-s", url, "-H", "content-type: application/json", "-d", "@" + tf.name],
+                                 capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
+            try:
+                d = json.loads(out)
+            except json.JSONDecodeError:
+                d = None
+            if d and "candidates" in d:
+                return "".join(p.get("text", "") for p in d["candidates"][0]["content"]["parts"])
+            code = (d or {}).get("error", {}).get("code")
+            if code not in (429, 500, 503) and d is not None:
+                return None                    # error no transitorio (p.ej. key mala) -> no insistir
+            time.sleep(4 * (intento + 1))
+        return None
+    finally:
+        try: os.remove(tf.name)
+        except OSError: pass
+
+
+def _img_to_b64(src, is_url, max_px=440):
+    """Abre (path relativo a public/) o descarga (url) una imagen, la reduce y la devuelve en base64 JPEG."""
+    try:
+        from PIL import Image
+        if is_url:
+            raw = subprocess.run(["curl", "-s", "-L", src], capture_output=True, timeout=60).stdout
+            im = Image.open(io.BytesIO(raw)).convert("RGB")
+        else:
+            im = Image.open(os.path.join(ROOT, "public", src)).convert("RGB")
+        im.thumbnail((max_px, max_px))
+        buf = io.BytesIO(); im.save(buf, "JPEG", quality=82)
+        return base64.b64encode(buf.getvalue()).decode()
     except Exception:
         return None
 
 
-def _anthropic_curl(body):
-    """POST a Anthropic pasando el cuerpo por FICHERO (-d @) para no reventar el limite de linea de
-    comandos (imagenes base64 son enormes). Devuelve el stdout crudo."""
-    tf = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
-    json.dump(body, tf); tf.close()
-    try:
-        return subprocess.run(["curl", "-s", "https://api.anthropic.com/v1/messages",
-                               "-H", f"x-api-key: {ANTH_KEY}", "-H", "anthropic-version: 2023-06-01",
-                               "-H", "content-type: application/json", "-d", "@" + tf.name],
-                              capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
-    finally:
-        try: os.remove(tf.name)
-        except OSError: pass
+def vision_match(narration, image_urls):
+    """REVISION IA (Gemini): mira las miniaturas candidatas y devuelve el NUMERO (1-based) de la que
+    de verdad ilustra la narracion en un canal de AVIACION, o 0 si NINGUNA encaja.
+    Devuelve None si no hay clave/imagenes o si la llamada falla (=> el caller usa la 1a)."""
+    if not GEMINI_KEY or not image_urls:
+        return None
+    b64s = []
+    for u in image_urls:
+        if "pexels.com" in u:            # miniatura pequeña -> revision mas barata/rapida
+            u = u.split("?")[0] + "?auto=compress&w=420&h=236&fit=crop"
+        b = _img_to_b64(u, True)
+        if not b:
+            return None                  # si falla una descarga, no arriesgamos una eleccion sesgada
+        b64s.append(b)
+    prompt = ("Eres el revisor de un canal de AVIACION. La narracion en este momento dice:\n"
+              f"\"{narration}\"\n\n"
+              f"Te paso {len(b64s)} miniaturas candidatas EN ORDEN (la 1a imagen es el Clip 1, la 2a el Clip 2...). "
+              "Elige el NUMERO de la que MEJOR ilustra lo que dice la frase en un canal de AVIACION. Criterio:\n"
+              "- Prefiere la que muestre el sujeto de la frase; si no la hay, vale una escena de aviacion CLARAMENTE "
+              "relacionada con la frase (avion, cabina, motor, aeropuerto, cielo...).\n"
+              "- RECHAZA (nunca elijas) lo que NO sea de aviacion o no pegue: coches/carreteras, casas, puertas de "
+              "casa, personas aleatorias o de espaldas, ninos, campos, objetos domesticos, cosas sin relacion.\n"
+              "- Si TODAS son de fuera de tema o no pegan nada, responde 0.\n"
+              f"Responde SOLO con un numero del 0 al {len(b64s)}.")
+    txt = _gemini_vision(prompt, b64s, max_tokens=60)
+    if not txt:
+        return None
+    digits = "".join(ch for ch in txt if ch.isdigit())
+    return int(digits) if digits else None
 
 
 def vision_locate(local_rel, labels, narration):
     """Mira la imagen YA descargada y devuelve, por cada etiqueta, DONDE esta esa parte (x,y en 0..1)
     o None si NO es visible. Sirve para colocar las flechas con logica. Devuelve lista alineada con
     `labels` (cada elem {x,y} o None), o None si la imagen no vale / falla."""
-    if not ANTH_KEY or not labels:
+    if not GEMINI_KEY or not labels:
         return None
-    path = os.path.join(ROOT, "public", local_rel)
-    try:
-        from PIL import Image
-        im = Image.open(path).convert("RGB")
-        im.thumbnail((720, 720))
-        buf = io.BytesIO(); im.save(buf, "JPEG", quality=82)
-        b64 = base64.b64encode(buf.getvalue()).decode()
-    except Exception:
+    b64 = _img_to_b64(local_rel, False, max_px=720)
+    if not b64:
         return None
     labs = "\n".join(f"{j + 1}) {l}" for j, l in enumerate(labels))
     prompt = ("Canal de aviacion. Esta imagen se usara para SEÑALAR partes con flechas mientras se narra:\n"
@@ -154,14 +183,10 @@ def vision_locate(local_rel, labels, narration):
               f"Elementos:\n{labs}\n\n"
               f"Responde SOLO un JSON: lista de {len(labels)} valores en orden, cada uno {{\"x\":num,\"y\":num}} "
               "o null.")
-    body = {"model": "claude-haiku-4-5", "max_tokens": 300,
-            "messages": [{"role": "user", "content": [
-                {"type": "text", "text": prompt},
-                {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}}]}]}
+    txt = _gemini_vision(prompt, [b64], max_tokens=400)
+    if not txt:
+        return None
     try:
-        out = _anthropic_curl(body)
-        d = json.loads(out)
-        txt = "".join(b.get("text", "") for b in d.get("content", []) if b.get("type") == "text")
         arr = json.loads(re.search(r"\[.*\]", txt, re.S).group(0))
         res = []
         for v in arr[:len(labels)]:
@@ -384,10 +409,12 @@ def _ai33_prompt(prompt):
 
 
 def _ai33_diagram_prompt(prompt):
-    # ILUSTRACION 3D TECNICA (no foto): render limpio tipo clay para EXPLICADORES con flechas.
-    return (prompt + ", clean 3D render, untextured matte white and light grey clay model, "
-            "neutral solid grey studio background, soft studio shadow, product visualization, "
-            "isometric technical illustration, no text, no labels, no logos, sharp, centered, 16:9")
+    # ILUSTRACION 3D realista EN CONTEXTO (dentro del avion), pero limpia para poner flechas encima.
+    return (prompt + ", seen from inside a real modern airliner cabin, mounted in the curved fuselage wall "
+            "with surrounding cabin interior panels and floor, realistic aircraft proportions and materials, "
+            "detailed 3D render, architectural visualization quality, soft cinematic interior lighting, "
+            "the subject large and centered and clearly readable, no text, no labels, no logos, no people, "
+            "sharp focus, 16:9")
 
 
 def ai33_image(prompt, prefix, i, style="real"):
