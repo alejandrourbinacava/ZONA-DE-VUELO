@@ -444,8 +444,8 @@ def ai33_image(prompt, prefix, i, style="real"):
         tid = None
     if not tid:
         print("   (ai33 sin task_id:", (out or "")[:100], ")"); return None
-    for _ in range(60):   # hasta ~3 min
-        time.sleep(3)
+    for _ in range(90):   # hasta ~6 min (seedream a veces va lento)
+        time.sleep(4)
         t = curl_json(f"{AI33_BASE}/v1/task/{tid}", [f"xi-api-key: {AI33_KEY}"])
         st = t.get("status")
         if st == "done":
