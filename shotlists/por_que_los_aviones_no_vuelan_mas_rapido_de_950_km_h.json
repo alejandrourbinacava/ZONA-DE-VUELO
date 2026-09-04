@@ -1,0 +1,132 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {"text": "Un caza militar puede volar a más de dos mil kilómetros por hora.", "kind": "broll", "query": "fighter jet flying fast afterburner sky", "key": "+2.000 km/h"},
+    {"text": "El Concorde cruzaba el Atlántico a esa velocidad hace ya medio siglo.", "kind": "broll", "query": "Concorde supersonic airliner in flight", "key": "Concorde"},
+    {"text": "Y sin embargo, el avión en el que volarás estas vacaciones no pasará de unos novecientos kilómetros por hora.", "kind": "compare", "a": 2180, "b": 900, "alabel": "Concorde", "blabel": "Tu avión de hoy", "unit": "km/h", "label": "Velocidad de crucero", "color": "cyan"},
+    {"text": "Fíjate bien en ese número, porque apenas ha cambiado en sesenta años.", "kind": "broll", "query": "commercial airliner cruising above clouds"},
+    {"text": "Los aviones de pasajeros de hoy vuelan casi a la misma velocidad que los primeros reactores de los años sesenta.", "kind": "broll", "query": "1960s vintage passenger jet airliner archival", "key": "60 años igual"},
+    {"text": "En un mundo donde todo va cada vez más rápido, la aviación comercial se ha quedado clavada en esa cifra.", "kind": "broll", "query": "modern airliner flying slow motion sky"},
+    {"text": "Y no es porque no sepamos ir más deprisa. Sabemos. Lo hicimos.", "kind": "broll", "query": "Concorde taking off afterburner"},
+    {"text": "Es que alguien, en algún momento, hizo cuentas y decidió que ir más rápido era una pésima idea.", "kind": "broll", "query": "airline financial calculations spreadsheet numbers"},
+    {"text": "Aquí está lo raro: existe una barrera invisible en el cielo, justo por encima de esa velocidad, que castiga con dureza a cualquier avión que se atreva a cruzarla.", "kind": "broll", "query": "jet breaking sound barrier vapor cone", "key": "Barrera invisible"},
+    {"text": "No la ves, no aparece en ningún mapa, pero está ahí, y marca el límite de todo vuelo comercial del planeta.", "kind": "broll", "query": "airplane wing high altitude sky"},
+    {"text": "Hoy vamos a ver por qué existe esa barrera, por qué el avión más rápido de la historia acabó en un museo, y por qué puede que dentro de poco todo esto cambie.", "kind": "broll", "query": "Concorde museum exhibit"},
+    {"text": "Quédate, porque el motivo real no es el que casi todo el mundo cree.", "kind": "fact", "kicker": "ZONA DE VUELO", "body": "El límite no es la tecnología", "accent": "cyan"}
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {"text": "Empecemos por el principio, porque aquí está la clave de todo.", "kind": "broll", "query": "airliner nose close up on runway"},
+    {"text": "Cuando un avión avanza, empuja el aire que tiene delante.", "kind": "broll", "query": "airplane flying through clouds front view"},
+    {"text": "A velocidades normales, ese aire simplemente se aparta y se desliza por encima de las alas sin demasiado drama.", "kind": "broll", "query": "airflow over airplane wing wind tunnel"},
+    {"text": "Pero el aire tiene una manía: no le gusta que lo compriman de golpe.", "kind": "broll", "query": "condensation vapor over wing humid air"},
+    {"text": "Y existe una velocidad a la que empujar el aire deja de ser suave y se convierte en un muro. Esa velocidad es la del sonido.", "kind": "broll", "query": "jet sonic boom vapor cone transonic", "key": "Velocidad del sonido"},
+    {"text": "A la altura a la que vuelan los aviones de línea, con un frío de unos cincuenta y cinco grados bajo cero ahí fuera, el sonido viaja a unos mil sesenta kilómetros por hora.", "kind": "stat", "value": 1060, "suffix": " km/h", "label": "Velocidad del sonido en crucero", "color": "cyan"},
+    {"text": "Y aquí viene el detalle que casi nadie conoce: un avión no necesita alcanzar esa velocidad para meterse en problemas. Le basta con acercarse.", "kind": "broll", "query": "airplane wing airflow diagram animation"},
+    {"text": "Verás, el aire que pasa por encima del ala va más rápido que el propio avión. Es así como el ala genera sustentación.", "kind": "annotate", "query": "close-up airplane wing airfoil cross section showing airflow speeding over the top surface and the shockwave forming above it", "callouts": [{"label": "Ala"}, {"label": "Aire más rápido"}, {"label": "Onda de choque"}], "label": "SOBRE EL ALA"},
+    {"text": "Así que, aunque el avión vaya a novecientos, el aire sobre el ala puede estar rozando ya la velocidad del sonido.", "kind": "broll", "query": "airplane wing upper surface in flight"},
+    {"text": "Y en ese punto aparece algo llamado onda de choque: una especie de pared de aire comprimido que se forma sobre el ala y que dispara la resistencia de golpe.", "kind": "broll", "query": "shockwave schlieren transonic airflow", "key": "Onda de choque"},
+    {"text": "El avión empieza a vibrar, a volverse difícil de controlar y a tragar combustible como si no hubiera un mañana.", "kind": "broll", "query": "airplane turbulence shaking cockpit view"},
+    {"text": "Los ingenieros le pusieron nombre a ese punto peligroso: número de Mach crítico.", "kind": "fact", "kicker": "EL LÍMITE", "body": "Número de Mach crítico", "accent": "amber"},
+    {"text": "Y el truco de toda la aviación comercial consiste en volar rápido, sí, pero siempre un pasito por debajo de esa barrera. Ni un kilómetro por hora de más.", "kind": "broll", "query": "airliner cruising steady high altitude"},
+    {"text": "Pero quedarse por debajo de esa barrera tiene un precio. Y ese precio se paga en algo que a las aerolíneas les quita el sueño.", "kind": "broll", "query": "airport jet fuel truck refueling airplane", "key": "Tiene un precio"}
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {"text": "Ese precio es el combustible.", "kind": "broll", "query": "jet fuel being pumped into airplane wing", "key": "Combustible"},
+    {"text": "Y para entender por qué, quédate con una idea sencilla pero brutal: la resistencia del aire no crece de forma proporcional a la velocidad, crece mucho más rápido.", "kind": "broll", "query": "air resistance drag airplane fast motion"},
+    {"text": "Si duplicas la velocidad, la resistencia no se duplica: se multiplica por cuatro.", "kind": "compare", "a": 2, "b": 4, "alabel": "Doble de velocidad", "blabel": "Cuádruple resistencia", "unit": "x", "label": "El aire no perdona", "color": "red"},
+    {"text": "Piensa en cuando sacas la mano por la ventanilla del coche. A cincuenta por hora, notas una brisa.", "kind": "broll", "query": "hand out car window breeze slow"},
+    {"text": "A cien, el aire te empuja el brazo hacia atrás con una fuerza que cuesta aguantar. No es el doble de fuerte: es mucho más.", "kind": "broll", "query": "hand out car window fast wind force"},
+    {"text": "Con un avión pasa lo mismo, pero elevado a lo bestia.", "kind": "broll", "query": "airliner flying fast against strong wind"},
+    {"text": "Para ir solo un poco más rápido, el motor tiene que trabajar muchísimo más, y eso significa quemar muchísimo más queroseno.", "kind": "broll", "query": "jet engine turbine spinning power close up", "key": "Más queroseno"},
+    {"text": "Y aquí es donde entra la calculadora fría de las aerolíneas.", "kind": "broll", "query": "airline office analytics charts screens"},
+    {"text": "El combustible es uno de sus mayores gastos, a veces casi un tercio de todo lo que cuesta un vuelo.", "kind": "stat", "value": 33, "suffix": "%", "label": "del coste del vuelo es combustible", "color": "amber"},
+    {"text": "Así que se hicieron la pregunta del millón: ¿cuánto tiempo ganamos volando más rápido, y cuánto dinero nos cuesta?", "kind": "broll", "query": "clock and money balance concept aviation"},
+    {"text": "La respuesta fue demoledora. Volar un veinte por ciento más rápido en un vuelo largo te ahorra quizá media hora, pero puede disparar el gasto de combustible de una forma que se come cualquier beneficio.", "kind": "broll", "query": "fuel gauge burning fast airplane"},
+    {"text": "Media hora no vale ese dineral.", "kind": "fact", "kicker": "LA CUENTA", "body": "Media hora no compensa", "accent": "red"},
+    {"text": "Existe un punto exacto donde el equilibrio entre velocidad y consumo es perfecto, el punto donde cada gota de queroseno rinde al máximo.", "kind": "broll", "query": "airliner efficient cruise clear sky"},
+    {"text": "Y ese punto está, casualmente, justo en esos ochocientos o novecientos kilómetros por hora. Ni más, ni menos.", "kind": "broll", "query": "airplane cockpit speed display instruments", "key": "≈ 900 km/h"},
+    {"text": "Así que la velocidad de tu avión no la decidió un piloto ni un ingeniero soñador. La decidió una hoja de cálculo.", "kind": "broll", "query": "spreadsheet numbers finance airline"},
+    {"text": "Pero seguro que estás pensando lo mismo que pensó mucha gente hace cincuenta años: vale, cuesta más, ¿y qué? Que alguien pague por ir más rápido.", "kind": "broll", "query": "luxury first class airplane cabin"},
+    {"text": "Y ¿sabes qué? Alguien lo intentó. Y le salió carísimo.", "kind": "broll", "query": "Concorde on runway vintage", "key": "Alguien lo intentó"}
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {"text": "Su nombre era Concorde, y sigue siendo la prueba de que sí se puede volar el doble de rápido.", "kind": "broll", "query": "Concorde supersonic jet flying", "key": "Concorde"},
+    {"text": "Este avión, fruto de un acuerdo entre Francia y Reino Unido, voló por primera vez en 1969 y empezó a llevar pasajeros en 1976.", "kind": "timeline", "label": "El Concorde", "events": [{"year": 1969, "text": "Primer vuelo"}, {"year": 1976, "text": "Primeros pasajeros"}, {"year": 2003, "text": "Retirado"}]},
+    {"text": "No rozaba la barrera del sonido: la atravesaba sin despeinarse.", "kind": "broll", "query": "Concorde afterburner supersonic climb"},
+    {"text": "Volaba a más del doble de la velocidad del sonido, por encima de los dos mil kilómetros por hora.", "kind": "stat", "value": 2180, "suffix": " km/h", "label": "Velocidad del Concorde (Mach 2)", "color": "amber"},
+    {"text": "Cruzaba el Atlántico, de Londres a Nueva York, en unas tres horas y media, cuando un avión normal necesitaba siete u ocho.", "kind": "map", "from": {"name": "Londres", "lat": 51.47, "lon": -0.45}, "to": {"name": "Nueva York", "lat": 40.64, "lon": -73.78}, "label": "La ruta estrella del Concorde"},
+    {"text": "Despegabas en Europa y llegabas a América casi a la misma hora local a la que habías salido.", "kind": "compare", "a": 3.5, "b": 7.5, "alabel": "Concorde", "blabel": "Avión normal", "unit": "h", "label": "Cruzar el Atlántico", "color": "cyan"},
+    {"text": "Era, literalmente, viajar más rápido que la rotación aparente del sol.", "kind": "broll", "query": "sunrise from airplane window above clouds"},
+    {"text": "Sonaba a futuro. Y sin embargo, hoy no queda ni uno volando. ¿Por qué?", "kind": "broll", "query": "Concorde parked retired museum"},
+    {"text": "Porque el Concorde era una máquina espectacular y un negocio ruinoso.", "kind": "broll", "query": "Concorde cockpit and cabin interior"},
+    {"text": "Aquellos motores que lo empujaban más allá del sonido bebían queroseno a un ritmo escandaloso.", "kind": "broll", "query": "Concorde jet engine afterburner flames", "key": "Sed de queroseno"},
+    {"text": "Para que las cuentas cuadraran mínimamente, un billete costaba una fortuna, al alcance de muy pocos.", "kind": "broll", "query": "expensive first class luxury airplane ticket"},
+    {"text": "Y todo lo que hacía especial al Concorde, esa velocidad brutal, era también lo que lo condenaba: cuanto más rápido ibas, más caro salía cada asiento.", "kind": "broll", "query": "Concorde flying over ocean"},
+    {"text": "Volaba lleno de millonarios y aun así perdía dinero.", "kind": "fact", "kicker": "LA PARADOJA", "body": "Lleno de ricos y en pérdidas", "accent": "red"},
+    {"text": "Pero el problema no era solo el bolsillo. Ir tan rápido tenía consecuencias físicas que casi nadie se imagina. Y una de ellas deformaba el avión en pleno vuelo.", "kind": "broll", "query": "Concorde nose heat friction flight", "key": "Deformaba el avión"}
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {"text": "Cuando un avión se mueve a esa velocidad, el aire no solo lo frena: lo calienta.", "kind": "broll", "query": "heat friction air on aircraft nose", "key": "El aire calienta"},
+    {"text": "El rozamiento contra el aire hacía que el morro y el fuselaje del Concorde se pusieran ardiendo, y el metal, al calentarse, se dilata.", "kind": "broll", "query": "Concorde nose cone close up"},
+    {"text": "El avión entero se estiraba varios centímetros mientras volaba.", "kind": "stat", "value": 20, "suffix": " cm", "label": "Lo que se estiraba el Concorde en vuelo", "color": "amber"},
+    {"text": "Tanto, que en la cabina quedaba un pequeño hueco que solo aparecía en pleno vuelo supersónico.", "kind": "broll", "query": "Concorde cockpit flight engineer panel"},
+    {"text": "Piénsalo: el avión, literalmente, crecía por el calor y luego volvía a encogerse al aterrizar.", "kind": "broll", "query": "Concorde landing touchdown runway"},
+    {"text": "Eso obliga a usar materiales especiales, diseños más caros y un mantenimiento carísimo.", "kind": "broll", "query": "aircraft maintenance engineers hangar"},
+    {"text": "Y aún queda el problema más molesto de todos: el estampido sónico.", "kind": "broll", "query": "sonic boom shockwave jet", "key": "Estampido sónico"},
+    {"text": "Cuando un avión supera la velocidad del sonido, arrastra tras de sí una onda de presión que llega al suelo como una explosión, un estruendo capaz de hacer temblar ventanas kilómetros a la redonda.", "kind": "broll", "query": "shockwave sonic boom vapor cone fighter jet"},
+    {"text": "A la gente no le hizo ninguna gracia tener aviones reventándoles los cristales, así que muchos países hicieron lo más lógico: prohibieron volar más rápido que el sonido sobre tierra firme.", "kind": "broll", "query": "city rooftops houses aerial neighborhood", "key": "Prohibido sobre tierra"},
+    {"text": "Y eso mató el negocio. Porque si solo puedes ir supersónico sobre el mar, de repente casi todas las rutas terrestres del mundo se quedan fuera.", "kind": "broll", "query": "airplane flying over ocean horizon"},
+    {"text": "El Concorde quedó atrapado en un puñado de rutas sobre el océano. Demasiado caro, demasiado ruidoso, demasiado limitado.", "kind": "broll", "query": "Concorde over atlantic ocean clouds"},
+    {"text": "En 2003, tras casi treinta años volando, se retiró para siempre.", "kind": "stat", "value": 2003, "label": "El Concorde se retira para siempre", "color": "red"},
+    {"text": "Y con él pareció morir el sueño de volar rápido.", "kind": "broll", "query": "Concorde final flight sunset", "key": "Fin de una era"},
+    {"text": "Pero cuidado, porque aquí es donde la historia da un último giro que muy poca gente conoce.", "kind": "broll", "query": "experimental supersonic aircraft concept future"}
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {"text": "Recapitulemos un segundo, porque ahora todo encaja.", "kind": "broll", "query": "airliner cruising calm blue sky"},
+    {"text": "Los aviones no vuelan a novecientos por casualidad.", "kind": "broll", "query": "airliner cockpit speed instruments cruise", "key": "≈ 900 km/h"},
+    {"text": "Vuelan ahí porque es el punto dulce: lo bastante rápido para cruzar el mundo en unas horas, pero lo bastante lento para quedarse por debajo de esa barrera invisible del sonido y no arruinar a la aerolínea en combustible.", "kind": "broll", "query": "airliner above clouds golden hour"},
+    {"text": "Es el equilibrio perfecto entre tu prisa y su bolsillo.", "kind": "fact", "kicker": "EL PUNTO DULCE", "body": "Tu prisa vs su bolsillo", "accent": "cyan"},
+    {"text": "Ir más despacio aburriría al pasajero y tampoco ahorraría tanto. Ir más rápido dispararía el gasto sin apenas ganar tiempo.", "kind": "broll", "query": "passengers waiting airport departure lounge"},
+    {"text": "Novecientos es el número mágico donde todo cuadra. Por eso llevamos sesenta años clavados ahí.", "kind": "broll", "query": "modern airliner flying steady contrail"},
+    {"text": "Pero, y este es el detalle fascinante, la barrera nunca fue técnica. Nunca fue que no supiéramos ir más rápido.", "kind": "broll", "query": "Concorde supersonic proof of concept flight"},
+    {"text": "El Concorde lo demostró hace medio siglo. La barrera siempre fue económica: el problema era el dinero y el ruido, no la física.", "kind": "fact", "kicker": "LA CLAVE", "body": "La barrera es económica, no física", "accent": "amber"},
+    {"text": "Y eso significa algo importante: si alguien resuelve esos dos problemas, el consumo brutal y el estampido sónico, la barrera podría caer.", "kind": "broll", "query": "next generation supersonic jet concept render"},
+    {"text": "Y hay quien está justo en ello.", "kind": "broll", "query": "aerospace engineers designing aircraft"},
+    {"text": "La NASA está probando un avión experimental, el X-59, diseñado para que su estampido sónico no sea una explosión, sino un golpe seco y suave, casi un portazo lejano.", "kind": "broll", "query": "NASA X-59 quiet supersonic experimental aircraft", "key": "NASA X-59"},
+    {"text": "Y alguna empresa ya trabaja en un nuevo avión supersónico de pasajeros que quiere ser rentable donde el Concorde fracasó.", "kind": "broll", "query": "new supersonic passenger jet concept flying"},
+    {"text": "Puede que no funcione. Pero por primera vez en décadas, alguien vuelve a mirar esa barrera invisible y se pregunta si de verdad tiene que seguir ahí.", "kind": "broll", "query": "supersonic jet breaking clouds future sky", "key": "¿Y si cae?"}
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {"text": "Así que ya lo sabes. Tu avión no va a novecientos por hora porque no pueda ir más rápido, sino porque justo por encima acecha una barrera invisible de aire que dispara la resistencia y el consumo.", "kind": "broll", "query": "airliner cruising above clouds wide shot"},
+    {"text": "Porque el combustible que cuesta romperla no compensa los minutos que ganas.", "kind": "broll", "query": "jet fuel gauge burning fast"},
+    {"text": "Porque el Concorde ya demostró que se puede, pero también que arruina, ensordece y se retira a un museo.", "kind": "broll", "query": "Concorde museum retired display"},
+    {"text": "Y porque, al final, esos novecientos son el punto exacto donde tu prisa y las cuentas de la aerolínea hacen las paces.", "kind": "broll", "query": "airliner peaceful cruise sunset sky", "key": "El punto dulce"},
+    {"text": "Vuelve a pensar en ese número la próxima vez que mires la pantallita del asiento y veas la velocidad de tu vuelo.", "kind": "broll", "query": "in-flight seatback screen flight map speed"},
+    {"text": "No es un límite de la tecnología: es una decisión, tomada a propósito, repetida millones de veces cada día en cada cielo del planeta.", "kind": "broll", "query": "many airplanes air traffic map routes"},
+    {"text": "Y puede, solo puede, que tus hijos vuelen mucho más rápido que tú.", "kind": "broll", "query": "child looking out airplane window wonder"},
+    {"text": "Si te ha volado la cabeza tanto como a mí, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos otra cosa que creías saber sobre los aviones.", "kind": "broll", "query": "airplane flying into sunset cinematic"},
+    {"text": "Y dime una cosa en los comentarios: si un vuelo supersónico existiera hoy y costara el triple, pero te ahorrara la mitad del tiempo, ¿lo cogerías? Te leo. Nos vemos en el siguiente.", "kind": "outro"}
+   ]
+  }
+ ]
+}
