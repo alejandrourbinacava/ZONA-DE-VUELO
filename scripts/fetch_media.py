@@ -569,9 +569,13 @@ def main():
                     apply_visual(*resolve_visual(q, t, key, i))   # no se ven las partes -> clip normal
             else:
                 item["source"] = "GRAFICO"
-                for k in ("value", "suffix", "label", "color", "kicker", "body", "accent"):
+                for k in ("value", "suffix", "label", "color", "kicker", "body", "accent",
+                          "a", "b", "alabel", "blabel", "unit", "events"):
                     if k in sh:
                         item[k] = sh[k]
+            # rotulo/palabra clave opcional sobre clips (para que no parezca stock crudo)
+            if sh.get("key") and item.get("kind") in ("broll", "image"):
+                item["key"] = sh["key"]
             print(f"[{key}] {item.get('source','?'):7} {sh.get('query', sh.get('text',''))[:34]}")
             resolved.append(item)
         out_sections.append({"key": key, "shots": resolved})

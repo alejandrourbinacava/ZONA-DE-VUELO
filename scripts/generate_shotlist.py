@@ -17,8 +17,12 @@ para un montaje automatico donde lo que se VE debe coincidir con lo que se DICE 
 Para cada seccion, divide su texto narrado en fragmentos CONSECUTIVOS de ~1 frase que cubran TODO el
 texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plano ("shot") es:
 
-- {"text":"<fragmento>", "kind":"broll", "query":"<consulta EN INGLES para banco de video, concreta y visual>"}
-    ESTE ES EL PLANO POR DEFECTO: casi TODO es un CLIP REAL de lo que se dice. Acciones, escenas, objetos,
+- {"text":"<fragmento>", "kind":"broll", "query":"<consulta EN INGLES para banco de video, concreta y visual>", "key":"<opcional: 1-3 PALABRAS punchy>"}
+    ESTE ES EL PLANO POR DEFECTO: casi TODO es un CLIP REAL de lo que se dice.
+    CAMPO "key" (OPCIONAL, uselo con MODERACION ~1 de cada 3-4 clips): un rotulo MUY CORTO (1-3 palabras, en
+    ESPAÑOL) que resume la idea del clip y aparece como lower-third encima del video (ej. "Efecto Coriolis",
+    "560 toneladas", "Zona muerta", "Sin escalas"). NO es una frase; NO lo pongas en todos los clips (cansa);
+    uselo solo en los momentos clave para que el video parezca EDITADO y no stock crudo. Si dudas, no pongas "key". Acciones, escenas, objetos,
     fenomenos Y TAMBIEN CIUDADES/LUGARES (¡una ciudad se muestra con un CLIP de la ciudad, NUNCA con una bandera
     ni un mapa!). Ejemplos: "Madrid" -> "Madrid Spain city aerial skyline"; "Nueva York" -> "New York City
     skyline aerial"; "una cabina" -> "airliner cockpit pilots"; "turbulencia" -> "airplane turbulence clouds".
@@ -56,8 +60,16 @@ texto en orden. Para CADA fragmento decide el plano mas literal posible. Un plan
     avion entero de lejos. Las "callouts" son las 2-4 partes nombradas. Un sistema de vision comprobara que esas
     partes SE VEN en la imagen y pondra las flechas donde esten; si no se ven, se usara un clip normal. NO uses
     "annotate" para ideas abstractas ni si no hay partes fisicas visibles: para eso, "broll".
+- {"text":"<fragmento>", "kind":"compare", "a":<num>, "b":<num>, "alabel":"<que es A, <=26car>", "blabel":"<que es B, <=26car>", "unit":"<km|kg|km/h|...>", "label":"<titulo opcional>", "color":"cyan|amber|red|green"}
+    MOTION GRAPHICS (dos barras que crecen con las cifras subiendo). USA ESTO SIEMPRE que el fragmento COMPARE
+    DOS CANTIDADES concretas: distancias, pesos, velocidades, alturas, precios, duraciones, nº de pasajeros,
+    "el doble que", "frente a", "mientras que X...". Ej.: "el A380 pesa 560 toneladas frente a las 78 del 737"
+    -> compare a=560 b=78 alabel="Airbus A380" blabel="Boeing 737" unit="t". Mucho mejor que un clip para cifras.
+- {"text":"<fragmento>", "kind":"timeline", "events":[{"year":1969,"text":"Primer vuelo"},{"year":2007,"text":"A380"}], "label":"<opcional>"}
+    MOTION GRAPHICS (eje temporal con hitos que aparecen). USA ESTO cuando el fragmento repase VARIAS FECHAS/HITOS
+    en orden (historia de algo, evolucion, "en los 60... luego en los 90..."). 2 a 4 hitos, "text" muy corto (<=26car).
 - {"text":"<fragmento>", "kind":"stat", "value":<numero>, "suffix":"<opcional>", "label":"<que es, <=40car>", "color":"cyan|amber|red|green"}
-    Solo para una cifra o año clave que aparezca en el fragmento (ej. 1945, 1974).
+    Solo para UNA cifra o año clave sueltos (ej. 1945, 1974). Si son DOS cifras que se comparan, usa "compare".
 - {"text":"<fragmento>", "kind":"fact", "kicker":"<ETIQUETA <=22car>", "body":"<frase impacto <=55car>", "accent":"cyan|amber|red|green"}
     Para rematar una idea potente sin entidad ni cifra.
 
@@ -72,11 +84,17 @@ COMO ELEGIR LA FUENTE DE CADA PLANO (por defecto, CLIP REAL):
    -> "ai" (CLIP DE VIDEO IA fotorealista, con moderacion). El objetivo es que SIEMPRE parezca metraje real.
 4. ¿Cifra, frase de remate, o llamada a la accion? -> "stat"/"fact"/"outro".
 
-META de dinamismo: NO todo clips. Aprovecha los MOTION GRAPHICS siempre que el guion lo permita para que el
-video no sea plano: usa "map" en cuanto se hable de rutas/vuelos entre lugares, "annotate" cuando se expliquen
-partes de algo, y "stat"/"fact" para cifras y remates. Apunta a meter varios "map"/"annotate" por video cuando
-el tema lo permita (rutas, motores, partes del avion...). El resto, "broll" (clips reales). "image" solo para
-nombres propios/marcas. Nada de ilustraciones ni dibujos: mapas reales, fotos reales, clips reales.
+META de dinamismo (CRITICO - el canal NO puede ser puro clip de stock plano): APROVECHA AL MAXIMO los MOTION
+GRAPHICS siempre que el guion lo permita. En CADA video debe haber VARIOS planos grafricos, no solo clips:
+- "map" en cuanto se hable de rutas/vuelos/distancias entre lugares (pon SIEMPRE el mapa, es lo mas vistoso).
+- "annotate" cuando se expliquen 2+ partes fisicas de un objeto (motor, puerta, ala, cabina...).
+- "compare" SIEMPRE que se comparen dos cifras (¡buscalo activamente en el guion!).
+- "timeline" cuando haya varias fechas/hitos en orden.
+- "stat" para una cifra o año sueltos; "fact" para rematar una idea potente.
+- "key" (rotulo corto) sobre algunos "broll" clave para que parezcan editados.
+Objetivo: al menos 4-6 planos de motion-graphics (map/annotate/compare/timeline/stat/fact) por video, repartidos.
+El resto, "broll" (clips reales), y varios de ellos con "key". "image" solo para nombres propios/marcas.
+Nada de ilustraciones ni dibujos: mapas reales, fotos reales, clips reales, y graficos de datos animados.
 
 REGLA ANTI-DESAJUSTE: NUNCA mandes a "broll" una metafora pura ("como una cinta transportadora"). Si el stock
 no lo tiene literal, va como "ai" (clip video). Pero una CIUDAD, un avion, una cabina, el mar... SI van a "broll".

@@ -3,15 +3,17 @@ import { AbsoluteFill, Audio, OffthreadVideo, Img, Sequence, staticFile,
   useCurrentFrame, useVideoConfig, interpolate, spring, Easing } from "remotion";
 import { COLORS } from "../theme";
 import { Cue } from "../antartida/Subtitles";
-import { MapRoute, Annotate } from "./MotionGraphics";
+import { MapRoute, Annotate, Compare, Timeline, KeywordTag } from "./MotionGraphics";
 
 export type Section = { key: string; title: string; offset: number; duration: number; cues: Cue[] };
 export type Manifest = { total_duration: number; fps: number; sections: Section[] };
 type Pt = { name?: string; lat: number; lon: number };
 type Shot = {
-  kind: string; text: string; file?: string; label?: string; source?: string;
+  kind: string; text: string; file?: string; label?: string; source?: string; key?: string;
   value?: number; suffix?: string; color?: string; kicker?: string; body?: string; accent?: string;
   from?: Pt; to?: Pt; callouts?: { label: string; x?: number; y?: number }[];
+  a?: number; b?: number; alabel?: string; blabel?: string; unit?: string;
+  events?: { year: string | number; text: string }[];
 };
 export type Media = { sections: { key: string; shots: Shot[] }[] };
 
@@ -231,16 +233,24 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
   return cells;
 }
 
-const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
+// clip de stock / foto IA con rotulo opcional encima (para que NO parezca stock crudo)
+const withTag = (node: React.ReactNode, shot: Shot, i: number) => (
+  <>
+    {node}
+    {shot.key ? <KeywordTag text={shot.key} i={i} /> : null}
+  </>
+);
+
+const CellView: React.FC<{ shot: Shot; sub: number; index: number }> = ({ shot, sub, index }) => {
   switch (shot.kind) {
     case "image":
       if (!shot.file) return <FallbackCard text={shot.text} />;   // nunca vacio
       // foto real de entidad -> tarjeta premium con rotulo; imagen IA -> clip a pantalla completa con movimiento
       return shot.source === "FOTO"
         ? <ImageCard file={shot.file} label={shot.label} i={sub} />
-        : <AiClip file={shot.file} i={sub} />;
+        : withTag(<AiClip file={shot.file} i={sub} />, shot, index);
     case "broll":
-      return shot.file ? <ClipCard file={shot.file} startFrom={sub * MAX_CELL} /> : <FallbackCard text={shot.text} />;
+      return shot.file ? withTag(<ClipCard file={shot.file} startFrom={sub * MAX_CELL} />, shot, index) : <FallbackCard text={shot.text} />;
     case "map":
       return shot.from && shot.to
         ? <MapRoute from={shot.from} to={shot.to} label={shot.label} />
@@ -248,6 +258,14 @@ const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
     case "annotate":
       return shot.file
         ? <Annotate file={shot.file} callouts={shot.callouts || []} label={shot.label} />
+        : <FallbackCard text={shot.text} />;
+    case "compare":
+      return (typeof shot.a === "number" && typeof shot.b === "number")
+        ? <Compare a={shot.a} b={shot.b} alabel={shot.alabel || ""} blabel={shot.blabel || ""} unit={shot.unit} label={shot.label} color={shot.color} />
+        : <FallbackCard text={shot.text} />;
+    case "timeline":
+      return (shot.events && shot.events.length)
+        ? <Timeline events={shot.events} label={shot.label} />
         : <FallbackCard text={shot.text} />;
     case "stat":
       return <StatCard value={shot.value || 0} suffix={shot.suffix} label={shot.label} color={shot.color} />;
@@ -261,7 +279,7 @@ const CellView: React.FC<{ shot: Shot; sub: number }> = ({ shot, sub }) => {
 };
 
 // ---------- transicion entre escenas: barrido de luz + whoosh en los cambios notables ----------
-const GRAPHIC_KINDS = new Set(["map", "annotate", "stat", "fact", "image"]);
+const GRAPHIC_KINDS = new Set(["map", "annotate", "stat", "fact", "image", "compare", "timeline"]);
 const TransitionFX: React.FC<{ index: number; kind: string; dur: number }> = ({ index, kind, dur }) => {
   const frame = useCurrentFrame();
   const { width } = useVideoConfig();
@@ -282,6 +300,33 @@ const TransitionFX: React.FC<{ index: number; kind: string; dur: number }> = ({ 
   );
 };
 
+// ---------- capa cinematografica global: vineta + grano de pelicula sutil en movimiento ----------
+const NOISE =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    "<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>"
+  );
+const CineLayer: React.FC = () => {
+  const f = useCurrentFrame();
+  const gx = (f * 7) % 120, gy = (f * 5) % 120;   // grano en leve deriva -> parece pelicula
+  return (
+    <AbsoluteFill style={{ pointerEvents: "none", zIndex: 18 }}>
+      {/* vineta */}
+      <AbsoluteFill style={{ boxShadow: "inset 0 0 340px 90px rgba(2,6,14,0.82)" }} />
+      {/* grano */}
+      <AbsoluteFill style={{ backgroundImage: `url("${NOISE}")`, backgroundRepeat: "repeat",
+        opacity: 0.05, mixBlendMode: "overlay", transform: `translate(${-gx}px, ${-gy}px) scale(1.3)` }} />
+    </AbsoluteFill>
+  );
+};
+
+// entrada/salida suave de cada escena para que los cortes no sean tan secos
+const CellFade: React.FC<{ dur: number; children: React.ReactNode }> = ({ dur, children }) => {
+  const f = useCurrentFrame();
+  const o = interpolate(f, [0, 6, dur - 6, dur], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return <AbsoluteFill style={{ opacity: o }}>{children}</AbsoluteFill>;
+};
+
 export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest, media }) => {
   const fps = manifest.fps || 30;
   const totalFrames = Math.ceil(manifest.total_duration * fps);
@@ -293,10 +338,13 @@ export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest,
       <Audio src={staticFile("music.mp3")} volume={0.03} loop />
       {cells.map((c, i) => (
         <Sequence key={i} from={c.from} durationInFrames={c.dur}>
-          <CellView shot={c.shot} sub={c.sub} />
+          <CellFade dur={c.dur}>
+            <CellView shot={c.shot} sub={c.sub} index={i} />
+          </CellFade>
           <TransitionFX index={i} kind={c.shot.kind} dur={c.dur} />
         </Sequence>
       ))}
+      <CineLayer />
       <BrandCorner />
       <ProgressBar total={totalFrames} />
     </AbsoluteFill>
