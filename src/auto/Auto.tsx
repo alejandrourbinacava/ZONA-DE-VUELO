@@ -166,6 +166,7 @@ const StatCard: React.FC<{ value: number; suffix?: string; label?: string; color
   const dec = Number.isInteger(value) ? 0 : 1;
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
+      <Audio src={staticFile("tick.mp3")} volume={0.5} />   {/* acento al aparecer la cifra (sound design) */}
       <AbsoluteFill style={{ background: "rgba(5,10,20,0.55)" }} />
       <div style={{ textAlign: "center", opacity: s, transform: `scale(${0.7 + s * 0.3})` }}>
         <div style={{ fontSize: 230, fontWeight: 900, color: c, lineHeight: 1, textShadow: `0 0 50px ${c}66` }}>
