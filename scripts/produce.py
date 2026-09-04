@@ -60,9 +60,14 @@ def main():
 
     print("\n=== 3/6 VOZ (Gabriel) ===")
     voz_dir = os.path.join(ROOT, "out", "voz")
-    if os.path.isdir(voz_dir):
-        shutil.rmtree(voz_dir)  # limpiar audios de un tema anterior
-    run([PY, "scripts/produce_voice.py", guion])
+    manifest_ok = (os.path.exists(os.path.join(voz_dir, "manifest.json")) and
+                   os.path.exists(os.path.join(voz_dir, "narration_full.mp3")))
+    if manifest_ok and os.environ.get("REUSE_VOICE") == "1":
+        print("voz ya existe -> la REUSO (REUSE_VOICE=1, no regenera ai33):", voz_dir)
+    else:
+        if os.path.isdir(voz_dir):
+            shutil.rmtree(voz_dir)  # limpiar audios de un tema anterior
+        run([PY, "scripts/produce_voice.py", guion])
 
     print("\n=== 4/6 MEDIOS (imagenes + clips) ===")
     run([PY, "scripts/fetch_media.py"])

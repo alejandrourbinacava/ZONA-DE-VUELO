@@ -34,10 +34,16 @@ def curl_json(url, headers=None, data=None):
 
 
 def download(url, dst, ua=False):
-    cmd = ["curl", "-s", "-L", url, "-o", dst]
+    # --max-time hace que CURL aborte solo; el try/except evita que un clip lento tumbe todo el fetch
+    cmd = ["curl", "-s", "-L", "--max-time", "120", "--connect-timeout", "20", url, "-o", dst]
     if ua:
         cmd += ["-A", UA]
-    subprocess.run(cmd, timeout=180)
+    try:
+        subprocess.run(cmd, timeout=150)
+    except subprocess.TimeoutExpired:
+        try: os.remove(dst)
+        except OSError: pass
+        return False
     return os.path.exists(dst) and os.path.getsize(dst) > 1500
 
 
