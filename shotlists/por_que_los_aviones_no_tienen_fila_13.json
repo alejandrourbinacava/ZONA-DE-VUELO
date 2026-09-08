@@ -1,0 +1,112 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {"text": "Hay un número que sencillamente no existe dentro de casi ningún avión del mundo.", "kind": "broll", "query": "empty airplane cabin interior rows of seats", "key": "El número que falta"},
+    {"text": "La próxima vez que embarques, haz una cosa: ve contando las filas mientras avanzas por el pasillo.", "kind": "broll", "query": "passenger walking down airplane aisle boarding"},
+    {"text": "Once, doce… y de repente, catorce. La fila trece no está.", "kind": "fact", "kicker": "EN EL AVIÓN", "body": "Del 12 se salta al 14", "accent": "cyan"},
+    {"text": "Ha desaparecido. Como si alguien la hubiera borrado del avión a propósito.", "kind": "broll", "query": "airplane overhead seat row number sign close up"},
+    {"text": "Y no es un despiste de una compañía despistada: lo hacen algunas de las aerolíneas más grandes y serias del planeta, esas que calculan al milímetro el peso de cada maleta y el gramo de combustible de cada vuelo.", "kind": "broll", "query": "airport check in luggage weighing scale"},
+    {"text": "Esas mismas empresas, obsesionadas con los números, han decidido que un número concreto, el trece, mejor que no aparezca.", "kind": "stat", "value": 13, "label": "La fila que hacen desaparecer", "color": "red"},
+    {"text": "Piénsalo un segundo, porque es rarísimo: una industria entera que se rige por la física, la ingeniería y las matemáticas más frías… de repente se comporta como tu abuela cuando se cruza un gato negro.", "kind": "broll", "query": "airliner cockpit instruments panel close up", "key": "¿Superstición?"},
+    {"text": "¿Qué está pasando aquí? ¿De verdad las aerolíneas creen en la mala suerte?", "kind": "broll", "query": "commercial airliner parked at airport gate"},
+    {"text": "¿O hay una razón mucho más calculada, mucho más de negocio, detrás de esa fila que no existe?", "kind": "broll", "query": "airline office people working analytics"},
+    {"text": "Hoy vamos a por ello. Y te adelanto una cosa: el trece no es el único número que los aviones esconden. Hay otros, y dependen de en qué país te subas.", "kind": "fact", "kicker": "ZONA DE VUELO", "body": "El 13 no es el único", "accent": "amber"}
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {"text": "Vamos a ponerle nombre a lo que estás viendo.", "kind": "broll", "query": "airplane cabin seats rows wide interior"},
+    {"text": "Cuando una aerolínea decide saltarse la fila trece, no cambia el avión: el avión físicamente tiene el mismo número de asientos, exactamente los mismos.", "kind": "broll", "query": "empty airplane seats rows symmetric interior"},
+    {"text": "Lo único que cambia es la etiqueta. Donde tocaría poner un trece, ponen directamente el catorce.", "kind": "broll", "query": "airplane seat number label close up"},
+    {"text": "Del doce se salta al catorce y nadie a bordo nota que faltan asientos, porque no falta ninguno: solo falta el número.", "kind": "fact", "kicker": "EL TRUCO", "body": "No falta un asiento: falta el número", "accent": "cyan"},
+    {"text": "Es un truco puramente psicológico.", "kind": "broll", "query": "passenger sitting airplane seat thinking"},
+    {"text": "Y no es cosa de una compañía rara y pequeña. Aerolíneas enormes y de sobra conocidas, de las que vuelan millones de pasajeros al año, evitan esa fila en muchos de sus aviones.", "kind": "broll", "query": "busy airport terminal many passengers airlines"},
+    {"text": "Algunas incluso lo tienen escrito en sus normas internas de configuración de cabina.", "kind": "broll", "query": "airplane cabin layout seat map document"},
+    {"text": "Así que no es un error ni una casualidad: es una decisión tomada en un despacho, revisada y aprobada.", "kind": "broll", "query": "corporate boardroom meeting office people"},
+    {"text": "Alguien, en algún momento, se sentó en una reunión y dijo: quitemos el trece.", "kind": "broll", "query": "business meeting decision office table"},
+    {"text": "Y aquí está lo interesante: esa persona no lo hacía porque ella creyera en la mala suerte. Lo hacía por ti.", "kind": "broll", "query": "passengers boarding airplane jet bridge"},
+    {"text": "O más bien, por un puñado de pasajeros como algunos de los que van sentados a tu lado.", "kind": "broll", "query": "passengers seated inside airplane cabin"},
+    {"text": "Para entender por qué, primero hay que viajar muy atrás en el tiempo, hasta el origen de por qué a media humanidad le da un escalofrío ese número.", "kind": "broll", "query": "old vintage clock time passing", "key": "Origen del miedo"}
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {"text": "El miedo al número trece es tan antiguo y tan extendido que tiene hasta nombre propio: triscaidecafobia.", "kind": "fact", "kicker": "TIENE NOMBRE", "body": "Triscaidecafobia: miedo al 13", "accent": "red"},
+    {"text": "Y sus raíces se hunden en algunas de las historias más famosas de nuestra cultura.", "kind": "broll", "query": "ancient history old book pages candle"},
+    {"text": "La más conocida: la Última Cena. En la mesa había trece comensales, y el decimotercero en sentarse, según la tradición, fue Judas, el que acabó traicionando a Jesús.", "kind": "image", "query": "La Última Cena Leonardo da Vinci", "label": "La Última Cena"},
+    {"text": "De ahí quedó la idea de que trece a la mesa trae desgracia.", "kind": "broll", "query": "empty dinner table candlelight old"},
+    {"text": "Pero no es la única historia. En la mitología nórdica se cuenta un banquete de dioses al que llega, sin ser invitado, un decimotercer invitado: Loki, el dios del engaño, y todo termina en tragedia.", "kind": "broll", "query": "norse mythology dark storm dramatic sky"},
+    {"text": "Añade a eso el famoso viernes trece, esa combinación de día y número que arrastra siglos de mala fama.", "kind": "fact", "kicker": "MALA FAMA", "body": "Viernes 13", "accent": "red"},
+    {"text": "Y por si fuera poco, la historia moderna echó más leña al fuego con la misión Apolo 13, la nave que en 1970 sufrió una explosión camino de la Luna y estuvo a punto de no volver.", "kind": "broll", "query": "Apollo rocket launch space mission vintage NASA"},
+    {"text": "El trece, una y otra vez, asociado al desastre.", "kind": "stat", "value": 1970, "label": "Apolo 13 casi no vuelve de la Luna", "color": "amber"},
+    {"text": "Cuando un número acumula tantos siglos de mala prensa, deja de ser solo un número y se convierte en un símbolo.", "kind": "broll", "query": "number thirteen dark dramatic concept"},
+    {"text": "Y ahí es donde entra el cálculo frío de las aerolíneas. Porque a ellas no les importa la leyenda. Les importa otra cosa muy distinta.", "kind": "broll", "query": "airline financial analytics charts screen", "key": "Puro cálculo"}
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {"text": "Aquí está la clave que casi nadie entiende.", "kind": "broll", "query": "airliner flying clear sky"},
+    {"text": "La aerolínea no quita la fila trece porque el director general tenga miedo de volar en ella.", "kind": "broll", "query": "airline executive office desk"},
+    {"text": "Te lo aseguro: en las oficinas de esas compañías no hay nadie tocando madera.", "kind": "broll", "query": "modern corporate office glass building"},
+    {"text": "Lo quitan por pura estrategia de negocio, y la lógica es demoledora de simple.", "kind": "fact", "kicker": "LA CLAVE", "body": "No es superstición: es negocio", "accent": "cyan"},
+    {"text": "Imagina que de cada cien pasajeros, solo a dos o tres les incomoda de verdad sentarse en la fila trece.", "kind": "broll", "query": "nervous passenger airplane seat uncomfortable"},
+    {"text": "Puede parecer poquísimo. Pero un avión grande mueve cientos de personas por vuelo, y una aerolínea mueve millones al año.", "kind": "broll", "query": "crowded airport terminal thousands of passengers"},
+    {"text": "Ese poquísimo se convierte en muchísima gente.", "kind": "broll", "query": "long queue of passengers boarding airplane"},
+    {"text": "Y esa gente, si le toca la fila trece, se pone nerviosa, protesta, pide que le cambien el sitio, deja una reseña quejándose o simplemente se lleva un mal recuerdo del vuelo.", "kind": "broll", "query": "passenger complaining flight attendant cabin"},
+    {"text": "¿Y sabes cuánto le cuesta a la aerolínea evitar todo ese problema? Absolutamente nada.", "kind": "fact", "kicker": "COSTE", "body": "Saltarse el 13: 0 €", "accent": "green"},
+    {"text": "Saltarse un número en la numeración de los asientos es gratis. No pesa, no ocupa, no gasta combustible, no cambia nada del avión.", "kind": "broll", "query": "airplane seat numbers row labels close up"},
+    {"text": "Así que la cuenta es de las más fáciles que se hacen en aviación: por un lado, cero coste; por el otro, cientos de pasajeros más tranquilos y menos quejas.", "kind": "broll", "query": "calm relaxed passengers smiling in airplane"},
+    {"text": "Cuando algo no te cuesta nada y te ahorra problemas, lo haces sin pensarlo.", "kind": "broll", "query": "airline staff working desk airport"},
+    {"text": "Por eso desaparece el trece: no es superstición, es márketing.", "kind": "fact", "kicker": "RESUMEN", "body": "El 13 desaparece por marketing", "accent": "cyan"},
+    {"text": "Pero espera, porque si crees que el trece es el único número maldito, es que no has volado por según qué países.", "kind": "broll", "query": "world map airplane routes international", "key": "Depende del país"}
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {"text": "Resulta que el miedo a los números viaja, y cambia según dónde estés.", "kind": "broll", "query": "international airport departures board flights"},
+    {"text": "En Italia, por ejemplo, el número que da mala suerte no es el trece, sino el diecisiete.", "kind": "stat", "value": 17, "label": "En Italia: el número temido", "color": "red"},
+    {"text": "¿El motivo? En números romanos, el diecisiete se escribe X-V-I-I, y esas mismas letras, reordenadas, forman la palabra latina vixi, que significa he vivido… es decir, ya no vivo, estoy muerto.", "kind": "fact", "kicker": "ITALIA", "body": "XVII → VIXI = 'he vivido'", "accent": "amber"},
+    {"text": "Con semejante mensaje escondido, no es raro que algunas aerolíneas italianas se salten también esa fila.", "kind": "broll", "query": "airplane cabin seats interior aisle"},
+    {"text": "Y viaja aún más lejos. En buena parte de Asia, en países como China, Japón o Corea, el número temido es el cuatro.", "kind": "stat", "value": 4, "label": "En Asia: el número temido", "color": "red"},
+    {"text": "La razón es fonética: en varios de esos idiomas, la palabra cuatro suena casi idéntica a la palabra muerte.", "kind": "broll", "query": "asian city skyline night neon"},
+    {"text": "Se llama tetrafobia, y es tan seria que hay edificios enteros sin planta cuatro, hoteles sin habitación cuatro y, sí, aviones de algunas compañías asiáticas donde esa fila también brilla por su ausencia.", "kind": "fact", "kicker": "ASIA", "body": "Tetrafobia: miedo al 4", "accent": "red"},
+    {"text": "Así que dependiendo de en qué avión te subas, el hueco puede estar en el trece, en el diecisiete o en el cuatro.", "kind": "broll", "query": "airplane seat rows numbers interior"},
+    {"text": "La superstición no es universal, pero el truco de las aerolíneas para gestionarla sí lo es.", "kind": "broll", "query": "airliners at international airport terminal"},
+    {"text": "Y todo esto esconde un último detalle, algo que casi nadie se para a pensar y que dice mucho de cómo funciona nuestra cabeza.", "kind": "broll", "query": "passenger looking out airplane window thinking", "key": "El último detalle"}
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {"text": "Y es lo siguiente. Puede que tú no seas nada supersticioso.", "kind": "broll", "query": "relaxed passenger airplane seat calm"},
+    {"text": "Puede que te rías de todo esto y que te dé exactamente igual sentarte en la fila trece, en la diecisiete o en la que sea.", "kind": "broll", "query": "passenger smiling airplane window seat"},
+    {"text": "Pero fíjate en lo que consigue la aerolínea: al borrar el número, hace que el problema deje de existir para todos, creyentes y no creyentes.", "kind": "fact", "kicker": "LA MAGIA", "body": "Borra el número, borra el problema", "accent": "cyan"},
+    {"text": "El que tiene miedo, se queda tranquilo porque no ve el trece. Y el que no tiene miedo, ni siquiera se da cuenta de que falta.", "kind": "broll", "query": "airplane cabin passengers seated calm"},
+    {"text": "Todos contentos. Es un pequeño truco de magia psicológica que funciona precisamente porque es invisible.", "kind": "broll", "query": "airplane seat row numbers detail"},
+    {"text": "Y no pasa solo en los aviones: mira los botones del ascensor de muchos hoteles y rascacielos y verás que del piso doce saltan al catorce; entra en algunos hospitales y no encontrarás habitación trece.", "kind": "broll", "query": "elevator floor buttons panel numbers"},
+    {"text": "Vivimos rodeados de números fantasma que quitamos no porque creamos en ellos, sino porque nos resulta más cómodo no discutir con quien sí cree.", "kind": "fact", "kicker": "NÚMEROS FANTASMA", "body": "Están por todas partes", "accent": "amber"},
+    {"text": "La fila trece que falta en tu avión no es una prueba de que la aviación sea supersticiosa.", "kind": "broll", "query": "modern airliner flying above clouds"},
+    {"text": "Es justo lo contrario: es la prueba de lo bien que las aerolíneas entienden la mente humana. Y lo barato que les sale tenernos contentos.", "kind": "broll", "query": "happy passengers cabin airplane flight", "key": "Entienden tu mente"}
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {"text": "Así que ya lo sabes. La fila trece no falta porque el avión tenga nada especial, sino porque a un puñado de pasajeros les incomoda, y a la aerolínea le sale gratis evitarlo.", "kind": "broll", "query": "airplane cabin rows of empty seats"},
+    {"text": "Porque ese número arrastra siglos de mala fama, desde la Última Cena hasta el Apolo 13.", "kind": "broll", "query": "rocket launch night sky mission"},
+    {"text": "Porque en otros países el maldito es el diecisiete o el cuatro, y el truco se repite igual.", "kind": "broll", "query": "international airport flights departures board"},
+    {"text": "Y porque, al final, borrar un número es la forma más barata que existe de dejar a todo el mundo tranquilo, tanto al que cree como al que no.", "kind": "broll", "query": "calm airplane cabin soft light seats"},
+    {"text": "La próxima vez que embarques, cuenta las filas y busca el hueco.", "kind": "broll", "query": "passenger walking airplane aisle counting seats"},
+    {"text": "Y cuando lo encuentres, ya no pensarás en mala suerte: pensarás en la cabeza tan bien amueblada que tienen los que diseñan tu avión.", "kind": "broll", "query": "airplane seat row number sign close up"},
+    {"text": "Si te ha gustado descubrir el porqué que se esconde detrás de algo tan tonto en apariencia, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos otra de estas.", "kind": "broll", "query": "airliner flying into sunset cinematic"},
+    {"text": "Y dime una cosa en los comentarios: ¿te sentarías sin problema en la fila trece, o reconoce que te daría un poquito de cosa? Te leo. Nos vemos en el siguiente.", "kind": "outro"}
+   ]
+  }
+ ]
+}

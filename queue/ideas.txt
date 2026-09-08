@@ -28,7 +28,7 @@
 ¿Por qué el asiento del medio es el peor y nadie lo quiere?
 ¿Qué es esa sacudida rara justo después de despegar?
 ¿Por qué sientes que el avión frena de golpe al despegar?
-¿Por qué los aviones no tienen fila 13?
+# HECHO (fuera de orden): ¿Por qué los aviones no tienen fila 13?
 
 # ================= OTRO CANAL / OTRO FORMATO — historias de vuelo (NO son curiosidades, NO producir aqui) =====
 # El avión que perdió el techo en pleno vuelo y aterrizó — Aloha Airlines 243
