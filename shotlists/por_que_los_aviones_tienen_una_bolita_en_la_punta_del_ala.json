@@ -1,0 +1,104 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {"text": "Si alguna vez has volado de noche y te has quedado mirando por la ventanilla, seguro que la has visto: una pequeña luz de color en la punta del ala.", "kind": "broll", "query": "airplane wingtip navigation light at night from window", "key": "La bolita de color"},
+    {"text": "A veces roja, a veces verde, según la ventana en la que te sientes.", "kind": "broll", "query": "airplane wing red green navigation light night"},
+    {"text": "Mucha gente piensa que es un simple adorno, o una lucecita para que el avión se vea bonito. Y no podría estar más equivocada.", "kind": "broll", "query": "airplane wingtip close up in flight"},
+    {"text": "Esa bolita de color no está ahí por decoración. Está ahí obligada por ley, la lleva absolutamente todos los aviones del mundo, y esconde un secreto que no nació en el cielo, sino en el mar, hace siglos.", "kind": "broll", "query": "cargo ship sailing at sea at dusk", "key": "Nació en el mar"},
+    {"text": "Porque esa lucecita es en realidad un mensaje. Un código silencioso que, en la oscuridad, le dice a cualquier otro piloto una información vital: hacia dónde estás yendo.", "kind": "fact", "kicker": "NO ES ADORNO", "body": "Es un mensaje: hacia dónde vas", "accent": "cyan"},
+    {"text": "Y aquí está lo fascinante: el color no es aleatorio.", "kind": "broll", "query": "airplane wing green navigation light dusk sky"},
+    {"text": "Que sea roja o verde depende de un lado concreto del avión, y ese detalle puede marcar la diferencia entre dos aviones que se cruzan de noche sin verse apenas.", "kind": "broll", "query": "two airplanes night sky lights distant"},
+    {"text": "Hoy vas a entender qué es exactamente esa bolita, por qué es roja en un ala y verde en la otra, y por qué la punta del ala de un avión es, con diferencia, uno de los sitios donde más ingeniería escondida hay en toda la aeronave.", "kind": "broll", "query": "airplane winglet wingtip detail close up"},
+    {"text": "Quédate, porque cuando lo sepas no volverás a mirar esa lucecita igual.", "kind": "fact", "kicker": "ZONA DE VUELO", "body": "El secreto de la punta del ala", "accent": "amber"}
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {"text": "Vamos a lo primero: qué es exactamente lo que estás viendo.", "kind": "broll", "query": "airplane wingtip navigation light close up"},
+    {"text": "Esa bolita es lo que en aviación se llama una luz de posición, o luz de navegación.", "kind": "fact", "kicker": "SE LLAMA", "body": "Luz de posición", "accent": "cyan"},
+    {"text": "Y la clave está en su nombre: sirve para marcar la posición y la orientación del avión en el espacio.", "kind": "broll", "query": "airplane flying banking turn sky"},
+    {"text": "Cada avión lleva una en la punta de cada ala. Pero, y esto es lo importante, no son del mismo color.", "kind": "broll", "query": "airplane both wingtips view from behind"},
+    {"text": "En la punta del ala izquierda, siempre, hay una luz roja.", "kind": "broll", "query": "airplane left wing red navigation light", "key": "Izquierda: ROJA"},
+    {"text": "Y en la punta del ala derecha, siempre, una luz verde.", "kind": "broll", "query": "airplane right wing green navigation light", "key": "Derecha: VERDE"},
+    {"text": "No es opcional, no cambia según la aerolínea ni según el país: es una norma universal que cumple cada avión del planeta, desde una pequeña avioneta hasta el mayor de los aviones de pasajeros.", "kind": "broll", "query": "small propeller airplane and large airliner"},
+    {"text": "Además, hay una tercera luz, blanca, en la cola, mirando hacia atrás.", "kind": "broll", "query": "airplane tail white light rear view night"},
+    {"text": "Así que si lo piensas, un avión de noche lleva un pequeño mapa de luces: rojo a la izquierda, verde a la derecha, blanco detrás.", "kind": "fact", "kicker": "EL MAPA DE LUCES", "body": "Rojo · Verde · Blanco atrás", "accent": "green"},
+    {"text": "Y esas luces, ojo, están siempre encendidas de forma fija, no parpadean.", "kind": "broll", "query": "airplane navigation lights steady night flight"},
+    {"text": "Con solo mirarlas, y sin ver nada más del avión en plena oscuridad, otro piloto puede reconstruir en su cabeza hacia dónde vas.", "kind": "broll", "query": "airplane lights in dark night sky distant"},
+    {"text": "Pero para entender por qué justo rojo y verde, y no dos luces azules o dos amarillas, tenemos que bajar del cielo… y subirnos a un barco.", "kind": "broll", "query": "ship at sea sailing at night", "key": "Vamos a un barco"}
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {"text": "Aquí está la parte que casi nadie conoce.", "kind": "broll", "query": "old sailing ship vintage sea"},
+    {"text": "Ese código de colores no lo inventó la aviación. Lo heredó, tal cual, de la navegación marítima, que llevaba siglos usándolo mucho antes de que existiera el primer avión.", "kind": "fact", "kicker": "EL ORIGEN", "body": "Lo copiaron de los barcos", "accent": "cyan"},
+    {"text": "Los barcos, para no chocar entre ellos de noche, adoptaron hace muchísimo una regla sencilla: una luz roja en el costado izquierdo, y una luz verde en el costado derecho.", "kind": "broll", "query": "ship navigation lights red green hull night"},
+    {"text": "Cuando llegaron los aviones, en lugar de inventar un sistema nuevo, los ingenieros hicieron lo más lógico: copiar algo que ya funcionaba y que todo el mundo entendía.", "kind": "broll", "query": "vintage early airplane historic aviation"},
+    {"text": "Y funciona porque convierte una luz en una brújula.", "kind": "broll", "query": "compass navigation direction concept"},
+    {"text": "Imagínate de noche, mirando dos aviones lejanos.", "kind": "broll", "query": "airplanes lights night sky far away"},
+    {"text": "Si ves la luz roja de uno a tu izquierda y la verde a tu derecha, ese avión viene de frente hacia ti, porque estás viendo su lado izquierdo y su lado derecho en el orden natural.", "kind": "broll", "query": "airplane approaching head on lights night"},
+    {"text": "Pero si los colores están al revés, o solo ves uno, sabes que va en otra dirección, que se aleja o que te cruza.", "kind": "broll", "query": "airplane flying away into night sky"},
+    {"text": "En una fracción de segundo, y solo con dos puntitos de color, un piloto entiende la orientación de otra aeronave a kilómetros de distancia.", "kind": "broll", "query": "pilot looking out cockpit window night"},
+    {"text": "Es un lenguaje visual tan simple y tan potente que lleva más de un siglo salvando vidas sin que la mayoría de los pasajeros sepa siquiera que existe.", "kind": "fact", "kicker": "MÁS DE UN SIGLO", "body": "Un idioma que salva vidas", "accent": "amber"},
+    {"text": "Y todavía hay un detalle más sobre esas luces que suele confundir a todo el mundo.", "kind": "broll", "query": "airplane wing lights flashing night", "key": "Un detalle más"}
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {"text": "Y es el siguiente. Si has mirado un avión de noche, habrás notado que no todas sus luces se comportan igual.", "kind": "broll", "query": "airplane multiple lights night sky"},
+    {"text": "Algunas están fijas, quietas, y otras dan destellos que van y vienen.", "kind": "broll", "query": "airplane strobe light flashing night"},
+    {"text": "Pues bien, esa bolita de color de la punta del ala, la luz de posición, es de las que están siempre encendidas y fijas. Nunca parpadea.", "kind": "fact", "kicker": "LUZ DE POSICIÓN", "body": "Siempre fija, nunca parpadea", "accent": "green"},
+    {"text": "Su trabajo es marcar dónde está cada extremo del avión de forma constante, para que en todo momento se pueda leer su orientación.", "kind": "broll", "query": "airplane wingtip steady colored light flight"},
+    {"text": "Lo que sí parpadea son otras luces distintas: unos destellos rojos y blancos, mucho más potentes, que se llaman luces anticolisión.", "kind": "broll", "query": "aircraft anti collision beacon strobe flashing", "key": "Luces anticolisión"},
+    {"text": "Esas sí que llaman la atención a propósito, para gritarle al resto del mundo eh, aquí hay un avión, no os acerquéis.", "kind": "broll", "query": "airplane bright strobe lights night runway"},
+    {"text": "Así que en un mismo avión conviven dos sistemas: las luces de posición, discretas y fijas, que dicen hacia dónde vas, y las de destello, agresivas y llamativas, que dicen simplemente aquí estoy.", "kind": "fact", "kicker": "DOS SISTEMAS", "body": "\"Hacia dónde voy\" vs \"aquí estoy\"", "accent": "cyan"},
+    {"text": "La bolita de colores pertenece al primer grupo, el silencioso.", "kind": "broll", "query": "airplane wingtip navigation light calm night"},
+    {"text": "Y precisamente por estar en la punta del ala, comparte sitio con otra maravilla de la ingeniería que seguramente también has visto, pero cuya función es completamente distinta.", "kind": "broll", "query": "airplane winglet wingtip close up sky", "key": "El winglet"}
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {"text": "Porque en la punta del ala no solo vive esa luz.", "kind": "broll", "query": "airplane wingtip detail in flight"},
+    {"text": "Fíjate la próxima vez y verás que, en muchísimos aviones modernos, el ala no termina plana, sino que se dobla hacia arriba en una especie de aleta vertical.", "kind": "broll", "query": "airplane winglet upturned wingtip clear sky", "key": "Winglet"},
+    {"text": "Eso se llama winglet, y no está ahí por estética: está resolviendo uno de los mayores problemas de volar.", "kind": "broll", "query": "airliner winglet wing view from window"},
+    {"text": "Verás, un ala genera sustentación porque debajo hay más presión de aire que encima.", "kind": "broll", "query": "airplane wing airflow lift diagram"},
+    {"text": "Pero justo en la punta, ese aire de abajo, a mucha presión, encuentra una vía de escape: se escapa hacia arriba rodeando el extremo del ala, y al hacerlo crea un remolino gigante e invisible, un torbellino de aire que llamamos vórtice de punta de ala.", "kind": "broll", "query": "wingtip vortex condensation spiral airplane", "key": "Vórtice de punta"},
+    {"text": "Ese remolino es puro desperdicio: frena el avión y le obliga a gastar más combustible para nada.", "kind": "broll", "query": "airplane contrail vortex behind wing"},
+    {"text": "El winglet, esa aleta doblada hacia arriba, actúa como un muro que le pone las cosas mucho más difíciles a ese aire para escaparse, debilita el remolino y reduce el gasto.", "kind": "broll", "query": "airplane winglet close up detail flight"},
+    {"text": "Parece un detalle tonto, pero en un avión que vuela miles de horas al año, ese pequeño apéndice puede suponer un ahorro de combustible enorme.", "kind": "fact", "kicker": "EL WINGLET", "body": "Doma el remolino y ahorra combustible", "accent": "green"},
+    {"text": "Así que la punta del ala esconde, a la vez, un mensaje de luz para otros pilotos y una solución de ingeniería para ahorrar millones.", "kind": "broll", "query": "airplane wingtip winglet and light sunset"},
+    {"text": "Y aún queda un último detalle, casi invisible, que muy poca gente sabe identificar.", "kind": "broll", "query": "airplane wing trailing edge close up", "key": "Casi invisible"}
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {"text": "Mira con atención el borde de un ala, sobre todo por detrás, y puede que descubras unas pequeñas varillas finas que sobresalen, como pinchos o antenas diminutas.", "kind": "broll", "query": "airplane wing static wicks discharger close up", "key": "Descargadores estáticos"},
+    {"text": "No son adornos ni fallos de fabricación. Se llaman descargadores estáticos, y tienen una misión curiosísima.", "kind": "broll", "query": "airplane wing trailing edge static dischargers"},
+    {"text": "Cuando un avión vuela, el roce constante contra el aire y contra las partículas de las nubes hace que se cargue de electricidad estática, igual que cuando te frotas los pies contra una alfombra.", "kind": "broll", "query": "airplane flying through clouds friction"},
+    {"text": "Si esa electricidad se acumulara sin control, podría soltar chispazos e, incluso, interferir con las radios y los instrumentos del avión.", "kind": "broll", "query": "electric spark static electricity concept"},
+    {"text": "Esos pinchos son la solución: van soltando poco a poco toda esa electricidad al aire, de forma segura y controlada, para que no se acumule.", "kind": "fact", "kicker": "LOS PINCHOS", "body": "Sueltan la electricidad estática", "accent": "amber"},
+    {"text": "Así que, resumiendo, esa punta del ala que parecía tan simple es en realidad una obra maestra en miniatura: una luz de color que habla el idioma de los barcos, una aleta que engaña al aire para ahorrar combustible, y unos pinchos que descargan la electricidad para que la radio no falle.", "kind": "annotate", "query": "close-up 3D model of a modern airliner wingtip with an upturned winglet, a small colored position light lens at the tip, and thin static discharger rods on the trailing edge", "callouts": [{"label": "Luz de posición"}, {"label": "Winglet"}, {"label": "Descargador estático"}], "label": "LA PUNTA DEL ALA"},
+    {"text": "Todo eso, junto, en una esquina del avión en la que casi nadie se fija.", "kind": "broll", "query": "airplane wingtip against blue sky"}
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {"text": "Así que ya lo sabes. Esa bolita de la punta del ala no es un adorno: es una luz de posición, roja en el ala izquierda y verde en la derecha, un código que la aviación le robó a los barcos para decirle a otros pilotos hacia dónde vas en plena oscuridad.", "kind": "broll", "query": "airplane wingtip red green light night sky", "key": "Roja izq · Verde der"},
+    {"text": "Está siempre fija, a diferencia de las luces de destello que solo gritan aquí estoy.", "kind": "broll", "query": "airplane steady navigation light night"},
+    {"text": "Y comparte esquina con el winglet, que doma los remolinos de aire para ahorrar combustible, y con los descargadores estáticos, que sueltan la electricidad para que nada falle.", "kind": "broll", "query": "airplane winglet detail golden hour"},
+    {"text": "La próxima vez que vueles de noche y mires por la ventanilla, busca esa lucecita de color.", "kind": "broll", "query": "passenger window view airplane wing night"},
+    {"text": "Ya no verás un simple puntito bonito: verás un siglo de ingeniería y de historia marina concentrados en la punta de un ala.", "kind": "broll", "query": "airplane wingtip light cinematic night"},
+    {"text": "Si te ha gustado descubrir todo lo que se esconde en un detalle tan pequeño, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos otra de estas.", "kind": "broll", "query": "airliner flying into sunset cinematic"},
+    {"text": "Y dime una cosa en los comentarios: ¿sabías que el rojo y el verde venían de los barcos, o te acabas de enterar como la mayoría? Te leo. Nos vemos en el siguiente.", "kind": "outro"}
+   ]
+  }
+ ]
+}

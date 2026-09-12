@@ -24,7 +24,7 @@
 ¿Por qué el humo de los aviones dibuja líneas en el cielo?
 ¿Por qué el morro del avión es de un color diferente?
 ¿Por qué las luces del avión parpadean en la noche?
-¿Por qué los aviones tienen una bolita en la punta del ala?
+# HECHO (fuera de orden): ¿Por qué los aviones tienen una bolita en la punta del ala?
 ¿Por qué el asiento del medio es el peor y nadie lo quiere?
 ¿Qué es esa sacudida rara justo después de despegar?
 ¿Por qué sientes que el avión frena de golpe al despegar?
