@@ -1,0 +1,103 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {"text": "Son las tres de la madrugada. Estás sentado en la cabina de un avión de pasajeros, a punto de aterrizar.", "kind": "broll", "query": "airplane cockpit night approach view", "key": "3 de la madrugada"},
+    {"text": "Y ahí fuera, al otro lado del cristal, no hay absolutamente nada. Oscuridad total.", "kind": "broll", "query": "dark night sky from cockpit window black"},
+    {"text": "Ni el suelo, ni las montañas, ni la pista. Nada.", "kind": "broll", "query": "black dark landscape night aerial nothing"},
+    {"text": "Y sin embargo, en apenas dos minutos, tienes que posar casi ochenta toneladas de metal, con cientos de personas dormidas detrás, sobre una franja de asfalto que ni siquiera puedes ver.", "kind": "broll", "query": "airliner landing night runway lights", "key": "80 toneladas"},
+    {"text": "Suena imposible, ¿verdad? Pues los pilotos lo hacen cada noche, miles de veces, en aeropuertos de todo el planeta, con una precisión asombrosa.", "kind": "broll", "query": "airport runway lights aerial night many"},
+    {"text": "¿Cómo? Porque lo que un piloto ve de noche no tiene nada que ver con lo que ves tú desde tu ventanilla.", "kind": "broll", "query": "passenger airplane window night city lights"},
+    {"text": "Donde tú ves un mar negro y unas cuantas lucecitas sueltas, él ve un mapa, un lenguaje entero escrito con luces de colores que le dice exactamente dónde está la pista, si va demasiado alto, demasiado bajo, o justo en el ángulo perfecto.", "kind": "broll", "query": "runway approach lights colorful night pattern", "key": "Un mapa de luces"},
+    {"text": "Hoy te vas a meter en esa cabina. Vas a ver lo que ellos ven de verdad al aterrizar de noche, por qué el color de una simple luz puede salvar un avión entero, y por qué a veces lo más peligroso no es lo que ven… sino lo que no pueden ver.", "kind": "broll", "query": "pilots cockpit night instruments glow"},
+    {"text": "Quédate, porque esto va a cambiar para siempre tu próximo aterrizaje nocturno.", "kind": "fact", "kicker": "ZONA DE VUELO", "body": "Dentro de la cabina, de noche", "accent": "cyan"}
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {"text": "Empecemos por romper una idea que casi todo el mundo tiene.", "kind": "broll", "query": "airplane cockpit night approach dark"},
+    {"text": "Cuando imaginas un aterrizaje de noche, piensas que el piloto va mirando el suelo, buscando la pista con los ojos, como quien aparca el coche en un garaje oscuro.", "kind": "broll", "query": "pilot looking out cockpit window night"},
+    {"text": "Y no es así en absoluto. De noche, el terreno de debajo es prácticamente invisible.", "kind": "broll", "query": "dark countryside at night aerial black"},
+    {"text": "El piloto no ve campos, ni carreteras, ni el borde de la pista contra la hierba. Todo eso está tragado por la negrura.", "kind": "broll", "query": "black dark ground night no lights aerial"},
+    {"text": "Lo único que existe en su mundo, ahí fuera, son luces. Puntos de luz flotando en el vacío.", "kind": "broll", "query": "airport lights glowing in the dark night", "key": "Solo luces"},
+    {"text": "Y aquí está el primer secreto: esas luces no están puestas al azar.", "kind": "broll", "query": "runway lights pattern aerial night"},
+    {"text": "Cada aeropuerto del mundo es, de noche, una constelación diseñada al milímetro.", "kind": "broll", "query": "airport runway lights from above night city"},
+    {"text": "Hay un patrón exacto de luces que dibuja la pista en el aire, y ese patrón es idéntico en Madrid, en Nueva York o en Tokio, porque está estandarizado a nivel mundial.", "kind": "fact", "kicker": "IGUAL EN TODO EL MUNDO", "body": "El mismo patrón de luces", "accent": "cyan"},
+    {"text": "Así, un piloto que aterriza por primera vez en un aeropuerto que no ha visto nunca reconoce al instante qué es cada luz, como si leyera un idioma que habla en cualquier país.", "kind": "broll", "query": "pilot cockpit approach runway lights night"},
+    {"text": "Para él, esa aparente maraña de puntitos que tú ves es en realidad un texto clarísimo.", "kind": "broll", "query": "approach lights sequenced runway night"},
+    {"text": "Y lo primero que ese texto le tiene que decir es lo más importante de todo: dónde empieza y dónde acaba la pista.", "kind": "broll", "query": "runway threshold lights night close", "key": "¿Dónde está la pista?"}
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {"text": "Y aquí es donde todo se vuelve fascinante, porque el color lo es todo.", "kind": "broll", "query": "colorful airport runway lights night"},
+    {"text": "Cada luz de un aeropuerto tiene un color y un sitio con un significado concreto, y juntas forman un mapa que el piloto lee de un vistazo.", "kind": "annotate", "query": "aerial night view of an airport runway lighting layout, showing a row of green threshold lights across the start, white edge lights along both sides, and red lights at the far end", "callouts": [{"label": "Umbral (verde)"}, {"label": "Bordes (blancas)"}, {"label": "Final (rojas)"}], "label": "LA PISTA DE NOCHE"},
+    {"text": "Empecemos por el principio de la pista, por el umbral, el punto exacto donde puede empezar a tomar tierra.", "kind": "broll", "query": "runway threshold markings lights night"},
+    {"text": "Ese umbral está marcado con una fila de luces verdes, cruzando la pista de lado a lado. El verde le grita al piloto: aquí, aquí empieza tu zona de aterrizaje.", "kind": "broll", "query": "green threshold lights runway night", "key": "Verde = empieza"},
+    {"text": "A partir de ahí, los dos bordes de la pista se dibujan con largas hileras de luces blancas, que le marcan el ancho y la dirección exactos, como dos raíles luminosos que lo guían hacia delante.", "kind": "broll", "query": "white runway edge lights rows night", "key": "Blanco = bordes"},
+    {"text": "Y en muchas pistas hay también una línea de luces por el centro, para que sepa si va perfectamente alineado o un poco desviado.", "kind": "broll", "query": "runway centerline lights night landing"},
+    {"text": "Al final del todo, donde la pista se acaba y no queda más asfalto, las luces se vuelven rojas. Rojo, el color universal de hasta aquí, se termina.", "kind": "broll", "query": "red runway end lights night", "key": "Rojo = final"},
+    {"text": "Y ojo, porque esto se extiende también a los caminos por los que el avión rueda una vez en tierra: esos se marcan con luces azules en los bordes y verdes en el centro, para no confundirlos jamás con la pista.", "kind": "broll", "query": "blue taxiway edge lights airport night", "key": "Azul = rodaje"},
+    {"text": "Así que, resumiendo, el piloto tiene un mapa de colores grabado en la cabeza: verde para empezar, blanco para los lados, rojo para el final, azul para rodar.", "kind": "fact", "kicker": "EL CÓDIGO", "body": "Verde · Blanco · Rojo · Azul", "accent": "green"},
+    {"text": "Pero todavía falta la luz más importante de todas. La que no le dice dónde está la pista… sino si va a llegar vivo a ella.", "kind": "broll", "query": "PAPI approach lights runway night", "key": "La luz clave"}
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {"text": "Junto a la pista, a un lado, hay un grupo de cuatro luces especiales puestas en fila. Se llaman PAPI, y son, probablemente, el mejor invento para aterrizar que existe.", "kind": "broll", "query": "PAPI four lights runway side night", "key": "PAPI"},
+    {"text": "Su función es una sola, pero es vital: decirle al piloto si viene en el ángulo de descenso correcto.", "kind": "broll", "query": "airplane final approach descending night"},
+    {"text": "Verás, un avión no baja en picado ni tampoco casi plano: tiene que seguir una rampa invisible en el aire, una pendiente suave de unos tres grados que lo lleva justo hasta el principio de la pista.", "kind": "stat", "value": 3, "suffix": "°", "label": "El ángulo de descenso ideal", "color": "cyan"},
+    {"text": "Ni más inclinada, ni menos. Y esas cuatro luces le dicen, con solo mirarlas, si está en esa rampa.", "kind": "broll", "query": "airliner glide slope approach runway night"},
+    {"text": "El truco es genial por lo simple: cada una de esas luces se ve roja o blanca según el ángulo desde el que la mires.", "kind": "broll", "query": "PAPI red white lights close up night"},
+    {"text": "Si el piloto va demasiado alto, verá las cuatro luces blancas. Si va demasiado bajo, peligrosamente bajo, las verá las cuatro rojas.", "kind": "fact", "kicker": "PAPI", "body": "4 blancas = alto · 4 rojas = bajo", "accent": "red"},
+    {"text": "Y si va perfecto, en la rampa exacta, verá dos blancas y dos rojas, mitad y mitad.", "kind": "broll", "query": "PAPI two red two white lights runway"},
+    {"text": "Los pilotos lo resumen con una frase que se aprenden de memoria: rojo sobre blanco, vas por buen camino.", "kind": "fact", "kicker": "LA REGLA", "body": "Rojo sobre blanco: vas bien", "accent": "green"},
+    {"text": "Piénsalo un momento: en plena noche, sin ver el suelo, con solo echar un vistazo a cuatro puntitos de luz, el piloto sabe al instante si su avión va a tocar tierra en el sitio correcto o si se va a quedar corto.", "kind": "broll", "query": "cockpit night approach pilot view runway lights"},
+    {"text": "Es tan sencillo y tan potente que se usa en todo el mundo.", "kind": "broll", "query": "airport runway approach lights night wide"},
+    {"text": "Pero incluso con toda esta orquesta de luces, la noche esconde una trampa. Una ilusión peligrosa que ha engañado hasta a pilotos con miles de horas de vuelo.", "kind": "broll", "query": "dark night approach ocean no lights", "key": "Una trampa"}
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {"text": "Se llama la aproximación de agujero negro, y es uno de los fenómenos más traicioneros de la aviación.", "kind": "fact", "kicker": "LA ILUSIÓN", "body": "La aproximación de agujero negro", "accent": "red"},
+    {"text": "Ocurre cuando un piloto se acerca a una pista de noche pero no hay prácticamente nada iluminado a su alrededor: por ejemplo, una pista al lado del mar, o rodeada de campo oscuro, sin ciudades ni carreteras cerca.", "kind": "broll", "query": "isolated runway lights in total darkness night"},
+    {"text": "En esa situación, el piloto ve la pista iluminada al fondo… pero entre su avión y esa pista hay un vacío negro absoluto, sin ninguna referencia.", "kind": "broll", "query": "distant runway lights across dark void night"},
+    {"text": "Y aquí es donde el cerebro humano juega una mala pasada.", "kind": "broll", "query": "pilot concentrated cockpit night tension"},
+    {"text": "Sin puntos intermedios que le digan a qué altura está, el piloto tiende a creer que va más alto de lo que realmente va, y por instinto baja, baja demasiado.", "kind": "broll", "query": "airplane descending too low approach night", "key": "Baja demasiado"},
+    {"text": "Es una ilusión óptica pura, y ha provocado accidentes muy serios precisamente porque engaña incluso a los más expertos. Sus propios ojos les mienten.", "kind": "broll", "query": "optical illusion perspective dark concept"},
+    {"text": "Por eso, cuando la noche es traicionera, la regla de oro es no fiarse solo de lo que se ve.", "kind": "fact", "kicker": "REGLA DE ORO", "body": "No te fíes solo de los ojos", "accent": "amber"},
+    {"text": "Y aquí llega la parte que casi nadie del público conoce: en realidad, un piloto moderno no aterriza solo con los ojos. Ni de lejos.", "kind": "broll", "query": "modern cockpit glass instruments displays night", "key": "No solo con los ojos"}
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {"text": "Porque debajo de todas esas luces bonitas hay una red invisible mucho más precisa: los instrumentos.", "kind": "broll", "query": "airplane cockpit instruments glowing panel night", "key": "Los instrumentos"},
+    {"text": "La mayoría de los aeropuertos grandes emiten unas señales de radio que trazan en el aire, de forma invisible, esa misma rampa de descenso perfecta.", "kind": "broll", "query": "airport radio antenna ILS equipment"},
+    {"text": "El avión capta esas señales y las dibuja en las pantallas de la cabina como dos líneas: una te dice si estás centrado a izquierda o derecha, y otra si estás alto o bajo.", "kind": "broll", "query": "cockpit primary flight display ILS needles"},
+    {"text": "El piloto solo tiene que mantener el crucecita en el centro, y estará bajando exactamente por donde debe, vea o no vea la pista.", "kind": "broll", "query": "pilot hands controls cockpit approach"},
+    {"text": "Ese sistema se llama ILS, y es tan preciso que, cuando hay niebla espesa y no se ve absolutamente nada, muchos aviones son capaces de aterrizar prácticamente solos, guiados únicamente por esas señales, mientras el piloto vigila que todo funcione.", "kind": "fact", "kicker": "ILS", "body": "Con niebla, aterrizan casi solos", "accent": "cyan"},
+    {"text": "Así que la imagen romántica del piloto buscando la pista con la mirada en la oscuridad es, en gran parte, un mito.", "kind": "broll", "query": "airliner landing fog low visibility runway"},
+    {"text": "Lo que de verdad hace un buen piloto de noche es cruzar dos mundos: el de las luces de colores que ve por la ventana y el de las señales invisibles que lee en sus pantallas.", "kind": "broll", "query": "cockpit view runway lights and instruments night"},
+    {"text": "Y solo cuando los dos coinciden, cuando las luces y los instrumentos le dicen lo mismo, baja tranquilo.", "kind": "broll", "query": "smooth airplane landing night runway touchdown"},
+    {"text": "Sus ojos ayudan, pero es esa red invisible la que de verdad lo lleva a casa.", "kind": "broll", "query": "airliner safe landing runway lights night", "key": "La red invisible"}
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {"text": "Así que ya lo sabes. Lo que un piloto ve al aterrizar de noche no es oscuridad: es un idioma escrito con luces.", "kind": "broll", "query": "runway approach lights colorful night aerial"},
+    {"text": "El verde que marca dónde empieza la pista, el blanco de los bordes, el rojo del final, y sobre todo ese PAPI de cuatro luces que le canta si viene alto, bajo o perfecto.", "kind": "broll", "query": "PAPI runway threshold lights night"},
+    {"text": "Sabe que sus propios ojos pueden engañarle con trampas como el agujero negro, y por eso confía en una red invisible de señales de radio que lo guían con una precisión que la vista humana jamás alcanzaría.", "kind": "broll", "query": "cockpit instruments ILS approach night"},
+    {"text": "La próxima vez que aterrices de noche y mires por la ventanilla ese mar de puntitos de colores, ya no verás luces sueltas: verás el mapa exacto que, en ese preciso instante, está llevando tu avión sano y salvo hasta el suelo.", "kind": "broll", "query": "passenger window airplane landing city lights night"},
+    {"text": "Si te ha gustado meterte por un rato en la cabina, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana te enseñamos el porqué que se esconde detrás de los aviones.", "kind": "broll", "query": "airliner night flight cinematic city lights"},
+    {"text": "Y dime una cosa en los comentarios: ¿te atreverías tú a aterrizar de noche guiándote solo por esas luces? Te leo. Nos vemos en el siguiente.", "kind": "outro"}
+   ]
+  }
+ ]
+}
