@@ -22,7 +22,15 @@ def _get(path):
 
 
 def _download(url, out_path):
-    subprocess.run(["curl", "-s", "-L", url, "-o", out_path], timeout=180)
+    # --max-time hace que curl aborte solo; el try/except evita que una descarga lenta tumbe la voz
+    try:
+        subprocess.run(["curl", "-s", "-L", "--max-time", "150", "--connect-timeout", "20", url, "-o", out_path],
+                       timeout=170)
+    except subprocess.TimeoutExpired:
+        try: os.remove(out_path)
+        except OSError: pass
+        return False
+    return os.path.exists(out_path) and os.path.getsize(out_path) > 2000
 
 
 def _create_task(text, voice_id, speed, stability, similarity, style):
@@ -85,10 +93,12 @@ def synth(text, voice_id, out_path, model="eleven_multilingual_v2",
                     d = _get(f"/v3/task/{tid}").get("data") or {}
                     url = (d.get("metadata") or {}).get("audio_url")
                 if url:
-                    _download(url, out_path)
-                    if os.path.exists(out_path) and os.path.getsize(out_path) > 2000:
-                        print(f" OK -> {out_path}")
-                        return {"task_id": tid, "url": url, "path": out_path}
+                    for _dl in range(3):   # la descarga puede colgarse si ai33 va lento: reintenta
+                        if _download(url, out_path):
+                            print(f" OK -> {out_path}")
+                            return {"task_id": tid, "url": url, "path": out_path}
+                        print(" (descarga lenta, reintento)", end="", flush=True)
+                        time.sleep(4)
                 print(" done sin audio_url", flush=True); break
             if st in ("failed", "error"):
                 print(" FALLO:", json.dumps(t)[:200], flush=True); break
