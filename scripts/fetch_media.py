@@ -56,7 +56,10 @@ BLOCK = ("covid", "coronavirus", "pandemic", "face-mask", "protest", "riot", "el
          "-car-", "-cars-", "sports-car", "highway", "traffic", "driving", "motorway",
          "road-trip", "-vehicle", "steering-wheel", "-truck", "motorcycle", "bicycle", "train-",
          # personas en escenas domesticas que se cuelan por analogias (bañera, etc.)
-         "bath", "bathing", "shower", "-child", "children", "toddler", "-kid", "swimming-pool")
+         "bath", "bathing", "shower", "-child", "children", "toddler", "-kid", "swimming-pool",
+         # ocio nocturno / escenario: se cuela por consultas con "colorful lights" / "night" (DJ, discoteca...)
+         "-dj-", "-dj_", "nightclub", "night-club", "disco", "-club-", "concert", "festival", "-rave",
+         "stage-light", "dance-floor", "nightlife", "cocktail", "-bar-", "neon-sign", "karaoke", "casino")
 
 
 def off_topic(url):
