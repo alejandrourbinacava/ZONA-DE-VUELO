@@ -1,0 +1,113 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {"text": "Era el avión más grande jamás construido para llevar pasajeros.", "kind": "broll", "query": "Airbus A380 flying in the sky large airliner", "key": "El más grande"},
+    {"text": "Dos pisos enteros, más de quinientas personas a bordo, tan silencioso y tan estable que quien volaba en él no quería bajarse.", "kind": "broll", "query": "Airbus A380 double deck cabin interior"},
+    {"text": "Costó más de veinte años y una fortuna incalculable diseñarlo. Se suponía que iba a ser el rey de los cielos durante medio siglo.", "kind": "broll", "query": "Airbus A380 factory assembly line huge"},
+    {"text": "Y sin embargo, apenas catorce años después de su primer vuelo comercial, lo mataron. Dejaron de fabricarlo.", "kind": "fact", "kicker": "SOLO 14 AÑOS", "body": "Y lo dejaron de fabricar", "accent": "red"},
+    {"text": "Y muchos de ellos, prácticamente nuevos, acabaron aparcados en el desierto o directamente desguazados.", "kind": "broll", "query": "aircraft boneyard desert storage airplanes parked", "key": "Al desierto"},
+    {"text": "Aquí está lo más desconcertante de toda esta historia: no lo mataron porque fuera un mal avión. Al contrario.", "kind": "broll", "query": "Airbus A380 taking off powerful"},
+    {"text": "Los pasajeros lo adoraban, los pilotos lo respetaban, y técnicamente era una obra maestra.", "kind": "broll", "query": "Airbus A380 luxury cabin passengers"},
+    {"text": "Lo mataron por una razón mucho más fría, que no tiene nada que ver con volar y todo que ver con las cuentas.", "kind": "broll", "query": "airline financial charts money analytics"},
+    {"text": "El avión más querido del cielo era, al mismo tiempo, una máquina de perder dinero.", "kind": "fact", "kicker": "LA PARADOJA", "body": "Amado y ruinoso a la vez", "accent": "amber"},
+    {"text": "Hoy vas a entender por qué el sueño más ambicioso de la aviación se convirtió en su mayor fracaso comercial, qué error de cálculo cometieron sus creadores, y por qué, contra todo pronóstico, puede que este gigante no esté del todo muerto.", "kind": "broll", "query": "Airbus A380 flying above clouds cinematic"},
+    {"text": "Quédate, porque la historia del A380 es la historia de cómo el mundo entero le dio la espalda al avión perfecto.", "kind": "fact", "kicker": "ZONA DE VUELO", "body": "El gigante caído", "accent": "cyan"}
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {"text": "Primero, para entender la caída, hay que entender lo grande que fue el sueño.", "kind": "broll", "query": "Airbus A380 flying huge airliner sky"},
+    {"text": "El Airbus A380 no era simplemente un avión grande: era otra categoría de cosa.", "kind": "broll", "query": "Airbus A380 size comparison huge airplane"},
+    {"text": "Imagínate un edificio de varios pisos con alas.", "kind": "annotate", "query": "close-up 3D model of an Airbus A380 airliner clearly showing its two full passenger decks, its four wing-mounted engines and its very large wings", "callouts": [{"label": "Dos pisos"}, {"label": "Cuatro motores"}, {"label": "Alas enormes"}], "label": "EL A380"},
+    {"text": "Es el único avión de pasajeros con dos cubiertas completas a lo largo de todo el fuselaje, una encima de la otra, conectadas por escaleras.", "kind": "broll", "query": "Airbus A380 staircase between two decks interior", "key": "Dos pisos completos"},
+    {"text": "En su configuración normal llevaba unos quinientos pasajeros, y si una aerolínea lo apretaba, podía superar los ochocientos.", "kind": "stat", "value": 800, "label": "Pasajeros máximos en un A380", "color": "cyan"},
+    {"text": "Ochocientas personas en un solo avión.", "kind": "broll", "query": "crowded airplane cabin many passengers seats"},
+    {"text": "Sus alas eran tan enormes que apenas cabían en las puertas de embarque de los aeropuertos, y hubo que reforzar pistas y construir pasarelas dobles solo para poder recibirlo.", "kind": "broll", "query": "Airbus A380 at airport gate double jet bridge", "key": "Pasarelas dobles"},
+    {"text": "Dentro, algunas aerolíneas se volvieron locas: pusieron bares, salones e incluso duchas en pleno vuelo.", "kind": "broll", "query": "Airbus A380 onboard bar lounge luxury"},
+    {"text": "Volar en un A380 era como volar en un hotel de lujo flotante, tan silencioso y tan suave que muchos pasajeros elegían su vuelo solo por subirse a él.", "kind": "broll", "query": "luxury first class airplane suite cabin"},
+    {"text": "Cuando despegó por primera vez, el mundo entero lo miró con la boca abierta. Parecía imposible que algo tan gigantesco pudiera siquiera levantar el vuelo.", "kind": "broll", "query": "Airbus A380 first takeoff crowd watching"},
+    {"text": "Airbus estaba convencida de que acababa de construir el futuro.", "kind": "broll", "query": "Airbus A380 gleaming new on tarmac"},
+    {"text": "Y sin embargo, ese futuro estaba montado sobre una apuesta. Una apuesta enorme sobre cómo íbamos a volar todos… que resultó estar equivocada.", "kind": "fact", "kicker": "TODO SE APOYABA EN…", "body": "Una apuesta sobre el futuro", "accent": "amber"}
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {"text": "Y aquí está el corazón de todo.", "kind": "broll", "query": "Airbus A380 flying dramatic sky"},
+    {"text": "Cuando Airbus diseñó el A380, lo hizo apostando por una idea concreta del futuro de los viajes, una idea que en aviación se llama modelo de centro y radios.", "kind": "fact", "kicker": "LA TEORÍA", "body": "Modelo de centro y radios", "accent": "cyan"},
+    {"text": "La teoría era la siguiente: en el futuro, decían, el cielo estará cada vez más saturado, y no habrá sitio para tantos aviones.", "kind": "broll", "query": "busy sky many airplanes air traffic"},
+    {"text": "Así que la gente volará primero a unos pocos aeropuertos gigantescos, unos grandes centros mundiales como Dubái, Londres o Singapur, y desde allí saltará a su destino final.", "kind": "broll", "query": "huge international airport hub aerial many planes", "key": "Grandes centros"},
+    {"text": "Si eso era cierto, entonces la solución era obvia: en lugar de muchos aviones medianos saturando el cielo, hacían falta pocos aviones colosales moviendo a muchísima gente de golpe entre esos grandes centros.", "kind": "broll", "query": "Airbus A380 boarding many passengers gate"},
+    {"text": "Y para eso, ¿qué mejor que un monstruo capaz de tragarse quinientos pasajeros de una tacada?", "kind": "broll", "query": "Airbus A380 huge fuselage front view"},
+    {"text": "Sobre el papel, tenía toda la lógica del mundo.", "kind": "broll", "query": "aircraft blueprint design engineering plans"},
+    {"text": "Airbus se jugó su futuro entero a esa carta. Invirtió cantidades astronómicas convencida de que las aerolíneas harían cola para comprar su gigante.", "kind": "broll", "query": "Airbus A380 production factory multiple planes"},
+    {"text": "El problema es que, mientras Airbus construía el avión perfecto para ese mundo, el mundo estaba empezando a moverse justo en la dirección contraria.", "kind": "broll", "query": "airliner flying opposite direction sunset"},
+    {"text": "Y casi nadie en la empresa lo vio venir.", "kind": "fact", "kicker": "EL ERROR", "body": "El mundo iba al revés", "accent": "red"}
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {"text": "Porque resulta que los pasajeros querían justo lo contrario de lo que Airbus había imaginado.", "kind": "broll", "query": "passengers airport walking travelers"},
+    {"text": "A nadie le gusta hacer escalas. A nadie le gusta aterrizar en un aeropuerto gigante y agobiante, correr por sus pasillos infinitos y esperar horas para coger un segundo vuelo.", "kind": "broll", "query": "crowded airport terminal long corridor rush", "key": "Nadie quiere escalas"},
+    {"text": "Lo que la gente quería, en realidad, era simple: volar directo, desde su ciudad hasta su destino, sin pasar por ningún monstruoso centro intermedio.", "kind": "broll", "query": "airplane flying direct route clear sky"},
+    {"text": "Y justo en esos años, apareció la tecnología que lo hizo posible.", "kind": "broll", "query": "modern twin engine airliner flying"},
+    {"text": "Una nueva generación de aviones más pequeños, con solo dos motores, como el Boeing 787 o el Airbus A350, se volvió capaz de cruzar océanos enteros de forma segura y barata.", "kind": "broll", "query": "Boeing 787 Dreamliner flying over ocean", "key": "787 y A350"},
+    {"text": "De repente, ya no hacía falta un gigante de cuatro motores para volar de un continente a otro.", "kind": "compare", "a": 4, "b": 2, "alabel": "A380", "blabel": "787 / A350", "unit": "motores", "label": "Motores por avión", "color": "amber"},
+    {"text": "Podías coger un avión mediano, mucho más eficiente, y volar directamente entre dos ciudades normales, sin escalas y sin gigantes.", "kind": "broll", "query": "Airbus A350 flying efficient twin jet"},
+    {"text": "Ese modelo, el de punto a punto, es el que ganó.", "kind": "fact", "kicker": "GANADOR", "body": "Punto a punto, no centros", "accent": "green"},
+    {"text": "Las aerolíneas se dieron cuenta de que era mejor tener muchos vuelos directos y llenos que pocos vuelos colosales medio vacíos.", "kind": "broll", "query": "many airplanes departing airport busy"},
+    {"text": "Y ahí, el A380 empezó a quedarse sin sentido.", "kind": "broll", "query": "Airbus A380 parked empty tarmac"},
+    {"text": "Pero que el modelo estuviera pasado de moda todavía no lo mataba del todo. Lo que lo remató fueron los números.", "kind": "broll", "query": "financial spreadsheet numbers red concept", "key": "Los números"}
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {"text": "Y los números del A380 eran implacables.", "kind": "broll", "query": "Airbus A380 four engines wing close up"},
+    {"text": "Empecemos por lo más caro de un avión: el combustible.", "kind": "broll", "query": "jet fuel refueling airplane airport"},
+    {"text": "El A380 tenía cuatro motores. Cuatro.", "kind": "broll", "query": "Airbus A380 four engines under wings", "key": "Cuatro motores"},
+    {"text": "Esos aviones nuevos con los que competía tenían solo dos.", "kind": "broll", "query": "twin engine airliner two engines wing"},
+    {"text": "Y dos motores modernos gastan muchísimo menos que cuatro, así que en cada vuelo el gigante salía carísimo de operar.", "kind": "broll", "query": "jet engine turbine burning fuel power"},
+    {"text": "Pero es que además, para que un A380 diera beneficios, había que llenarlo.", "kind": "broll", "query": "full airplane cabin all seats occupied"},
+    {"text": "Y llenar quinientos asientos, en la mayoría de las rutas del mundo, todos los días, es dificilísimo.", "kind": "compare", "a": 500, "b": 300, "alabel": "A380 (hay que llenar)", "blabel": "Avión mediano", "unit": "asientos", "label": "Asientos por vuelo", "color": "amber"},
+    {"text": "Un avión medio vacío es una ruina, y el A380 medio vacío era una ruina gigantesca.", "kind": "broll", "query": "empty airplane cabin rows of seats"},
+    {"text": "A eso súmale que era tan grande que solo unos pocos aeropuertos del planeta estaban preparados para recibirlo, con sus pasarelas dobles y sus pistas reforzadas, lo que limitaba muchísimo a dónde podía volar.", "kind": "broll", "query": "Airbus A380 at gate double jetway airport"},
+    {"text": "Al final, la lista de aerolíneas dispuestas a apostar por semejante mole se fue quedando en casi nada.", "kind": "broll", "query": "Airbus A380 parked stored airport"},
+    {"text": "Una sola compañía, Emirates, acabó comprando casi la mitad de todos los A380 del mundo.", "kind": "broll", "query": "Emirates Airbus A380 livery airport", "key": "Emirates: casi la mitad"},
+    {"text": "Y cuando hasta Emirates dijo basta y recortó su pedido, Airbus hizo cuentas, miró ese avión maravilloso… y firmó su sentencia de muerte.", "kind": "broll", "query": "Airbus A380 last one factory"},
+    {"text": "En 2021 se entregó el último. El sueño se había acabado. O eso parecía.", "kind": "stat", "value": 2021, "label": "El último A380 entregado", "color": "red"}
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {"text": "Porque aquí llega el giro que casi nadie esperaba.", "kind": "broll", "query": "Airbus A380 flying dramatic sky return"},
+    {"text": "Justo cuando todos daban por enterrado al A380, pasó algo curioso.", "kind": "broll", "query": "aircraft boneyard stored planes desert"},
+    {"text": "Tras los años más duros para la aviación, en los que medio mundo dejó de volar, la gente volvió a viajar de golpe, con unas ganas enormes.", "kind": "broll", "query": "crowded airport travelers busy departures", "key": "Todos vuelven a volar"},
+    {"text": "De repente, muchas aerolíneas se encontraron con más pasajeros de los que podían transportar y con una escasez de aviones nuevos.", "kind": "broll", "query": "long queue passengers airport terminal"},
+    {"text": "¿Y qué tenían aparcados en el desierto, casi nuevos, listos para volver? Sus gigantes. Sus A380.", "kind": "broll", "query": "Airbus A380 stored in desert boneyard"},
+    {"text": "Así que varias compañías hicieron lo impensable: fueron a los cementerios de aviones, sacaron el polvo a esos monstruos que habían jubilado y los devolvieron al cielo.", "kind": "broll", "query": "Airbus A380 returning to service taking off", "key": "Vuelven al cielo"},
+    {"text": "Resulta que, para mover una montaña de gente entre dos grandes ciudades muy demandadas, seguía sin haber nada como él.", "kind": "broll", "query": "Airbus A380 boarding full flight busy"},
+    {"text": "El avión que el mundo había condenado por ineficiente, de repente, volvía a ser útil.", "kind": "broll", "query": "Airbus A380 flying sunset triumphant"},
+    {"text": "No para todo, ni en todas partes, pero sí en esos puñados de rutas donde de verdad hace falta mover a muchísima gente a la vez.", "kind": "broll", "query": "Airbus A380 landing busy hub airport"},
+    {"text": "El A380 no ganó la guerra, eso está claro. Pero demostró algo bonito: que ser el mejor no siempre es lo que decide quién sobrevive, y que a veces, el gigante al que todos dieron por muerto, simplemente estaba esperando su momento.", "kind": "fact", "kicker": "LA LECCIÓN", "body": "Ser el mejor no basta para sobrevivir", "accent": "cyan"}
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {"text": "Así que ya lo sabes. Al A380 no lo mataron por ser mal avión, sino por ser el avión perfecto para un mundo que nunca llegó.", "kind": "broll", "query": "Airbus A380 flying above clouds wide"},
+    {"text": "Airbus apostó por los grandes centros y los vuelos gigantes, y el mundo eligió lo contrario: volar directo, en aviones más pequeños y eficientes de dos motores.", "kind": "broll", "query": "twin engine airliner flying direct route"},
+    {"text": "Sus cuatro motores hambrientos, la dificultad de llenar quinientos asientos y los pocos aeropuertos capaces de recibirlo hicieron el resto.", "kind": "broll", "query": "Airbus A380 four engines detail wing"},
+    {"text": "Y sin embargo, contra todo pronóstico, el gigante ha vuelto a levantar el vuelo en las rutas donde todavía nadie lo puede sustituir.", "kind": "broll", "query": "Airbus A380 taking off powerful return"},
+    {"text": "La próxima vez que veas uno de estos colosos cruzando el cielo, recuerda que estás mirando al avión más querido y, a la vez, al mayor fracaso comercial de la aviación moderna. Las dos cosas, a la vez.", "kind": "broll", "query": "Airbus A380 flying overhead cinematic"},
+    {"text": "Si te ha fascinado esta historia, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana te contamos el porqué que se esconde detrás de los aviones.", "kind": "broll", "query": "airliner flying into sunset cinematic"},
+    {"text": "Y dime una cosa en los comentarios: ¿has volado alguna vez en un A380? ¿Y te atreves a decirme si lo echarías de menos si desapareciera para siempre? Te leo. Nos vemos en el siguiente.", "kind": "outro"}
+   ]
+  }
+ ]
+}

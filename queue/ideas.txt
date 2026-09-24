@@ -44,3 +44,5 @@
 # ¿Por qué los aviones no vuelan en línea recta entre dos ciudades?
 # ¿Qué pasaría si se abriera una puerta a 10.000 metros?
 # ¿Qué ven de verdad los pilotos al aterrizar de noche? (nuevo, fuera de cola)
+
+# HECHO (fuera de cola): ¿Por qué mataron al A380, el avión más grande del mundo?
