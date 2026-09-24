@@ -168,6 +168,9 @@ def vision_match(narration, image_urls):
               "relacionada con la frase (avion, cabina, motor, aeropuerto, cielo...).\n"
               "- RECHAZA (nunca elijas) lo que NO sea de aviacion o no pegue: coches/carreteras, casas, puertas de "
               "casa, personas aleatorias o de espaldas, ninos, campos, objetos domesticos, cosas sin relacion.\n"
+              "- OJO METAFORAS: aunque la frase use una imagen de tierra (un edificio, una autopista, un rio, una "
+              "cinta transportadora...), es un canal de AVIACION: NUNCA elijas la foto literal de ese objeto "
+              "terrestre (p.ej. un edificio en obras). Elige solo aviacion; si ninguna lo es, responde 0.\n"
               "- Si TODAS son de fuera de tema o no pegan nada, responde 0.\n"
               f"Responde SOLO con un numero del 0 al {len(b64s)}.")
     txt = _gemini_vision(prompt, b64s, max_tokens=60)
@@ -279,29 +282,89 @@ def safe_aviation_clip(prefix, i):
     return None
 
 
+_PLANE_RX = re.compile(
+    r"\b(a380|a350|a340|a330|a320|a321|a319|a318|a220|707|717|727|737|747|757|767|777|787|"
+    r"dc-?\d+|md-?\d+|concorde|dreamliner|tu-?\d+|tupolev|ilyushin|antonov|an-?\d+|"
+    r"boeing\s?\d|airbus\s?a\d|caravelle|comet|constellation|spruce\s?goose)\b", re.I)
+
+
+def is_named_aircraft(q):
+    """¿La consulta nombra un AVION CONCRETO (A380, 787, Concorde...)? Entonces hay que enseñar ESE avion,
+    no uno generico: priorizamos foto/ilustracion EXACTA sobre un clip de stock cualquiera."""
+    return bool(_PLANE_RX.search(q or ""))
+
+
 def resolve_visual(q, text, key, i, allow_video=True):
-    """Cadena unica para un plano visual: clip literal revisado -> (video IA) -> foto revisada ->
-    plano de aviacion generico (relleno). Devuelve (source_tag, media, tipo) o (None,None,None)."""
-    c = get_clip(q, text, key, i)
-    if c:
-        return ("CLIP", c, "clip")
-    if allow_video:
-        v = ai33_video(q, key, i)
-        if v:
-            return ("CLIP-IA", v, "clip")
-    p = stock_photo(q, text, key, i)
-    if p:
-        return ("FOTO-STOCK", p, "photo")
-    s = safe_aviation_clip(key, i)   # mezcla inteligente: relleno de aviacion en vez de tarjeta de texto
+    """Cadena para un plano visual. REGLA DEL USER: SIEMPRE tiene que verse de lo que se habla.
+    - Avion CONCRETO -> primero foto/ilustracion EXACTA de ese avion (Commons -> foto Pexels -> clip -> IA).
+    - Resto -> clip literal revisado -> (video IA) -> foto revisada -> foto Commons -> ILUSTRACION generada.
+    Si NADA real encaja, se GENERA la ilustracion (como el video de la puerta); NUNCA relleno que no toca."""
+    if is_named_aircraft(q):
+        m = commons_image(q, text, key, i)          # foto exacta del avion (Commons etiqueta muy bien)
+        if m:
+            return ("COMMONS", m, "photo")
+        p = stock_photo(q, text, key, i)            # foto de stock (Pexels etiqueta el tipo de avion)
+        if p:
+            return ("FOTO-STOCK", p, "photo")
+        c = get_clip(q, text, key, i)               # clip real (puede ser algo generico -> por eso va despues)
+        if c:
+            return ("CLIP", c, "clip")
+        g = ai33_image(q, key, f"gen{i}", style="real")   # se genera el avion concreto
+        if g:
+            return ("ILUSTRA", g, "photo")
+    else:
+        c = get_clip(q, text, key, i)
+        if c:
+            return ("CLIP", c, "clip")
+        if allow_video:
+            v = ai33_video(q, key, i)
+            if v:
+                return ("CLIP-IA", v, "clip")
+        p = stock_photo(q, text, key, i)
+        if p:
+            return ("FOTO-STOCK", p, "photo")
+        m = commons_image(q, text, key, i)
+        if m:
+            return ("COMMONS", m, "photo")
+        # nada real encaja -> GENERAMOS la ilustracion de EXACTAMENTE eso (se usa `q`, no `text` con metaforas)
+        g = ai33_image(q, key, f"gen{i}", style="real")
+        if g:
+            return ("ILUSTRA", g, "photo")
+    s = safe_aviation_clip(key, i)   # ultimisimo recurso solo si hasta la IA de imagen falla
     if s:
         return ("CLIP-AVIA", s, "clip")
     return (None, None, None)
 
 
+def pixabay_candidates(query, n=5):
+    """Candidatos de video de Pixabay (mas variedad, a veces tiene aviones concretos que Pexels no)."""
+    if not PIXABAY:
+        return []
+    url = (f"https://pixabay.com/api/videos/?key={PIXABAY}&q={urllib.parse.quote(query)}"
+           f"&per_page=20&safesearch=true")
+    data = curl_json(url)
+    out = []
+    for h in data.get("hits", []):
+        vid_id = f"pb{h.get('id')}"
+        if off_topic(h.get("tags", "") + " " + str(h.get("pageURL", ""))):
+            continue
+        vids = h.get("videos", {}) or {}
+        pick = vids.get("medium") or vids.get("small") or vids.get("large")
+        if not pick or not pick.get("url"):
+            continue
+        thumb = pick.get("thumbnail") or (vids.get("tiny") or {}).get("thumbnail") or ""
+        cand = {"id": vid_id, "link": pick["url"], "duration": h.get("duration", 0),
+                "credit": h.get("user", ""), "image": thumb}
+        (out if vid_id not in USED else out).append(cand)   # dedup blando lo hace get_clip
+    fresh = [c for c in out if c["id"] not in USED]
+    used = [c for c in out if c["id"] in USED]
+    return (fresh + used)[:n]
+
+
 def get_clip(query, text, prefix, i):
-    """Busca candidatos, la IA de vision revisa que ENCAJEN con la narracion y elige el bueno.
-    Si ninguno encaja, devuelve None (el caller usa foto real / otro recurso). `text` = la frase narrada."""
-    cands = pexels_candidates(query)
+    """Busca candidatos (Pexels + Pixabay), la IA de vision revisa que ENCAJEN con la narracion y elige el
+    bueno. Si ninguno encaja, devuelve None (el caller usa foto real / ilustracion). `text` = frase narrada."""
+    cands = pexels_candidates(query) + pixabay_candidates(query)
     if not cands:
         return None
     imgs = [c.get("image") for c in cands if c.get("image")]
@@ -320,6 +383,41 @@ def get_clip(query, text, prefix, i):
             return {"file": f"stock/{fn}", "duration": c["duration"], "credit": c["credit"]}
         if os.path.exists(dst):
             os.remove(dst)
+    return None
+
+
+def commons_image(query, text, prefix, i):
+    """Foto REAL de Wikimedia Commons del sujeto EXACTO (muy bien etiquetado para aviones concretos:
+    'Airbus A380', 'Concorde'...). Busca varias, la vision elige la que encaja, y se descarga. Se muestra
+    a pantalla completa con movimiento. Devuelve {"file": ...} o None."""
+    url = ("https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search"
+           f"&gsrsearch=filetype:bitmap%20{urllib.parse.quote(query)}&gsrnamespace=6&gsrlimit=8"
+           "&prop=imageinfo&iiprop=url&iiurlwidth=1280")
+    data = curl_json(url, [f"User-Agent: {UA}"])
+    pages = list(((data.get("query", {}) or {}).get("pages", {}) or {}).values())
+    cands = []
+    for p in pages:
+        ii = (p.get("imageinfo") or [{}])[0]
+        thumb = ii.get("thumburl")
+        if thumb and not off_topic(ii.get("url", "")):
+            cands.append(thumb)
+    if not cands:
+        return None
+    # DEDUP: no repetir la misma foto en el video (hay pocas por avion); preferir las no usadas
+    def cid(u): return "cm:" + u.rsplit("/", 1)[-1][:60]
+    fresh = [u for u in cands if cid(u) not in USED]
+    pool = fresh or cands            # si todas usadas, se permite reutilizar (mejor eso que nada)
+    pick = vision_match(text or query, pool[:6])   # la vision elige la que de verdad encaja
+    if pick == 0:
+        return None                  # ninguna encaja -> que el caller pruebe foto/ilustracion
+    chosen = pool[pick - 1] if (pick and 1 <= pick <= len(pool)) else pool[0]
+    USED.add(cid(chosen))
+    ext = ".png" if ".png" in chosen.lower() else ".jpg"
+    dst = os.path.join(OUT, f"cm_{prefix}_{i}{ext}")
+    if download(chosen, dst, ua=True) and os.path.getsize(dst) >= 12000 and decodable(f"stock/cm_{prefix}_{i}{ext}"):
+        return {"file": f"stock/cm_{prefix}_{i}{ext}"}
+    if os.path.exists(dst):
+        os.remove(dst)
     return None
 
 
