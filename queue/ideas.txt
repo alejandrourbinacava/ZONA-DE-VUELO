@@ -46,3 +46,4 @@
 # ¿Qué ven de verdad los pilotos al aterrizar de noche? (nuevo, fuera de cola)
 
 # HECHO (fuera de cola): ¿Por qué mataron al A380, el avión más grande del mundo?
+# HECHO (fuera de cola): ¿Por qué los aviones YA NO tienen 4 motores?

@@ -1,0 +1,110 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {"text": "Durante más de medio siglo, cruzar un océano significaba una sola cosa: el rugido de cuatro motores.", "kind": "broll", "query": "Boeing 747 four engines flying", "key": "Rugido de 4 motores"},
+    {"text": "El Jumbo, ese 747 con su joroba inconfundible.", "kind": "broll", "query": "Boeing 747 jumbo jet hump flying"},
+    {"text": "El enorme A380 de dos pisos. El elegante A340. Reyes del cielo, gigantes de cuatro motores que dominaron las rutas más largas del planeta.", "kind": "broll", "query": "Airbus A380 flying large airliner"},
+    {"text": "Y hoy, si miras al cielo, casi ningún avión nuevo los lleva. Los cuatro motores han desaparecido.", "kind": "fact", "kicker": "HOY", "body": "Los 4 motores han desaparecido", "accent": "red"},
+    {"text": "Prácticamente todos los aviones que se fabrican ahora mismo tienen solo dos.", "kind": "broll", "query": "Airbus A350 twin engine flying", "key": "Ahora, solo 2"},
+    {"text": "Y aquí viene lo fascinante: ese cambio no ocurrió porque cuatro motores fueran peligrosos. Al contrario, durante décadas fueron sinónimo de seguridad.", "kind": "broll", "query": "Boeing 747 four engines close up wing"},
+    {"text": "Volar sobre el Atlántico sin cuatro motores era, sencillamente, impensable. Estaba hasta prohibido.", "kind": "broll", "query": "airplane flying over ocean atlantic"},
+    {"text": "Entonces, ¿qué pasó? ¿Qué mató a los cuatro motores? No fue un accidente, ni una moda, ni una decisión caprichosa.", "kind": "broll", "query": "Airbus A340 four engine jet flying"},
+    {"text": "Fue una combinación de tres letras que cambiaron las reglas del juego para siempre, y unas cuentas tan aplastantes que ni el avión más querido de la historia pudo sobrevivir a ellas.", "kind": "fact", "kicker": "EL CULPABLE", "body": "Tres letras: ETOPS", "accent": "cyan"},
+    {"text": "Hoy vas a entender por qué durante años necesitamos cuatro motores, qué cambió exactamente para dejar de necesitarlos, y por qué el rugido de los cuatro motores es hoy, básicamente, un sonido del pasado.", "kind": "broll", "query": "Boeing 747 taking off powerful"},
+    {"text": "Quédate, porque esta es la historia de cómo el cielo se quedó con la mitad de motores.", "kind": "fact", "kicker": "ZONA DE VUELO", "body": "El cielo perdió la mitad de sus motores", "accent": "amber"}
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {"text": "Para entender por qué desaparecieron, primero hay que entender por qué existieron.", "kind": "broll", "query": "Boeing 747 four engines flying sky"},
+    {"text": "Retrocede unas décadas. Un avión cruza el Atlántico, con cientos de personas a bordo, y de repente, a mitad de camino, uno de sus motores falla.", "kind": "broll", "query": "airplane over ocean mid flight clouds"},
+    {"text": "En ese punto, no tienes un aeropuerto cerca. Tienes kilómetros y kilómetros de océano en todas direcciones. ¿Qué haces?", "kind": "broll", "query": "vast open ocean from above aerial", "key": "Solo océano"},
+    {"text": "La respuesta de la aviación durante mucho tiempo fue clara: lleva motores de sobra. Muchos.", "kind": "broll", "query": "Boeing 747 four engines under wings"},
+    {"text": "Si tienes cuatro y se te apaga uno, te quedan tres, más que suficientes para seguir volando tranquilamente hasta tierra firme.", "kind": "annotate", "query": "close-up 3D model of a four-engine Boeing 747 jumbo jet seen from the front, clearly showing its four engines mounted under the two wings", "callouts": [{"label": "Motor 1"}, {"label": "Motor 2"}, {"label": "Motor 3"}, {"label": "Motor 4"}], "label": "CUATRO MOTORES"},
+    {"text": "Cuatro motores era, sobre todo, una red de seguridad enorme para las rutas más peligrosas, esas que te alejaban horas de cualquier pista de aterrizaje.", "kind": "broll", "query": "airliner flying over remote ocean sunset"},
+    {"text": "Por eso los grandes aviones de largo recorrido, los que cruzaban océanos y desiertos, llevaban cuatro. El 747, el A340, el A380.", "kind": "broll", "query": "Airbus A340 four engine airliner flying", "key": "747 · A340 · A380"},
+    {"text": "Eran máquinas diseñadas para que, pasara lo que pasara ahí fuera, siempre te sobraran motores para volver a casa.", "kind": "broll", "query": "Boeing 747 landing safely runway"},
+    {"text": "Y funcionó. Durante años, esa fue la forma más segura de volar lejos.", "kind": "broll", "query": "Boeing 747 cruising above clouds"},
+    {"text": "Pero esa seguridad tenía un precio altísimo, y estaba escrita, además, en una norma muy estricta que casi nadie conoce.", "kind": "broll", "query": "aviation regulations documents rulebook"},
+    {"text": "Una norma que, durante décadas, hizo que los aviones de dos motores tuvieran prohibido alejarse demasiado de tierra.", "kind": "broll", "query": "twin engine airliner near coastline flying", "key": "Una norma prohibía..."}
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {"text": "Aquí está el detalle que lo explica todo.", "kind": "broll", "query": "twin engine airliner flying coast"},
+    {"text": "Durante mucho tiempo existió una regla de oro en la aviación: un avión de dos motores no podía alejarse más de sesenta minutos de vuelo del aeropuerto más cercano.", "kind": "stat", "value": 60, "suffix": " min", "label": "Máximo lejos de un aeropuerto (bimotores)", "color": "red"},
+    {"text": "Sesenta minutos. Ni uno más.", "kind": "broll", "query": "cockpit clock instruments flight time"},
+    {"text": "La lógica era esta: si a un bimotor se le apaga un motor, se queda con solo uno, y los reguladores no se fiaban de que ese único motor aguantara demasiado tiempo.", "kind": "broll", "query": "twin engine airliner one engine wing"},
+    {"text": "Así que, por seguridad, los obligaban a volar siempre cerca de tierra, saltando de aeropuerto en aeropuerto como quien no quiere alejarse mucho de la orilla.", "kind": "broll", "query": "airplane flying along coastline shore"},
+    {"text": "¿Y qué pasaba con las rutas largas sobre el océano, donde estás horas sin ver tierra? Pues que a los bimotores, sencillamente, se les prohibía.", "kind": "fact", "kicker": "LA REGLA", "body": "Bimotores: prohibido cruzar océanos", "accent": "red"},
+    {"text": "Esas rutas quedaban reservadas a los aviones de tres o de cuatro motores, los únicos autorizados a adentrarse en el vacío del Atlántico o del Pacífico.", "kind": "broll", "query": "Boeing 747 flying over ocean four engines"},
+    {"text": "Piénsalo: el mapa del mundo estaba, en la práctica, partido en dos.", "kind": "broll", "query": "world map flight routes ocean"},
+    {"text": "Las rutas cortas y cercanas a tierra, para los bimotores. Y las grandes travesías oceánicas, el negocio más jugoso, solo para los gigantes de cuatro motores.", "kind": "broll", "query": "Airbus A380 flying over ocean"},
+    {"text": "Mientras esa regla existiera, los cuatro motores tenían el trono asegurado.", "kind": "broll", "query": "Boeing 747 majestic flying sky"},
+    {"text": "Pero entonces, la tecnología empezó a cambiar. Y con ella, empezó a tambalearse todo.", "kind": "broll", "query": "modern jet engine technology turbine", "key": "Todo cambió"}
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {"text": "Porque los motores de avión empezaron a volverse increíblemente buenos. Fiables hasta un punto que antes parecía imposible.", "kind": "broll", "query": "modern jet turbofan engine close up", "key": "Motores fiabilísimos"},
+    {"text": "Los ingenieros los perfeccionaron tanto que un motor moderno puede funcionar durante miles y miles de horas sin el más mínimo problema.", "kind": "broll", "query": "jet engine factory manufacturing turbine"},
+    {"text": "La probabilidad de que uno se apague en pleno vuelo se volvió minúscula, casi ridícula.", "kind": "broll", "query": "jet engine spinning reliable flight"},
+    {"text": "Y llegado ese punto, los reguladores se hicieron la gran pregunta: si un solo motor moderno es tan fiable, ¿de verdad tiene sentido seguir obligando a los bimotores a quedarse pegados a la costa?", "kind": "broll", "query": "twin engine airliner flying open sky"},
+    {"text": "La respuesta fue crear un nuevo permiso especial, y aquí están las tres letras que mataron a los cuatro motores: ETOPS.", "kind": "fact", "kicker": "TRES LETRAS", "body": "ETOPS", "accent": "cyan"},
+    {"text": "Sin entrar en tecnicismos, ETOPS es básicamente una certificación que dice: este avión de dos motores es tan seguro y tan fiable que le permitimos alejarse mucho más de tierra.", "kind": "broll", "query": "Boeing 777 twin engine flying ocean"},
+    {"text": "Primero fueron ciento veinte minutos en lugar de sesenta. Luego ciento ochenta.", "kind": "compare", "a": 60, "b": 180, "alabel": "Antes (regla vieja)", "blabel": "Con ETOPS", "unit": "min", "label": "Lejos de un aeropuerto", "color": "green"},
+    {"text": "Y hoy, algunos bimotores están autorizados a estar más de cinco horas de vuelo del aeropuerto más cercano, volando con toda tranquilidad sobre la inmensidad del océano.", "kind": "broll", "query": "Airbus A350 flying over vast ocean", "key": "+5 horas de tierra"},
+    {"text": "De golpe, un avión de solo dos motores podía hacer exactamente lo mismo que uno de cuatro: cruzar cualquier océano del mundo.", "kind": "broll", "query": "Boeing 787 Dreamliner crossing ocean"},
+    {"text": "La barrera que protegía a los gigantes acababa de caer. Y en cuanto cayó, las aerolíneas sacaron la calculadora.", "kind": "broll", "query": "airline financial calculations charts", "key": "A sacar la calculadora"}
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {"text": "Y las cuentas fueron demoledoras.", "kind": "broll", "query": "airline cost analysis spreadsheet"},
+    {"text": "Piénsalo de la forma más simple: cada motor que llevas es un motor que hay que alimentar con combustible, revisar, reparar y mantener.", "kind": "broll", "query": "aircraft engine maintenance mechanics hangar"},
+    {"text": "Cuatro motores significan cuatro veces ese trabajo, cuatro veces esas piezas, cuatro veces ese mantenimiento carísimo. Dos motores, la mitad de todo.", "kind": "compare", "a": 4, "b": 2, "alabel": "Cuatrimotor", "blabel": "Bimotor moderno", "unit": "motores", "label": "Motores que mantener", "color": "amber"},
+    {"text": "Y ojo, porque un motor moderno de bimotor es enorme y potentísimo: dos de ellos mueven un avión gigante que cruza el mundo sin despeinarse, gastando muchísimo menos que cuatro motores más antiguos.", "kind": "broll", "query": "huge modern jet engine GE turbofan close up", "key": "Enormes y potentes"},
+    {"text": "Menos combustible, menos peso, menos averías, menos gasto.", "kind": "fact", "kicker": "DOS MOTORES", "body": "Menos combustible, menos gasto", "accent": "green"},
+    {"text": "Para una aerolínea, que vive de recortar cada euro, la decisión era obvia.", "kind": "broll", "query": "airline office business decision"},
+    {"text": "¿Para qué cargar con cuatro motores hambrientos, si dos modernos hacen el mismo trabajo por mucho menos dinero y con la misma seguridad?", "kind": "broll", "query": "twin engine airliner efficient cruise"},
+    {"text": "La respuesta del mercado fue instantánea y brutal: nadie quería ya los cuatro motores.", "kind": "broll", "query": "Airbus A340 parked stored tarmac", "key": "Nadie los quería"},
+    {"text": "Las aerolíneas empezaron a pedir bimotores como el Boeing 777, el 787 o el Airbus A350, aviones de dos motores capaces de cruzar cualquier océano.", "kind": "broll", "query": "Boeing 777 twin engine airliner flying", "key": "777 · 787 · A350"},
+    {"text": "Y los grandes cuatrimotores, esos reyes que durante medio siglo habían dominado los cielos, de repente se quedaron sin sitio en el mundo.", "kind": "broll", "query": "Boeing 747 parked airport lonely"},
+    {"text": "Su reinado se había terminado. Y su caída fue tan rápida como triste.", "kind": "broll", "query": "Airbus A380 stored desert boneyard"}
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {"text": "Porque uno a uno, los gigantes de cuatro motores fueron cayendo.", "kind": "timeline", "label": "La caída de los reyes", "events": [{"year": 2011, "text": "Fin del A340"}, {"year": 2021, "text": "Fin del A380"}, {"year": 2023, "text": "Fin del 747"}]},
+    {"text": "El Airbus A340, aquel elegante cuatrimotor, dejó de fabricarse.", "kind": "broll", "query": "Airbus A340 four engine flying", "key": "A340"},
+    {"text": "El colosal A380, el avión más grande jamás construido, fue cancelado apenas unos años después de nacer.", "kind": "broll", "query": "Airbus A380 flying giant airliner", "key": "A380"},
+    {"text": "Y el más doloroso de todos: el Boeing 747, el mítico Jumbo, la Reina de los Cielos, el avión que durante décadas fue el símbolo mismo de volar lejos… también dejó de producirse, tras más de medio siglo surcando el cielo.", "kind": "broll", "query": "Boeing 747 jumbo jet iconic flying", "key": "747: la Reina de los Cielos"},
+    {"text": "Los aviones que definieron una época entera, los que llevaron a generaciones enteras al otro lado del mundo, se apagaron por culpa de dos motores más eficientes y de tres letras que les quitaron su única ventaja.", "kind": "broll", "query": "Boeing 747 sunset silhouette flying"},
+    {"text": "Hoy, si subes a un avión para cruzar un océano, lo más probable es que mires por la ventanilla y solo veas un motor bajo el ala. Uno a cada lado. Dos en total.", "kind": "broll", "query": "airplane window view single engine wing"},
+    {"text": "El rugido atronador de cuatro motores rasgando el aire, ese sonido que significaba aventura y distancia, se ha convertido en una rareza, en un sonido casi de museo.", "kind": "broll", "query": "Boeing 747 museum retired display", "key": "Sonido de museo"},
+    {"text": "No desapareció porque fuera malo. Desapareció porque algo mejor, más barato y igual de seguro, ocupó su lugar.", "kind": "broll", "query": "Airbus A350 modern twin engine flying"},
+    {"text": "Así funciona, casi siempre, el progreso.", "kind": "fact", "kicker": "EL PROGRESO", "body": "Algo mejor ocupó su lugar", "accent": "cyan"}
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {"text": "Así que ya lo sabes. Los aviones ya no tienen cuatro motores porque, sencillamente, dejaron de necesitarlos.", "kind": "broll", "query": "twin engine airliner flying clear sky"},
+    {"text": "Durante décadas, cruzar un océano exigía motores de sobra y una regla estricta mantenía a los bimotores pegados a la costa.", "kind": "broll", "query": "Boeing 747 four engines over ocean"},
+    {"text": "Pero los motores se volvieron tan fiables que apareció ETOPS, el permiso que dejó a los aviones de dos motores cruzar cualquier mar.", "kind": "broll", "query": "Boeing 777 twin engine over ocean"},
+    {"text": "Y en cuanto pudieron, las cuentas hicieron el resto: dos motores modernos gastan mucho menos que cuatro y son igual de seguros.", "kind": "broll", "query": "modern jet engine efficient turbine"},
+    {"text": "Por eso el 747, el A340 y el A380, los reyes de cuatro motores, acabaron apagándose para siempre.", "kind": "broll", "query": "Boeing 747 A380 retired stored"},
+    {"text": "La próxima vez que subas a un avión y cuentes solo dos motores, recuerda que estás viviendo el resultado de una de las mayores revoluciones silenciosas de la aviación.", "kind": "broll", "query": "airplane wing two engines window view"},
+    {"text": "Si te ha gustado esta historia, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana te contamos el porqué que se esconde detrás de los aviones.", "kind": "broll", "query": "airliner flying into sunset cinematic"},
+    {"text": "Y dime una cosa en los comentarios: ¿echas de menos a los gigantes de cuatro motores, o el futuro es de los bimotores? Te leo. Nos vemos en el siguiente.", "kind": "outro"}
+   ]
+  }
+ ]
+}
