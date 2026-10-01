@@ -59,7 +59,10 @@ BLOCK = ("covid", "coronavirus", "pandemic", "face-mask", "protest", "riot", "el
          "bath", "bathing", "shower", "-child", "children", "toddler", "-kid", "swimming-pool",
          # ocio nocturno / escenario: se cuela por consultas con "colorful lights" / "night" (DJ, discoteca...)
          "-dj-", "-dj_", "nightclub", "night-club", "disco", "-club-", "concert", "festival", "-rave",
-         "stage-light", "dance-floor", "nightlife", "cocktail", "-bar-", "neon-sign", "karaoke", "casino")
+         "stage-light", "dance-floor", "nightlife", "cocktail", "-bar-", "neon-sign", "karaoke", "casino",
+         # talleres de coches / mecanica de automocion (se cuela con "maintenance", "mechanic", "repair")
+         "garage", "car-repair", "auto-repair", "car-engine", "auto-mechanic", "car-mechanic",
+         "workshop", "tire-", "tyre-", "oil-change", "car-service", "automotive")
 
 
 def off_topic(url):
@@ -171,6 +174,9 @@ def vision_match(narration, image_urls):
               "- OJO METAFORAS: aunque la frase use una imagen de tierra (un edificio, una autopista, un rio, una "
               "cinta transportadora...), es un canal de AVIACION: NUNCA elijas la foto literal de ese objeto "
               "terrestre (p.ej. un edificio en obras). Elige solo aviacion; si ninguna lo es, responde 0.\n"
+              "- TALLERES/MECANICOS: un taller de coches, un motor de coche, un garaje o una herramienta suelta "
+              "NO valen aunque la frase hable de 'mantenimiento', 'reparar' o 'motores'. Solo vale si se ve "
+              "CLARAMENTE un avion, un motor de avion (turbofan), un hangar de aviones o un aeropuerto.\n"
               "- Si TODAS son de fuera de tema o no pegan nada, responde 0.\n"
               f"Responde SOLO con un numero del 0 al {len(b64s)}.")
     txt = _gemini_vision(prompt, b64s, max_tokens=60)
@@ -295,6 +301,12 @@ def is_named_aircraft(q):
 
 
 def resolve_visual(q, text, key, i, allow_video=True):
+    # LOS PRIMEROS SEGUNDOS son lo mas importante: ahi manda el VIDEO en movimiento y de calidad,
+    # nunca una foto fija. Si es avion concreto, el revisor exige que sea ESE avion.
+    if key == "hook" and i < 4 and allow_video:
+        c = get_clip(q, f"Debe verse: {q}. {text}", key, i)
+        if c:
+            return ("CLIP", c, "clip")
     """Cadena para un plano visual. REGLA DEL USER: SIEMPRE tiene que verse de lo que se habla.
     - Avion CONCRETO -> primero foto/ilustracion EXACTA de ese avion (Commons -> foto Pexels -> clip -> IA).
     - Resto -> clip literal revisado -> (video IA) -> foto revisada -> foto Commons -> ILUSTRACION generada.
@@ -392,13 +404,16 @@ def commons_image(query, text, prefix, i):
     a pantalla completa con movimiento. Devuelve {"file": ...} o None."""
     url = ("https://commons.wikimedia.org/w/api.php?action=query&format=json&generator=search"
            f"&gsrsearch=filetype:bitmap%20{urllib.parse.quote(query)}&gsrnamespace=6&gsrlimit=8"
-           "&prop=imageinfo&iiprop=url&iiurlwidth=1280")
+           "&prop=imageinfo&iiprop=url|size&iiurlwidth=1920")
     data = curl_json(url, [f"User-Agent: {UA}"])
     pages = list(((data.get("query", {}) or {}).get("pages", {}) or {}).values())
     cands = []
     for p in pages:
         ii = (p.get("imageinfo") or [{}])[0]
         thumb = ii.get("thumburl")
+        # CALIDAD: la original debe ser grande de verdad (si no, al ampliarla a 1080p sale borrosa)
+        if (ii.get("width") or 0) < 1800 or (ii.get("height") or 0) < 900:
+            continue
         if thumb and not off_topic(ii.get("url", "")):
             cands.append(thumb)
     if not cands:
@@ -492,7 +507,7 @@ def stock_photo(query, text, prefix, i):
         dst = os.path.join(OUT, f"ph_{prefix}_{i}.jpg")
         if download(c["url"], dst) and os.path.getsize(dst) >= 20000:
             w, h = img_dims(dst)
-            if w >= 1000 and h >= 560:
+            if w >= 1600 and h >= 900:
                 USED.add(c["id"])
                 return {"file": f"stock/ph_{prefix}_{i}.jpg"}
         if os.path.exists(dst):
@@ -520,6 +535,12 @@ def _ai33_prompt(prompt):
 
 def _ai33_diagram_prompt(prompt):
     # ILUSTRACION 3D realista EN CONTEXTO (dentro del avion), pero limpia para poner flechas encima.
+    if re.search(r"turbofan|jet engine|engine nacelle", prompt, re.I) and not re.search(r"cabin|door|window", prompt, re.I):
+        # un motor NO va dentro de la cabina: va colgado del ala, en un hangar/pista
+        return (prompt + ", mounted under the wing of a real airliner parked at an airport apron, realistic "
+                "aircraft proportions and materials, detailed 3D render, high-end product visualization, "
+                "soft daylight, the engine large and centered and clearly readable, no text, no labels, "
+                "no logos, no people, sharp focus, 16:9")
     return (prompt + ", seen from inside a real modern airliner cabin, mounted in the curved fuselage wall "
             "with surrounding cabin interior panels and floor, realistic aircraft proportions and materials, "
             "detailed 3D render, architectural visualization quality, soft cinematic interior lighting, "
