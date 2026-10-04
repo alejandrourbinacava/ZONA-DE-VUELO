@@ -109,11 +109,17 @@ def _gemini_vision(prompt, b64_images, max_tokens=250):
                                  "thinkingConfig": {"thinkingBudget": 0}}}
     tf = tempfile.NamedTemporaryFile("w", suffix=".json", delete=False, encoding="utf-8")
     json.dump(body, tf); tf.close()
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_KEY}"
+    # clave por CABECERA (no en la URL): asi nunca sale en tracebacks ni logs
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
     try:
-        for intento in range(4):   # 503 por alta demanda -> reintento breve
-            out = subprocess.run(["curl", "-s", url, "-H", "content-type: application/json", "-d", "@" + tf.name],
-                                 capture_output=True, encoding="utf-8", errors="replace", timeout=90).stdout
+        for intento in range(4):   # 503 por alta demanda / timeout -> reintento breve
+            try:
+                out = subprocess.run(["curl", "-s", "--max-time", "60", url, "-H", "content-type: application/json",
+                                      "-H", f"x-goog-api-key: {GEMINI_KEY}", "-d", "@" + tf.name],
+                                     capture_output=True, encoding="utf-8", errors="replace", timeout=75).stdout
+            except subprocess.TimeoutExpired:
+                time.sleep(3)
+                continue
             try:
                 d = json.loads(out)
             except json.JSONDecodeError:

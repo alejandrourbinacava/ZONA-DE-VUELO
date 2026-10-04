@@ -110,6 +110,7 @@ const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
         boxShadow: "0 40px 90px rgba(0,0,0,0.6)", border: "3px solid rgba(140,190,255,0.22)",
         opacity: enter, transform: `scale(${0.94 + enter * 0.06})` }}>
         <Img src={staticFile(file)} style={{ width: "100%", height: "100%", objectFit: "cover",
+          transformOrigin: ["50% 50%", "30% 42%", "70% 56%"][i % 3],   // punto de enfoque distinto por toma
           transform: `scale(${scale}) translate(${panX}px, ${panY}px)` }} />
       </div>
     </AbsoluteFill>
@@ -227,7 +228,16 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
       // UN plano continuo por escena (sin trocear -> sin parpadeo del mismo clip)
       const from = Math.round(t * fps);
       const to = Math.round((t + shotDur) * fps);
-      cells.push({ from, dur: Math.max(1, to - from), shot, sub: 0 });
+      const dur = Math.max(1, to - from);
+      // FOTO fija larga -> varias tomas de ~3.5s con encuadre/movimiento DISTINTO (punch-in, alejar, paneo):
+      // asi nunca se queda "plantada" una imagen varios segundos (lo mas importante: los primeros segundos)
+      const isPhoto = shot.kind === "image" && shot.source !== "FOTO";
+      const n = isPhoto && dur > 4.2 * fps ? Math.max(2, Math.round(dur / (3.5 * fps))) : 1;
+      for (let k = 0; k < n; k++) {
+        const a = from + Math.round((dur * k) / n);
+        const b = from + Math.round((dur * (k + 1)) / n);
+        cells.push({ from: a, dur: Math.max(1, b - a), shot, sub: k });
+      }
       t += shotDur;
     });
   }
@@ -313,10 +323,11 @@ const CineLayer: React.FC = () => {
   return (
     <AbsoluteFill style={{ pointerEvents: "none", zIndex: 18 }}>
       {/* vineta */}
-      <AbsoluteFill style={{ boxShadow: "inset 0 0 340px 90px rgba(2,6,14,0.82)" }} />
-      {/* grano */}
+      {/* (radial-gradient: mismo aspecto que el box-shadow enorme pero MUCHO mas barato de renderizar) */}
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at center, rgba(2,6,14,0) 52%, rgba(2,6,14,0.78) 100%)" }} />
+      {/* grano: sin mix-blend-mode (el blend por frame era el mayor coste del render local) */}
       <AbsoluteFill style={{ backgroundImage: `url("${NOISE}")`, backgroundRepeat: "repeat",
-        opacity: 0.05, mixBlendMode: "overlay", transform: `translate(${-gx}px, ${-gy}px) scale(1.3)` }} />
+        opacity: 0.035, transform: `translate(${-gx}px, ${-gy}px) scale(1.3)` }} />
     </AbsoluteFill>
   );
 };
