@@ -103,10 +103,7 @@ def gp_balance():
 
 def _synth_genaipro(text, voice_id, out_path, model, stability, similarity, style, speed):
     voice_id = voice_id.split("_", 1)[1] if voice_id.startswith(PREFIXES) else voice_id   # GenAIPro: id sin prefijo
-    bal = gp_balance()
-    if bal is not None and bal < len(text):
-        print(f"  ! saldo GenAIPro insuficiente ({bal} < {len(text)} caracteres). Recarga en genaipro.io", file=sys.stderr)
-        return None
+    # OJO: /v2/me devuelve 'balance' 0 aunque la cuenta tenga creditos (comprobado) -> NO se usa para bloquear
     body = {"input": text, "voice_id": voice_id, "model_id": model, "stability": stability,
             "similarity": similarity, "style": style, "speed": speed, "use_speaker_boost": True}
     for ronda in range(3):
