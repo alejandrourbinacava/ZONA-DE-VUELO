@@ -1,0 +1,433 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {
+     "text": "Un Airbus A380 cargado a tope pesa más de quinientas toneladas.",
+     "kind": "broll",
+     "query": "Airbus A380 taking off heavy",
+     "key": "500 toneladas"
+    },
+    {
+     "text": "Eso son más de ochenta elefantes africanos juntos.",
+     "kind": "fact",
+     "kicker": "EQUIVALE A",
+     "body": "Más de 80 elefantes",
+     "accent": "amber"
+    },
+    {
+     "text": "Casi ochenta metros de punta a punta de ala.",
+     "kind": "broll",
+     "query": "Airbus A380 wing wide span flying"
+    },
+    {
+     "text": "Y ahora piensa en lo que hay debajo de todo ese peso, a diez mil metros de altura: nada.",
+     "kind": "broll",
+     "query": "airliner flying high above clouds from below"
+    },
+    {
+     "text": "Ni un cable. Ni un soporte. Ni un solo punto de apoyo. Solo aire.",
+     "kind": "broll",
+     "query": "airplane in empty blue sky contrail",
+     "key": "Solo aire"
+    },
+    {
+     "text": "Un aire que, además, pesa casi nada: un metro cúbico apenas pesa un kilo y poco.",
+     "kind": "fact",
+     "kicker": "1 METRO CÚBICO DE AIRE",
+     "body": "Pesa apenas 1,2 kg",
+     "accent": "cyan"
+    },
+    {
+     "text": "Y aun así, ese aire sostiene una montaña de metal con cientos de personas dentro, durante horas, sin cansarse.",
+     "kind": "broll",
+     "query": "Airbus A380 cruising high altitude"
+    },
+    {
+     "text": "Casi todo el mundo cree que son los motores los que mantienen el avión arriba. Y es justo al revés. Los motores no sostienen nada.",
+     "kind": "broll",
+     "query": "airliner jet engine under wing close up",
+     "key": "Los motores NO sostienen"
+    },
+    {
+     "text": "De hecho, un avión puede seguir volando durante muchos kilómetros sin ningún motor encendido, y vas a entender por qué.",
+     "kind": "broll",
+     "query": "glider soaring above clouds"
+    },
+    {
+     "text": "Hoy te explico, paso a paso, el truco físico que hace posible lo que parece imposible. Tiene que ver con la forma del ala, con una velocidad concreta y con una idea de Newton que lo explica todo.",
+     "kind": "broll",
+     "query": "airplane wing flying closeup sky"
+    },
+    {
+     "text": "Quédate hasta el final, porque la última parte cambia para siempre la forma en que vas a mirar un avión.",
+     "kind": "fact",
+     "kicker": "ZONA DE VUELO",
+     "body": "La última parte lo cambia todo",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {
+     "text": "Para entenderlo, hay que empezar por las cuatro fuerzas del vuelo. Son solo cuatro, y las vas a recordar toda la vida.",
+     "kind": "fact",
+     "kicker": "LAS 4 FUERZAS",
+     "body": "Peso · Sustentación · Empuje · Resistencia",
+     "accent": "cyan"
+    },
+    {
+     "text": "La primera es el peso: la gravedad tirando del avión hacia abajo, con todas esas toneladas.",
+     "kind": "broll",
+     "query": "heavy airliner taking off runway",
+     "key": "PESO"
+    },
+    {
+     "text": "La segunda es la sustentación: una fuerza que empuja el avión hacia arriba y lo mantiene en el aire.",
+     "kind": "broll",
+     "query": "airplane wing lift climbing sky",
+     "key": "SUSTENTACIÓN"
+    },
+    {
+     "text": "La tercera es el empuje, que es lo que hacen los motores: empujar el avión hacia delante.",
+     "kind": "broll",
+     "query": "jet engine thrust takeoff airliner",
+     "key": "EMPUJE"
+    },
+    {
+     "text": "Y la cuarta es la resistencia, el rozamiento del aire, que intenta frenarlo.",
+     "kind": "broll",
+     "query": "airplane wing condensation airflow vapor",
+     "key": "RESISTENCIA"
+    },
+    {
+     "text": "Fíjate en la clave: los motores solo se ocupan del empuje, es decir, de ir hacia delante. Ellos no levantan el avión ni un centímetro.",
+     "kind": "broll",
+     "query": "airliner turbofan engines wing view"
+    },
+    {
+     "text": "Cuando el avión vuela estable, a velocidad constante, esas fuerzas se compensan por parejas. El empuje iguala a la resistencia, y la sustentación iguala exactamente al peso.",
+     "kind": "fact",
+     "kicker": "EN CRUCERO",
+     "body": "Empuje = Resistencia · Sustentación = Peso",
+     "accent": "green"
+    },
+    {
+     "text": "Si la sustentación fuera un poco menor, el avión bajaría.",
+     "kind": "broll",
+     "query": "airliner descending through clouds"
+    },
+    {
+     "text": "Si fuera un poco mayor, subiría.",
+     "kind": "broll",
+     "query": "airliner climbing after takeoff"
+    },
+    {
+     "text": "Todo el truco del vuelo consiste en conseguir esa sustentación. Y para eso, el avión necesita algo que parece muy simple a primera vista: un ala.",
+     "kind": "broll",
+     "query": "airplane wing from window view clouds",
+     "key": "El ala"
+    }
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {
+     "text": "Entonces, ¿cómo sostiene un ala quinientas toneladas?",
+     "kind": "broll",
+     "query": "Airbus A380 wing flying clouds"
+    },
+    {
+     "text": "Aquí viene la parte fascinante. El ala no flota, ni se agarra al aire.",
+     "kind": "broll",
+     "query": "airplane wing above clouds sunlight"
+    },
+    {
+     "text": "Lo que hace es empujar el aire hacia abajo. Eso es todo.",
+     "kind": "fact",
+     "kicker": "LA CLAVE",
+     "body": "El ala empuja el aire hacia abajo",
+     "accent": "red"
+    },
+    {
+     "text": "Al avanzar, el ala va ligeramente inclinada hacia arriba, y su forma curva guía el aire que pasa por encima y por debajo para que salga despedido hacia abajo por detrás.",
+     "kind": "broll",
+     "query": "wind tunnel smoke airflow wing model"
+    },
+    {
+     "text": "Y aquí entra Newton, con su famosa tercera ley: toda acción tiene una reacción igual y contraria.",
+     "kind": "fact",
+     "kicker": "3ª LEY DE NEWTON",
+     "body": "Acción = reacción",
+     "accent": "amber"
+    },
+    {
+     "text": "Si el ala empuja una enorme cantidad de aire hacia abajo, el aire empuja el ala hacia arriba con la misma fuerza. Esa es la sustentación.",
+     "kind": "broll",
+     "query": "airplane wing lift flying",
+     "key": "Sustentación"
+    },
+    {
+     "text": "Cada segundo, el ala de un avión grande desvía hacia abajo muchísimas toneladas de aire.",
+     "kind": "broll",
+     "query": "Boeing 747 wing flying above clouds"
+    },
+    {
+     "text": "No es magia. Es un intercambio: el avión le da un golpe al aire hacia abajo, y el aire le devuelve un empujón hacia arriba.",
+     "kind": "broll",
+     "query": "airplane wing wingtip vortex clouds"
+    },
+    {
+     "text": "Esa inclinación del ala respecto al aire se llama ángulo de ataque, y es una de las ideas más importantes de todo el vuelo. Más ángulo, más aire desviado, más sustentación.",
+     "kind": "broll",
+     "query": "airplane takeoff rotation nose up",
+     "key": "Ángulo de ataque"
+    },
+    {
+     "text": "Pero cuidado, porque hay un límite. Cuando un avión se pasa de ese límite, el aire deja de pegarse al ala y la sustentación se esfuma de golpe. A eso los pilotos lo llaman entrar en pérdida.",
+     "kind": "fact",
+     "kicker": "PÉRDIDA",
+     "body": "Demasiado ángulo = adiós sustentación",
+     "accent": "red"
+    }
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {
+     "text": "Ahora viene la pregunta del millón: ¿por qué las alas de los aviones son tan enormes? Porque cuanta más superficie de ala hay, más aire se puede desviar.",
+     "kind": "broll",
+     "query": "Airbus A380 large wing area from above"
+    },
+    {
+     "text": "El ala de un A380 tiene unos ochocientos cuarenta metros cuadrados, más que tres pistas de tenis juntas.",
+     "kind": "stat",
+     "value": 840,
+     "suffix": "m²",
+     "label": "Superficie del ala del A380",
+     "color": "cyan"
+    },
+    {
+     "text": "Aun así, cada metro cuadrado de ala sostiene del orden de seiscientos kilos.",
+     "kind": "stat",
+     "value": 600,
+     "suffix": "kg",
+     "label": "Peso que sostiene cada m² de ala",
+     "color": "amber"
+    },
+    {
+     "text": "Pero la superficie no basta. También hace falta velocidad.",
+     "kind": "broll",
+     "query": "airplane takeoff roll runway speed"
+    },
+    {
+     "text": "La sustentación crece con el cuadrado de la velocidad: si vas el doble de rápido, obtienes cuatro veces más sustentación.",
+     "kind": "compare",
+     "a": 1,
+     "b": 4,
+     "alabel": "Velocidad ×1",
+     "blabel": "Velocidad ×2",
+     "unit": "veces",
+     "label": "Sustentación",
+     "color": "green"
+    },
+    {
+     "text": "Por eso un avión no puede despegar parado. Tiene que correr por la pista hasta alcanzar cerca de trescientos kilómetros por hora, según el peso, y solo entonces el aire le da el empujón suficiente para levantarse.",
+     "kind": "broll",
+     "query": "Airbus A380 takeoff runway lifting off"
+    },
+    {
+     "text": "Y para despegar y aterrizar a velocidades más bajas, el ala se transforma.",
+     "kind": "broll",
+     "query": "airliner landing approach flaps extended"
+    },
+    {
+     "text": "Fíjate la próxima vez: por la ventanilla verás cómo salen unas piezas de la parte de atrás y de la parte de delante del ala. Son los flaps y los slats. Alargan y curvan el ala, aumentan su superficie y su curvatura, y permiten que el avión genere la misma sustentación yendo más despacio.",
+     "kind": "annotate",
+     "query": "close-up 3D model of a large modern airliner wing with the leading-edge slats and trailing-edge flaps extended, exterior view on an airport apron",
+     "callouts": [
+      {
+       "label": "Slats"
+      },
+      {
+       "label": "Flaps"
+      },
+      {
+       "label": "Alerón"
+      }
+     ],
+     "label": "EL ALA SE TRANSFORMA"
+    },
+    {
+     "text": "Por eso, en la aproximación, ves que el ala se despliega como si tuviera vida propia.",
+     "kind": "broll",
+     "query": "airliner wing flaps deployed landing view"
+    }
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {
+     "text": "Y aquí aparece otra pieza curiosa del puzle. Los aviones comerciales no vuelan a cuatro mil metros, sino a diez u once mil.",
+     "kind": "broll",
+     "query": "airliner cruising high altitude above clouds",
+     "key": "11.000 m"
+    },
+    {
+     "text": "¿Por qué ir tan alto, si arriba hay menos aire que desviar? Precisamente por eso.",
+     "kind": "broll",
+     "query": "airplane above clouds sunset high altitude"
+    },
+    {
+     "text": "A esa altura, el aire es mucho más fino: pesa aproximadamente un tercio que al nivel del mar.",
+     "kind": "compare",
+     "a": 100,
+     "b": 30,
+     "alabel": "Nivel del mar",
+     "blabel": "A 11.000 m",
+     "unit": "%",
+     "label": "Densidad del aire",
+     "color": "cyan"
+    },
+    {
+     "text": "Con menos aire, hay mucha menos resistencia, y el avión gasta bastante menos combustible.",
+     "kind": "broll",
+     "query": "airliner cruising contrails high altitude"
+    },
+    {
+     "text": "Pero hay un precio. Con un aire tan fino, el ala tiene que compensar lo que le falta de aire con velocidad.",
+     "kind": "fact",
+     "kicker": "EL PRECIO",
+     "body": "Aire fino = más velocidad",
+     "accent": "amber"
+    },
+    {
+     "text": "Por eso un avión de pasajeros viaja en crucero a unos novecientos kilómetros por hora.",
+     "kind": "stat",
+     "value": 900,
+     "suffix": "km/h",
+     "label": "Velocidad de crucero",
+     "color": "cyan"
+    },
+    {
+     "text": "Es un equilibrio delicadísimo: ir alto ahorra combustible, pero obliga a ir deprisa.",
+     "kind": "broll",
+     "query": "airliner cockpit instruments altitude speed"
+    },
+    {
+     "text": "Y hay un detalle más que casi nadie conoce. A medida que el avión quema combustible, pesa menos, y necesita menos sustentación.",
+     "kind": "broll",
+     "query": "airliner refueling fuel truck airport"
+    },
+    {
+     "text": "Por eso, durante el trayecto, los pilotos pueden pedir subir a una altitud todavía mayor, donde el aire es más fino y se gasta menos. Cada kilo de combustible que se quema hace al avión un poquito más eficiente.",
+     "kind": "broll",
+     "query": "airliner climbing higher altitude clouds"
+    },
+    {
+     "text": "Todo en el diseño de un avión es una negociación entre el peso, el aire y la velocidad, y el ala es la que sostiene todo ese acuerdo.",
+     "kind": "broll",
+     "query": "airliner wing sunrise high altitude"
+    }
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {
+     "text": "Y llegamos a la pregunta que más miedo da. ¿Qué pasa si se apagan los motores?",
+     "kind": "broll",
+     "query": "airliner jet engine close up",
+     "key": "¿Y si se apagan?"
+    },
+    {
+     "text": "Pues que el avión no cae como una piedra. Sigue siendo un planeador gigantesco.",
+     "kind": "broll",
+     "query": "glider gliding flying sky"
+    },
+    {
+     "text": "Sin empuje, el avión pierde algo de velocidad, baja un poco el morro y empieza a descender, pero sigue avanzando, y el ala sigue generando sustentación mientras haya aire pasando por ella.",
+     "kind": "broll",
+     "query": "airplane gliding descent clouds"
+    },
+    {
+     "text": "Un avión de pasajeros recorre del orden de quince kilómetros hacia delante por cada kilómetro de altura que pierde.",
+     "kind": "compare",
+     "a": 15,
+     "b": 1,
+     "alabel": "Recorre",
+     "blabel": "Pierde",
+     "unit": "km",
+     "label": "Relación de planeo",
+     "color": "cyan"
+    },
+    {
+     "text": "Eso significa que, desde diez mil metros, puede planear más de cien kilómetros hasta buscar una pista.",
+     "kind": "stat",
+     "value": 100,
+     "suffix": "km+",
+     "label": "Planeo desde 10.000 m de altura",
+     "color": "green"
+    },
+    {
+     "text": "Y no es solo teoría: ha ocurrido de verdad que aviones de pasajeros se han quedado sin motores en pleno vuelo y han aterrizado sin problema, planeando.",
+     "kind": "broll",
+     "query": "airliner landing runway safely"
+    },
+    {
+     "text": "Esa es la mejor prueba de que lo que sostiene un avión no son los motores, sino el ala y el aire.",
+     "kind": "broll",
+     "query": "airplane wing closeup flying",
+     "key": "Ala + aire"
+    },
+    {
+     "text": "Y con esto ya tienes todas las piezas. Un avión pesa quinientas toneladas, pero sus alas, con su forma, su ángulo y su velocidad, empujan el aire hacia abajo con tanta fuerza que el aire, por pura reacción, lo mantiene arriba.",
+     "kind": "broll",
+     "query": "Airbus A380 flying majestic sky"
+    },
+    {
+     "text": "Cada vuelo es una demostración de la tercera ley de Newton a gran escala.",
+     "kind": "fact",
+     "kicker": "NEWTON",
+     "body": "Tercera ley a gran escala",
+     "accent": "cyan"
+    }
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {
+     "text": "Así que ya lo sabes. Un avión de quinientas toneladas vuela porque sus alas empujan el aire hacia abajo, y el aire, por la tercera ley de Newton, lo empuja hacia arriba.",
+     "kind": "broll",
+     "query": "Airbus A380 flying clear sky"
+    },
+    {
+     "text": "Los motores solo le dan la velocidad para que ese truco funcione. La forma del ala, su ángulo, su tamaño y sus flaps hacen el resto.",
+     "kind": "broll",
+     "query": "airplane wing flaps extended"
+    },
+    {
+     "text": "La próxima vez que estés en un avión y mires por la ventanilla, fíjate en el ala, en esa superficie inmensa recortada contra el cielo, y piensa que está empujando toneladas de aire hacia abajo en cada segundo del vuelo.",
+     "kind": "broll",
+     "query": "airplane wing window view sky"
+    },
+    {
+     "text": "Si te ha gustado, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana te contamos el porqué que se esconde detrás de los aviones.",
+     "kind": "broll",
+     "query": "airliner flying into sunset cinematic"
+    },
+    {
+     "text": "Y dime en los comentarios: ¿qué otra duda sobre los aviones te gustaría que resolviéramos? Te leo. Nos vemos en el siguiente.",
+     "kind": "outro"
+    }
+   ]
+  }
+ ]
+}

@@ -5,7 +5,7 @@
 # El puntero (queue/state.json) SOLO avanza cuando el video se produce con exito. '#' = comentario.
 
 # ================= TIER S — apuestas seguras (contraintuitivo "por que NO", probado por outliers) =================
-¿Por qué los aviones no vuelan más rápido de 950 km/h?
+# HECHO (borrador en Studio): ¿Por qué los aviones no vuelan más rápido de 950 km/h?
 ¿Por qué los motores van debajo del ala y no encima?
 ¿Por qué el ala del avión se dobla tanto y no se rompe?
 ¿Cuánto pesa realmente un avión lleno de pasajeros?
@@ -47,3 +47,4 @@
 
 # HECHO (fuera de cola): ¿Por qué mataron al A380, el avión más grande del mundo?
 # HECHO (fuera de cola): ¿Por qué los aviones YA NO tienen 4 motores?
+# HECHO (fuera de cola, 5-oct): ¿Cómo vuela de verdad un avión de 500 toneladas? (OJO: ya hay subido '¿Cómo Vuelan Realmente Los Aviones?', enfoque Bernoulli/Newton)

@@ -541,9 +541,9 @@ def _ai33_prompt(prompt):
 
 def _ai33_diagram_prompt(prompt):
     # ILUSTRACION 3D realista EN CONTEXTO (dentro del avion), pero limpia para poner flechas encima.
-    if re.search(r"turbofan|jet engine|engine nacelle", prompt, re.I) and not re.search(r"cabin|door|window", prompt, re.I):
-        # un motor NO va dentro de la cabina: va colgado del ala, en un hangar/pista
-        return (prompt + ", mounted under the wing of a real airliner parked at an airport apron, realistic "
+    if re.search(r"turbofan|jet engine|engine nacelle|exterior view", prompt, re.I) and not re.search(r"cabin|door|window", prompt, re.I):
+        # motor / ala NO van dentro de la cabina: se ven por fuera, en un avion real aparcado en pista
+        return (prompt + ", on a real airliner parked at an airport apron, realistic "
                 "aircraft proportions and materials, detailed 3D render, high-end product visualization, "
                 "soft daylight, the engine large and centered and clearly readable, no text, no labels, "
                 "no logos, no people, sharp focus, 16:9")
