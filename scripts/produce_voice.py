@@ -85,7 +85,10 @@ def main():
     print(f"Secciones: {len(secs)}")
     manifest, offset, listing = [], 0.0, []
     for i, sec in enumerate(secs):
-        key = KEYS[i] if i < len(KEYS) else f"sec{i}"
+        _t = sec["title"].upper()
+        _m = re.search(r"PARTE\s+(\d+)", _t)
+        key = ("hook" if "HOOK" in _t else "cierre" if "CIERRE" in _t else f"parte{_m.group(1)}" if _m
+               else (KEYS[i] if i < len(KEYS) else f"sec{i}"))
         mp3 = os.path.join(OUTDIR, f"{i:02d}_{key}.mp3")
         if os.path.exists(mp3) and os.path.getsize(mp3) > 2000:
             print(f"[{i+1}/{len(secs)}] {key}: reuso audio")

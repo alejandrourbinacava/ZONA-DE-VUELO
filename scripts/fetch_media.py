@@ -678,14 +678,21 @@ def main():
         print("FALTA PEXELS_KEY"); sys.exit(1)
     load_used()   # cargar ids de clips usados en videos anteriores (dedup global)
     os.makedirs(OUT, exist_ok=True)
-    for f in os.listdir(OUT):
-        if f.endswith((".mp4", ".jpg", ".png")):
-            try: os.remove(os.path.join(OUT, f))
-            except OSError: pass
+    only = {k for k in os.environ.get("ONLY_SECTIONS", "").split(",") if k}   # modo incremental: solo estas secciones
+    prev = {}
+    if only:
+        prev = {s["key"]: s for s in json.load(open(os.path.join(OUT, "media.json"), encoding="utf-8"))["sections"]}
+    else:
+        for f in os.listdir(OUT):
+            if f.endswith((".mp4", ".jpg", ".png")):
+                try: os.remove(os.path.join(OUT, f))
+                except OSError: pass
     shot = json.load(open(SHOT, encoding="utf-8"))
     out_sections = []
     for sec in shot["sections"]:
         key = sec["key"]
+        if only and key not in only and key in prev:
+            out_sections.append(prev[key]); continue      # se conserva lo ya revisado/parcheado
         resolved = []
         for i, sh in enumerate(sec.get("shots", [])):
             kind = sh.get("kind")

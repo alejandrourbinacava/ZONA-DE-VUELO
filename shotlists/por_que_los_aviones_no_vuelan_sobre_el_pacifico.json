@@ -404,6 +404,81 @@
    ]
   },
   {
+   "key": "parte6",
+   "shots": [
+    {
+     "text": "Y ahora que sabes cómo se cruza, queda una duda inevitable: ¿qué pasa si algo sale mal justo en mitad del océano?",
+     "kind": "broll",
+     "query": "airliner cockpit instruments night flying ocean",
+     "key": "¿Y si algo falla?"
+    },
+    {
+     "text": "Los aviones están preparados para eso desde antes de despegar.",
+     "kind": "broll",
+     "query": "airline pilots preflight check cockpit"
+    },
+    {
+     "text": "Antes de cada vuelo, los despachadores calculan algo llamado el punto de igual tiempo: el lugar de la ruta donde tardarías lo mismo en volver al aeropuerto de atrás que en continuar hasta el de delante.",
+     "kind": "fact",
+     "kicker": "PUNTO DE IGUAL TIEMPO",
+     "body": "Mismo tiempo para volver que para seguir",
+     "accent": "cyan"
+    },
+    {
+     "text": "Si el problema ocurre antes de ese punto, en general se da la vuelta. Si ocurre después, se sigue adelante, hacia el aeropuerto de emergencia más cercano en esa dirección.",
+     "kind": "map",
+     "from": {
+      "name": "Los Ángeles",
+      "lat": 33.94,
+      "lon": -118.41
+     },
+     "to": {
+      "name": "Sídney",
+      "lat": -33.95,
+      "lon": 151.18
+     },
+     "label": "Antes del punto: volver · Después: seguir",
+     "bow": 0.05
+    },
+    {
+     "text": "Pero hay un detalle todavía más importante. Los planificadores imaginan el peor escenario posible: que falle un motor y, a la vez, se pierda la presión de la cabina.",
+     "kind": "fact",
+     "kicker": "EL PEOR ESCENARIO",
+     "body": "Un motor falla + se pierde la presión",
+     "accent": "red"
+    },
+    {
+     "text": "En ese caso, el avión tendría que bajar a una altitud mucho más baja, donde se gasta bastante más combustible, y llegar así hasta la isla elegida.",
+     "kind": "broll",
+     "query": "airliner descending low altitude over ocean"
+    },
+    {
+     "text": "Y esa cantidad extra de combustible, calculada para un día que casi nunca llega, se carga en el avión en cada vuelo.",
+     "kind": "fact",
+     "kicker": "COMBUSTIBLE EXTRA",
+     "body": "Para un día que casi nunca llega",
+     "accent": "green"
+    },
+    {
+     "text": "Además, durante todo el cruce, el avión no está solo: se comunica con los controladores a miles de kilómetros mediante radio de largo alcance y enlaces por satélite, y va informando de su posición cada cierto tiempo.",
+     "kind": "broll",
+     "query": "pilot headset radio communication cockpit"
+    },
+    {
+     "text": "Por eso, aunque el Pacífico parezca un desierto en el mapa, nadie vuela a ciegas sobre él.",
+     "kind": "broll",
+     "query": "airplane wing night over ocean lights"
+    },
+    {
+     "text": "Cada vuelo lleva un plan B, un plan C y combustible de sobra pensado para el peor día posible.",
+     "kind": "fact",
+     "kicker": "PLAN B, PLAN C",
+     "body": "Y combustible para el peor día",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
    "key": "cierre",
    "shots": [
     {
