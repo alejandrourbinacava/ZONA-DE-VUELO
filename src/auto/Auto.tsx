@@ -11,7 +11,7 @@ type Pt = { name?: string; lat: number; lon: number };
 type Shot = {
   kind: string; text: string; file?: string; label?: string; source?: string; key?: string;
   value?: number; suffix?: string; color?: string; kicker?: string; body?: string; accent?: string;
-  from?: Pt; to?: Pt; callouts?: { label: string; x?: number; y?: number }[];
+  from?: Pt; to?: Pt; straight?: boolean; bow?: number; callouts?: { label: string; x?: number; y?: number }[];
   a?: number; b?: number; alabel?: string; blabel?: string; unit?: string;
   events?: { year: string | number; text: string }[];
 };
@@ -307,7 +307,7 @@ const CellView: React.FC<{ shot: Shot; sub: number; index: number; mode?: Mode }
       return shot.file ? withTag(<ClipCard file={shot.file} startFrom={sub * MAX_CELL} mode={mode} />, shot, index) : <FallbackCard text={shot.text} />;
     case "map":
       return shot.from && shot.to
-        ? <MapRoute from={shot.from} to={shot.to} label={shot.label} />
+        ? <MapRoute from={shot.from} to={shot.to} label={shot.label} straight={shot.straight} bow={shot.bow} />
         : <FallbackCard text={shot.text} />;
     case "annotate":
       return shot.file

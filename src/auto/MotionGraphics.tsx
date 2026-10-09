@@ -12,12 +12,17 @@ const vOf = (lat: number) => (90 - lat) / 180;     // 0..1 (norte->sur)
 // ============================================================
 //  MAPA CON RUTA ANIMADA (arco tipo circulo maximo + avion)
 // ============================================================
-export const MapRoute: React.FC<{ from: Pt; to: Pt; label?: string }> = ({ from, to, label }) => {
+export const MapRoute: React.FC<{ from: Pt; to: Pt; label?: string; straight?: boolean; bow?: number }> = ({ from, to, label, straight, bow = 0.42 }) => {
   const frame = useCurrentFrame();
   const { durationInFrames, width, height } = useVideoConfig();
   const enter = spring({ frame, fps: 30, config: { damping: 200, stiffness: 90 } });
 
-  const uA = uOf(from.lon), vA = vOf(from.lat), uB = uOf(to.lon), vB = vOf(to.lat);
+  // ruta por el camino corto: si cruza la linea de cambio de fecha (|dlon|>180) se "desenrolla" la longitud
+  // de B (+-360) y el mapa se repite a izquierda y derecha -> el Pacifico se ve entero y continuo
+  let toLon = to.lon;
+  if (toLon - from.lon > 180) toLon -= 360;
+  else if (toLon - from.lon < -180) toLon += 360;
+  const uA = uOf(from.lon), vA = vOf(from.lat), uB = uOf(toLon), vB = vOf(to.lat);
   const cU = (uA + uB) / 2, cV = (vA + vB) / 2;
   const spanU = Math.max(Math.abs(uA - uB), 0.02);
   const spanV = Math.max(Math.abs(vA - vB), 0.02);
@@ -36,7 +41,7 @@ export const MapRoute: React.FC<{ from: Pt; to: Pt; label?: string }> = ({ from,
   const A = P(uA, vA), B = P(uB, vB);
   // punto de control: arquea hacia el polo mas cercano (circulo maximo aproximado)
   const northern = (from.lat + to.lat) / 2 >= 0;
-  const bowV = cV + (northern ? -1 : 1) * 0.42 * Math.abs(uA - uB);
+  const bowV = cV + (northern ? -1 : 1) * bow * Math.abs(uA - uB);
   const C = P(cU, bowV);
 
   // progreso del trazado del arco y del avion
@@ -69,9 +74,16 @@ export const MapRoute: React.FC<{ from: Pt; to: Pt; label?: string }> = ({ from,
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom, overflow: "hidden", opacity: enter }}>
-      <Img src={staticFile("worldmap.jpg")} style={{ position: "absolute", left: mapLeft, top: mapTop, width: mapW, height: mapH, filter: "brightness(0.6) saturate(1.1) contrast(1.05)" }} />
+      {[-1, 0, 1].map((k) => (
+        <Img key={k} src={staticFile("worldmap.jpg")} style={{ position: "absolute", left: mapLeft + k * mapW, top: mapTop, width: mapW, height: mapH, filter: "brightness(0.6) saturate(1.1) contrast(1.05)" }} />
+      ))}
       <AbsoluteFill style={{ background: `radial-gradient(circle at ${(A.x + B.x) / 2}px ${(A.y + B.y) / 2}px, rgba(5,12,26,0.15) 30%, rgba(4,9,20,0.8) 90%)` }} />
       <svg width={width} height={height} style={{ position: "absolute", inset: 0 }}>
+        {straight ? (
+          // la linea "recta" que parece la mas corta en un mapa plano (roja, discontinua) vs la ruta real curva (cian)
+          <line x1={A.x} y1={A.y} x2={B.x} y2={B.y} stroke={COLORS.red} strokeWidth={4} strokeDasharray="18 14"
+            strokeLinecap="round" opacity={interpolate(frame, [4, 24], [0, 0.9], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
+        ) : null}
         <path d={`M ${A.x} ${A.y} Q ${C.x} ${C.y} ${B.x} ${B.y}`} fill="none"
           stroke={COLORS.cyan} strokeWidth={5} strokeLinecap="round"
           strokeDasharray={pathLen} strokeDashoffset={pathLen * (1 - draw)}

@@ -1,0 +1,443 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {
+     "text": "Coge todos los continentes del planeta. África, Asia, América, Europa, Oceanía y la Antártida. Júntalos todos.",
+     "kind": "broll",
+     "query": "airplane window view over endless ocean aerial",
+     "key": "Todos los continentes juntos"
+    },
+    {
+     "text": "Y aun así, el océano Pacífico seguiría siendo más grande.",
+     "kind": "fact",
+     "kicker": "AUN ASÍ",
+     "body": "El Pacífico es más grande",
+     "accent": "red"
+    },
+    {
+     "text": "Es una masa de agua tan inmensa que ocupa casi un tercio de la superficie entera de la Tierra.",
+     "kind": "stat",
+     "value": 32,
+     "suffix": "%",
+     "label": "Del planeta es océano Pacífico",
+     "color": "cyan"
+    },
+    {
+     "text": "Ahora abre un mapa de vuelos en directo. El Atlántico está lleno de líneas, un hormiguero de aviones cruzando entre Europa y América.",
+     "kind": "broll",
+     "query": "air traffic radar screen flights map",
+     "key": "El Atlántico: lleno"
+    },
+    {
+     "text": "Y el Pacífico parece vacío. Enormes zonas sin un solo avión.",
+     "kind": "broll",
+     "query": "airplane over empty ocean horizon",
+     "key": "El Pacífico: vacío"
+    },
+    {
+     "text": "Por eso mucha gente se pregunta: ¿por qué los aviones no vuelan sobre el Pacífico?",
+     "kind": "fact",
+     "kicker": "LA PREGUNTA",
+     "body": "¿Por qué no vuelan sobre el Pacífico?",
+     "accent": "amber"
+    },
+    {
+     "text": "¿Está prohibido? ¿Es demasiado peligroso? ¿Hay algo ahí que los obliga a mantenerse lejos?",
+     "kind": "broll",
+     "query": "airliner flying through storm clouds over ocean"
+    },
+    {
+     "text": "La respuesta es mucho más interesante de lo que imaginas, porque la propia pregunta esconde un pequeño engaño.",
+     "kind": "broll",
+     "query": "airplane wing sunset over ocean"
+    },
+    {
+     "text": "Hoy vamos a descubrir cuántos aviones cruzan de verdad el Pacífico, por qué parecen tan pocos, qué hace que el centro del océano sea casi un desierto para la aviación, y por qué los vuelos que sí lo cruzan no van por donde tú crees.",
+     "kind": "broll",
+     "query": "airliner flying over pacific ocean aerial"
+    },
+    {
+     "text": "Quédate, porque la última parte te va a cambiar el mapa que llevas en la cabeza.",
+     "kind": "fact",
+     "kicker": "ZONA DE VUELO",
+     "body": "La última parte cambia tu mapa",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {
+     "text": "Empecemos aclarando el primer malentendido. Los aviones sí vuelan sobre el Pacífico. Y lo hacen todos los días.",
+     "kind": "broll",
+     "query": "airplane flying over ocean clouds",
+     "key": "Sí lo cruzan"
+    },
+    {
+     "text": "Cada jornada, aviones de pasajeros y de carga cruzan este océano entre Asia y América, y entre América y Oceanía.",
+     "kind": "map",
+     "from": {
+      "name": "Tokio",
+      "lat": 35.55,
+      "lon": 139.78
+     },
+     "to": {
+      "name": "Los Ángeles",
+      "lat": 33.94,
+      "lon": -118.41
+     },
+     "label": "Asia ⇄ América"
+    },
+    {
+     "text": "Tokio, Seúl, Shanghái, Los Ángeles, San Francisco, Sídney o Auckland están unidas por vuelos que atraviesan miles de kilómetros de agua.",
+     "kind": "broll",
+     "query": "Los Angeles airport LAX airplane takeoff"
+    },
+    {
+     "text": "Entonces, ¿de dónde viene esa sensación de que casi no hay tráfico? De compararlo con el Atlántico.",
+     "kind": "broll",
+     "query": "airliner over atlantic ocean clouds"
+    },
+    {
+     "text": "El Atlántico Norte conecta dos de las regiones más ricas y pobladas del planeta, Europa y Norteamérica, separadas por unas siete u ocho horas de vuelo. Es una autopista con una demanda gigantesca.",
+     "kind": "map",
+     "from": {
+      "name": "Madrid",
+      "lat": 40.47,
+      "lon": -3.56
+     },
+     "to": {
+      "name": "Nueva York",
+      "lat": 40.64,
+      "lon": -73.78
+     },
+     "label": "Atlántico: 7-8 horas"
+    },
+    {
+     "text": "El Pacífico, en cambio, es otra historia. Las distancias son mucho mayores: cruzarlo puede costar diez, catorce o incluso diecisiete horas de vuelo.",
+     "kind": "compare",
+     "a": 8,
+     "b": 17,
+     "alabel": "Atlántico (Madrid-Nueva York)",
+     "blabel": "Pacífico (Dallas-Sídney)",
+     "unit": "horas",
+     "label": "Horas de vuelo",
+     "color": "amber"
+    },
+    {
+     "text": "Y buena parte de ese océano no tiene grandes ciudades al otro lado, solo islas diminutas esparcidas a miles de kilómetros unas de otras.",
+     "kind": "broll",
+     "query": "tropical island airport runway aerial ocean"
+    },
+    {
+     "text": "Menos gente que quiera ir, y una travesía mucho más cara. Eso ya explica una parte del mapa vacío.",
+     "kind": "fact",
+     "kicker": "MENOS DEMANDA",
+     "body": "Menos gente, travesía más cara",
+     "accent": "green"
+    },
+    {
+     "text": "Pero solo una parte. Porque hay un segundo motivo, y ese es puramente geográfico.",
+     "kind": "fact",
+     "kicker": "EL SEGUNDO MOTIVO",
+     "body": "Es puramente geográfico",
+     "accent": "cyan"
+    }
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {
+     "text": "El segundo motivo tiene que ver con el propio mapa.",
+     "kind": "broll",
+     "query": "airline route map world flights"
+    },
+    {
+     "text": "Cuando miras un mapa plano, el camino más corto entre Tokio y Los Ángeles parece una línea recta que cruza el centro del océano. Pero la Tierra es una esfera, y en una esfera el camino más corto es una curva, el famoso círculo máximo.",
+     "kind": "map",
+     "from": {
+      "name": "Tokio",
+      "lat": 35.55,
+      "lon": 139.78
+     },
+     "to": {
+      "name": "Los Ángeles",
+      "lat": 33.94,
+      "lon": -118.41
+     },
+     "label": "Línea recta (roja) vs ruta real (azul)",
+     "straight": true
+    },
+    {
+     "text": "En la práctica, eso significa que los vuelos entre Asia y Norteamérica no pasan por el medio del Pacífico. Suben hacia el norte, bordeando las islas Aleutianas y la costa de Alaska, antes de bajar hacia su destino.",
+     "kind": "map",
+     "from": {
+      "name": "Tokio",
+      "lat": 35.55,
+      "lon": 139.78
+     },
+     "to": {
+      "name": "Seattle",
+      "lat": 47.45,
+      "lon": -122.31
+     },
+     "label": "Bordean las Aleutianas y Alaska"
+    },
+    {
+     "text": "Si quieres ahorrar combustible y tiempo, tienes que seguir esa curva.",
+     "kind": "broll",
+     "query": "airplane wing view snowy alaska mountains"
+    },
+    {
+     "text": "Así que el gran tráfico del Pacífico norte no está en el centro del océano: está arriba, pegado al borde. Por eso, cuando miras el centro del mapa, ves un enorme espacio vacío. Y no es porque sea peligroso: es porque ninguna ruta directa pasa por ahí.",
+     "kind": "broll",
+     "query": "airliner over empty ocean sky",
+     "key": "El centro: vacío"
+    },
+    {
+     "text": "Es la misma razón por la que los vuelos entre Europa y América se curvan hacia el norte en lugar de ir en línea recta.",
+     "kind": "map",
+     "from": {
+      "name": "Londres",
+      "lat": 51.47,
+      "lon": -0.45
+     },
+     "to": {
+      "name": "Nueva York",
+      "lat": 40.64,
+      "lon": -73.78
+     },
+     "label": "Europa-EE. UU. también se curva al norte"
+    },
+    {
+     "text": "El centro del Pacífico simplemente queda fuera del camino más corto de casi todas las rutas importantes.",
+     "kind": "broll",
+     "query": "airliner cruising above clouds"
+    },
+    {
+     "text": "Pero sería injusto decir que es solo una cuestión de rutas. Porque ese vacío central esconde un problema real y muy serio: ¿dónde aterrizas si algo sale mal?",
+     "kind": "fact",
+     "kicker": "EL PROBLEMA REAL",
+     "body": "¿Dónde aterrizas si algo falla?",
+     "accent": "red"
+    }
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {
+     "text": "Aquí viene el problema de verdad. Un avión nunca vuela sin un plan B.",
+     "kind": "broll",
+     "query": "airliner cockpit pilots flying over ocean",
+     "key": "Siempre un plan B"
+    },
+    {
+     "text": "Durante todo el trayecto, tiene que saber hacia qué aeropuerto desviarse si hay una avería o una emergencia médica. Y en medio del Pacífico, esos aeropuertos casi no existen.",
+     "kind": "broll",
+     "query": "airplane landing small island runway"
+    },
+    {
+     "text": "Solo hay islas aisladas: Honolulu, en Hawái, Guam, la isla de Wake, el atolón de Midway o la isla de Pascua, en el sur. Pistas diminutas perdidas a miles de kilómetros de cualquier otra tierra.",
+     "kind": "broll",
+     "query": "tropical island airport runway aerial ocean",
+     "key": "Islas-aeropuerto"
+    },
+    {
+     "text": "Por eso existe una norma llamada ETOPS, que fija hasta qué distancia de un aeropuerto de emergencia puede alejarse un avión de dos motores.",
+     "kind": "broll",
+     "query": "twin engine airliner over ocean",
+     "key": "ETOPS"
+    },
+    {
+     "text": "Hoy, algunos aviones modernos están autorizados a estar más de cinco horas de vuelo del aeropuerto más cercano.",
+     "kind": "stat",
+     "value": 5,
+     "suffix": "h+",
+     "label": "De un aeropuerto de emergencia (bimotores modernos)",
+     "color": "green"
+    },
+    {
+     "text": "Aun así, cada ruta del Pacífico se diseña con muchísimo cuidado para que siempre haya una isla utilizable a mano.",
+     "kind": "broll",
+     "query": "airplane approaching island runway landing"
+    },
+    {
+     "text": "Y en el rincón más remoto del Pacífico Sur existe un lugar tan aislado que tiene nombre propio: el Punto Nemo, el punto del planeta más alejado de cualquier tierra. Está a más de dos mil seiscientos kilómetros de la costa más cercana.",
+     "kind": "stat",
+     "value": 2600,
+     "suffix": "km+",
+     "label": "Punto Nemo: la costa más cercana",
+     "color": "cyan"
+    },
+    {
+     "text": "Ninguna ruta comercial pasa por ahí. Es el sitio donde menos probabilidades hay de ver pasar un avión.",
+     "kind": "broll",
+     "query": "view from airplane window over remote ocean",
+     "key": "Punto Nemo"
+    },
+    {
+     "text": "Y, sin embargo, los aviones sí encuentran la forma de cruzar este océano. La pregunta es cómo.",
+     "kind": "broll",
+     "query": "airliner flying over pacific ocean"
+    }
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {
+     "text": "La respuesta tiene un nombre poco conocido: rutas organizadas. En el Pacífico norte no existen carreteras fijas en el cielo como las que ves en tierra. Cada día se diseñan rutas nuevas, que se adaptan a los vientos de ese momento.",
+     "kind": "fact",
+     "kicker": "RUTAS ORGANIZADAS",
+     "body": "Carriles que se trazan cada día",
+     "accent": "cyan"
+    },
+    {
+     "text": "Un equipo calcula, con los pronósticos del día, dónde está la corriente en chorro, ese río de viento que corre a más de doscientos kilómetros por hora a diez mil metros de altura, y traza las rutas para aprovecharla.",
+     "kind": "broll",
+     "query": "jet stream clouds high altitude airplane",
+     "key": "Corriente en chorro"
+    },
+    {
+     "text": "Los vuelos que van de Asia hacia América, hacia el este, buscan montarse en esa corriente para que les empuje por detrás.",
+     "kind": "broll",
+     "query": "airliner flying fast above clouds",
+     "key": "Con viento de cola"
+    },
+    {
+     "text": "Los que vuelan al revés, de América hacia Asia, intentan evitarla o buscar zonas con menos viento en contra.",
+     "kind": "broll",
+     "query": "airliner flying against strong wind clouds"
+    },
+    {
+     "text": "Por eso un mismo trayecto puede durar bastante más en un sentido que en el otro. Y por eso un día la ruta pasa por un sitio, y al día siguiente por otro.",
+     "kind": "compare",
+     "a": 10,
+     "b": 12,
+     "alabel": "Asia → América",
+     "blabel": "América → Asia",
+     "unit": "horas",
+     "label": "Duración típica (aprox.)",
+     "color": "cyan"
+    },
+    {
+     "text": "Los aviones no se reparten por el océano al azar: siguen carriles invisibles que se dibujan cada mañana según el tiempo.",
+     "kind": "broll",
+     "query": "airplane contrails sky lines",
+     "key": "Carriles invisibles"
+    },
+    {
+     "text": "Es una gigantesca autopista, pero con un trazado que cambia a diario. Y eso nos lleva a una curiosidad todavía más rara, que solo ocurre aquí.",
+     "kind": "fact",
+     "kicker": "SIN CARRETERAS FIJAS",
+     "body": "El trazado cambia a diario",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {
+     "text": "En el Pacífico pasa algo que no ocurre en ningún otro océano.",
+     "kind": "broll",
+     "query": "airplane flying over pacific ocean sunset"
+    },
+    {
+     "text": "Aquí se encuentra la línea internacional de cambio de fecha, una frontera invisible, más o menos a lo largo del meridiano ciento ochenta, donde el calendario salta un día.",
+     "kind": "fact",
+     "kicker": "LÍNEA DE FECHA",
+     "body": "Meridiano 180º: el calendario salta un día",
+     "accent": "amber"
+    },
+    {
+     "text": "Si vuelas de Asia hacia América, la cruzas y retrocedes un día. Puedes despegar de Tokio por la tarde y aterrizar en Los Ángeles ese mismo día, a una hora local anterior a la de tu salida.",
+     "kind": "map",
+     "from": {
+      "name": "Tokio",
+      "lat": 35.55,
+      "lon": 139.78
+     },
+     "to": {
+      "name": "Los Ángeles",
+      "lat": 33.94,
+      "lon": -118.41
+     },
+     "label": "Sales por la tarde y llegas ese mismo día"
+    },
+    {
+     "text": "Literalmente, llegas antes de haber salido.",
+     "kind": "fact",
+     "kicker": "LLEGAS ANTES DE SALIR",
+     "body": "La hora local de llegada es anterior",
+     "accent": "green"
+    },
+    {
+     "text": "Y es solo el principio de lo extraordinario que tiene este océano.",
+     "kind": "broll",
+     "query": "airplane taking off sunset"
+    },
+    {
+     "text": "Por el Pacífico pasan algunos de los vuelos más largos del mundo, como los que unen Dallas con Sídney, unas diecisiete horas sin escalas.",
+     "kind": "stat",
+     "value": 17,
+     "suffix": "h",
+     "label": "Dallas → Sídney, sin escalas",
+     "color": "cyan"
+    },
+    {
+     "text": "Y hay aerolíneas que planean rutas todavía más largas, vuelos sin paradas de más de veinte horas desde Sídney hasta Nueva York o Londres.",
+     "kind": "broll",
+     "query": "Airbus A350 airliner flying over ocean",
+     "key": "Rutas de +20 horas"
+    },
+    {
+     "text": "El Pacífico, lejos de estar vacío, es uno de los grandes escenarios de la aviación de larga distancia. Parece un desierto en el mapa, pero está lleno de carriles invisibles, de islas que salvan vidas y de récords que se escriben cada año.",
+     "kind": "broll",
+     "query": "airplane flying sunrise over ocean"
+    }
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {
+     "text": "Así que ya lo sabes. Los aviones sí vuelan sobre el Pacífico.",
+     "kind": "broll",
+     "query": "airliner flying clear sky over ocean"
+    },
+    {
+     "text": "El mapa parece vacío porque hay menos demanda que en el Atlántico, porque las distancias son enormes, porque la ruta más corta sube hacia el norte en lugar de cruzar el centro, y porque en mitad del océano apenas hay aeropuertos de emergencia.",
+     "kind": "fact",
+     "kicker": "POR QUÉ PARECE VACÍO",
+     "body": "Poca demanda · Distancias enormes · Ruta norte · Pocas islas",
+     "accent": "amber"
+    },
+    {
+     "text": "Los que lo cruzan siguen carriles invisibles que cambian cada día con el viento.",
+     "kind": "broll",
+     "query": "airliner contrails blue sky"
+    },
+    {
+     "text": "La próxima vez que veas un mapa de vuelos y te parezca que el Pacífico está vacío, piensa en todo lo que no estás viendo.",
+     "kind": "broll",
+     "query": "airplane window view ocean sunset"
+    },
+    {
+     "text": "Si te ha gustado, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos algo que creías saber sobre los aviones.",
+     "kind": "broll",
+     "query": "airliner flying into sunset cinematic"
+    },
+    {
+     "text": "Y dime en los comentarios: ¿cuál es el vuelo más largo que has hecho tú? Te leo. Nos vemos en el siguiente.",
+     "kind": "outro"
+    }
+   ]
+  }
+ ]
+}

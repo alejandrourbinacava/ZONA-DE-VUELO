@@ -725,7 +725,7 @@ def main():
             elif kind == "map":
                 # mapa con ruta animada (motion graphics, sin media): pasa coords
                 item["source"] = "MAPA"
-                for k in ("from", "to", "label"):
+                for k in ("from", "to", "label", "straight", "bow"):
                     if k in sh:
                         item[k] = sh[k]
             elif kind == "annotate":
