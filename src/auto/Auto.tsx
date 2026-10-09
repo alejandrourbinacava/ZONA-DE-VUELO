@@ -275,7 +275,9 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
       // FOTO fija larga -> varias tomas de ~3.5s con encuadre/movimiento DISTINTO (punch-in, alejar, paneo):
       // asi nunca se queda "plantada" una imagen varios segundos (lo mas importante: los primeros segundos)
       const isPhoto = shot.kind === "image" && shot.source !== "FOTO";
-      const n = isPhoto && dur > 4.2 * fps ? Math.max(2, Math.round(dur / (3.5 * fps))) : 1;
+      const isLongClip = shot.kind === "broll" && !!shot.file && dur > 8 * fps;   // clip largo -> tomas de ~5s con otro punto de entrada
+      const n = isPhoto && dur > 4.2 * fps ? Math.max(2, Math.round(dur / (3.5 * fps)))
+        : isLongClip ? Math.max(2, Math.round(dur / (5.5 * fps))) : 1;
       for (let k = 0; k < n; k++) {
         const a = from + Math.round((dur * k) / n);
         const b = from + Math.round((dur * (k + 1)) / n);
