@@ -21,14 +21,24 @@ const CMAP: Record<string, string> = { cyan: COLORS.cyan, amber: COLORS.amber, r
 const col = (c?: string) => (c && CMAP[c]) || COLORS.cyan;
 const MAX_CELL = 5.0;   // ningun plano supera esto (ritmo)
 
+// ---------- ESTILO POR VIDEO: semilla = titulo -> cada video tiene su propio aspecto (no es una plantilla) ----------
+type Mode = "bleed" | "card" | "wide";                       // encuadre del clip: pantalla completa / tarjeta / cine 2.39:1
+type Fx = "fade" | "zoom" | "slide" | "whip" | "wipe" | "flash";   // transicion de entrada
+const StyleCtx = React.createContext<{ tint: string; hue: number }>({ tint: "rgba(0,0,0,0)", hue: 0 });
+const hashStr = (s: string) => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+const makeRng = (seed: number) => () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; };
+
 // ---------- fondo de rejilla en movimiento ----------
-const GridBG: React.FC = () => (
-  <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom }}>
-    <OffthreadVideo src={staticFile("grid.mp4")} loop muted
-      style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.5 }} />
-    <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 45%, transparent 30%, ${COLORS.bgBottom} 95%)` }} />
-  </AbsoluteFill>
-);
+const GridBG: React.FC = () => {
+  const { hue } = React.useContext(StyleCtx);
+  return (
+    <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom }}>
+      <OffthreadVideo src={staticFile("grid.mp4")} loop muted
+        style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.5, filter: `hue-rotate(${hue}deg)` }} />
+      <AbsoluteFill style={{ background: `radial-gradient(circle at 50% 45%, transparent 30%, ${COLORS.bgBottom} 95%)` }} />
+    </AbsoluteFill>
+  );
+};
 
 // entrada suave de cada plano (fade + leve escala)
 const useEnter = () => {
@@ -38,11 +48,28 @@ const useEnter = () => {
 };
 
 // ---------- clip de stock enmarcado (esquinas redondeadas, rejilla alrededor) ----------
-const ClipCard: React.FC<{ file: string; startFrom: number }> = ({ file, startFrom }) => {
+const ClipCard: React.FC<{ file: string; startFrom: number; mode?: Mode }> = ({ file, startFrom, mode = "card" }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
+  const { tint } = React.useContext(StyleCtx);
   const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
   const scale = interpolate(frame, [0, durationInFrames], [1.0, 1.08]);
+  if (mode !== "card") {
+    // pantalla completa (o franja panoramica de cine): metraje a sangre, con leve "mano" y gradacion de color
+    const wide = mode === "wide";
+    const drift = Math.sin(frame / 38) * 6;
+    return (
+      <AbsoluteFill>
+        <div style={{ position: "absolute", left: 0, right: 0, top: wide ? "14%" : 0, bottom: wide ? "14%" : 0,
+          overflow: "hidden", background: "#000" }}>
+          <OffthreadVideo src={staticFile(file)} startFrom={Math.round(startFrom * 30)} loop muted
+            style={{ width: "100%", height: "100%", objectFit: "cover", transform: `scale(${1.04 * scale}) translate(${drift}px, 0px)` }} />
+          <AbsoluteFill style={{ background: tint }} />
+          <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 62%, rgba(2,6,14,0.55) 100%)" }} />
+        </div>
+      </AbsoluteFill>
+    );
+  }
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div style={{ position: "absolute", inset: "10% 8%", borderRadius: 30, overflow: "hidden",
@@ -88,9 +115,10 @@ const ImageCard: React.FC<{ file: string; label?: string; i: number }> = ({ file
 
 // ---------- imagen IA como CLIP: pantalla completa, MOVIMIENTO cinematografico (parece metraje) ----------
 // Alterna 3 patrones (push-in, pull-out, paneo) segun el indice para que NUNCA parezca una foto fija.
-const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
+const AiClip: React.FC<{ file: string; i: number; mode?: Mode }> = ({ file, i, mode = "card" }) => {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
+  const { tint } = React.useContext(StyleCtx);
   const enter = spring({ frame, fps: 30, config: { damping: 18, stiffness: 130 } });
   const dir = i % 2 === 0 ? 1 : -1;
   const patt = i % 3;
@@ -104,6 +132,21 @@ const AiClip: React.FC<{ file: string; i: number }> = ({ file, i }) => {
   const scale = interpolate(frame, [0, durationInFrames], [P[0], P[1]], ease);
   const panX = interpolate(frame, [0, durationInFrames], [P[2], P[3]], ease);
   const panY = interpolate(frame, [0, durationInFrames], [P[4], P[5]], ease);
+  if (mode !== "card") {
+    const wide = mode === "wide";
+    return (
+      <AbsoluteFill>
+        <div style={{ position: "absolute", left: 0, right: 0, top: wide ? "14%" : 0, bottom: wide ? "14%" : 0,
+          overflow: "hidden", background: "#000" }}>
+          <Img src={staticFile(file)} style={{ width: "100%", height: "100%", objectFit: "cover",
+            transformOrigin: ["50% 50%", "30% 42%", "70% 56%"][i % 3],
+            transform: `scale(${scale}) translate(${panX}px, ${panY}px)` }} />
+          <AbsoluteFill style={{ background: tint }} />
+          <AbsoluteFill style={{ background: "linear-gradient(180deg, transparent 62%, rgba(2,6,14,0.55) 100%)" }} />
+        </div>
+      </AbsoluteFill>
+    );
+  }
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center" }}>
       <div style={{ position: "absolute", inset: "10% 8%", borderRadius: 30, overflow: "hidden",
@@ -210,7 +253,7 @@ const ProgressBar: React.FC<{ total: number }> = ({ total }) => {
     background: COLORS.cyan, boxShadow: `0 0 12px ${COLORS.cyan}`, zIndex: 20 }} />;
 };
 
-type Cell = { from: number; dur: number; shot: Shot; sub: number };
+type Cell = { from: number; dur: number; shot: Shot; sub: number; secStart: boolean };
 
 function buildCells(manifest: Manifest, media: Media): Cell[] {
   const fps = manifest.fps || 30;
@@ -236,7 +279,7 @@ function buildCells(manifest: Manifest, media: Media): Cell[] {
       for (let k = 0; k < n; k++) {
         const a = from + Math.round((dur * k) / n);
         const b = from + Math.round((dur * (k + 1)) / n);
-        cells.push({ from: a, dur: Math.max(1, b - a), shot, sub: k });
+        cells.push({ from: a, dur: Math.max(1, b - a), shot, sub: k, secStart: si === 0 && k === 0 });
       }
       t += shotDur;
     });
@@ -252,16 +295,16 @@ const withTag = (node: React.ReactNode, shot: Shot, i: number) => (
   </>
 );
 
-const CellView: React.FC<{ shot: Shot; sub: number; index: number }> = ({ shot, sub, index }) => {
+const CellView: React.FC<{ shot: Shot; sub: number; index: number; mode?: Mode }> = ({ shot, sub, index, mode }) => {
   switch (shot.kind) {
     case "image":
       if (!shot.file) return <FallbackCard text={shot.text} />;   // nunca vacio
       // foto real de entidad -> tarjeta premium con rotulo; imagen IA -> clip a pantalla completa con movimiento
       return shot.source === "FOTO"
         ? <ImageCard file={shot.file} label={shot.label} i={sub} />
-        : withTag(<AiClip file={shot.file} i={sub} />, shot, index);
+        : withTag(<AiClip file={shot.file} i={sub} mode={mode} />, shot, index);
     case "broll":
-      return shot.file ? withTag(<ClipCard file={shot.file} startFrom={sub * MAX_CELL} />, shot, index) : <FallbackCard text={shot.text} />;
+      return shot.file ? withTag(<ClipCard file={shot.file} startFrom={sub * MAX_CELL} mode={mode} />, shot, index) : <FallbackCard text={shot.text} />;
     case "map":
       return shot.from && shot.to
         ? <MapRoute from={shot.from} to={shot.to} label={shot.label} />
@@ -291,7 +334,7 @@ const CellView: React.FC<{ shot: Shot; sub: number; index: number }> = ({ shot, 
 
 // ---------- transicion entre escenas: barrido de luz + whoosh en los cambios notables ----------
 const GRAPHIC_KINDS = new Set(["map", "annotate", "stat", "fact", "image", "compare", "timeline"]);
-const TransitionFX: React.FC<{ index: number; kind: string; dur: number }> = ({ index, kind, dur }) => {
+const TransitionFX: React.FC<{ index: number; kind: string; dur: number; sweep?: boolean }> = ({ index, kind, dur, sweep = true }) => {
   const frame = useCurrentFrame();
   const { width } = useVideoConfig();
   const notable = GRAPHIC_KINDS.has(kind) || index % 3 === 0;   // whoosh en escenas graficas y de vez en cuando
@@ -302,11 +345,13 @@ const TransitionFX: React.FC<{ index: number; kind: string; dur: number }> = ({ 
   return (
     <>
       {notable && dur > 22 ? <Audio src={staticFile(whoosh)} volume={GRAPHIC_KINDS.has(kind) ? 0.32 : 0.18} /> : null}
-      <AbsoluteFill style={{ overflow: "hidden", pointerEvents: "none", zIndex: 15 }}>
-        <div style={{ position: "absolute", top: -40, bottom: -40, left: x, width: width * 0.22,
-          background: "linear-gradient(90deg, transparent, rgba(180,220,255,0.55), transparent)",
-          opacity: op, transform: "skewX(-16deg)", filter: "blur(7px)" }} />
-      </AbsoluteFill>
+      {sweep ? (
+        <AbsoluteFill style={{ overflow: "hidden", pointerEvents: "none", zIndex: 15 }}>
+          <div style={{ position: "absolute", top: -40, bottom: -40, left: x, width: width * 0.22,
+            background: "linear-gradient(90deg, transparent, rgba(180,220,255,0.55), transparent)",
+            opacity: op, transform: "skewX(-16deg)", filter: "blur(7px)" }} />
+        </AbsoluteFill>
+      ) : null}
     </>
   );
 };
@@ -332,33 +377,110 @@ const CineLayer: React.FC = () => {
   );
 };
 
-// entrada/salida suave de cada escena para que los cortes no sean tan secos
-const CellFade: React.FC<{ dur: number; children: React.ReactNode }> = ({ dur, children }) => {
+// ---------- transicion de ENTRADA por escena: la nueva se superpone a la anterior (que sigue debajo OV frames) ----------
+const OV = 10;
+const clampB = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+const CellFx: React.FC<{ dur: number; fx: Fx; dir: number; nextOpaque: boolean; first: boolean; children: React.ReactNode }> =
+  ({ dur, fx, dir, nextOpaque, first, children }) => {
+    const f = useCurrentFrame();
+    const p = first ? 1 : interpolate(f, [0, OV], [0, 1], { ...clampB, easing: Easing.out(Easing.cubic) });
+    const q = 1 - p;
+    // cola de la escena anterior: si la siguiente es opaca (pantalla completa) se queda hasta ser tapada; si no, se desvanece
+    const exitO = nextOpaque ? 1 : interpolate(f, [dur, dur + OV], [1, 0], clampB);
+    let st: React.CSSProperties = {};
+    if (fx === "fade") st = { opacity: first ? 1 : interpolate(f, [0, 7], [0, 1], clampB) };
+    else if (fx === "zoom") st = { opacity: first ? 1 : interpolate(f, [0, 4], [0, 1], clampB), transform: `scale(${1 + q * 0.3})`,
+      filter: q > 0.02 ? `blur(${q * 10}px)` : undefined };
+    else if (fx === "slide") st = { transform: `translateX(${dir * q * 100}%)`, filter: q > 0.02 ? `blur(${q * 6}px)` : undefined };
+    else if (fx === "whip") st = { opacity: first ? 1 : interpolate(f, [0, 3], [0, 1], clampB),
+      transform: `translateX(${dir * q * 38}%) scale(${1 + q * 0.08})`,
+      filter: q > 0.02 ? `blur(${q * 18}px) brightness(${1 + q * 0.35})` : undefined };
+    else if (fx === "wipe") {
+      const x = p * 150 - 20;
+      st = { clipPath: p >= 1 ? undefined : (dir > 0
+        ? `polygon(0 0, ${x}% 0, ${x - 22}% 100%, 0 100%)`
+        : `polygon(100% 0, ${100 - x}% 0, ${122 - x}% 100%, 100% 100%)`) };
+    }
+    return (
+      <AbsoluteFill style={{ opacity: exitO }}>
+        <AbsoluteFill style={st}>{children}</AbsoluteFill>
+        {fx === "flash" && !first ? <AbsoluteFill style={{ background: "#fff", opacity: q * q * 0.8, pointerEvents: "none" }} /> : null}
+      </AbsoluteFill>
+    );
+  };
+
+// destello de luz calido al cambiar de seccion (tipo "light leak"), con el tono propio de cada video
+const Leak: React.FC<{ hue: number }> = ({ hue }) => {
   const f = useCurrentFrame();
-  const o = interpolate(f, [0, 6, dur - 6, dur], [0, 1, 1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
-  return <AbsoluteFill style={{ opacity: o }}>{children}</AbsoluteFill>;
+  const o = interpolate(f, [0, 7, 24], [0, 0.7, 0], clampB);
+  const x = interpolate(f, [0, 24], [-10, 60], clampB);
+  return <AbsoluteFill style={{ pointerEvents: "none", zIndex: 16, opacity: o, mixBlendMode: "screen",
+    background: `radial-gradient(ellipse at ${x}% 30%, hsla(${hue},100%,60%,0.55), transparent 55%), radial-gradient(ellipse at ${x + 35}% 80%, hsla(${hue + 30},100%,55%,0.35), transparent 50%)` }} />;
 };
+
+// ---------- plan de estilo del video (determinista por titulo) ----------
+const FX_SETS: Fx[][] = [["zoom", "slide", "flash"], ["whip", "wipe", "zoom"], ["slide", "wipe", "flash", "whip"], ["zoom", "whip", "flash"]];
+const HUES = [0, -30, 25, 70];
+const TINTS = ["rgba(255,170,90,0.07)", "rgba(80,160,255,0.07)", "rgba(0,0,0,0)", "rgba(120,255,200,0.05)"];
+const LEAK_HUES = [28, 190, 330, 45];
+const isMediaShot = (s: Shot) => !!s.file && (s.kind === "broll" || (s.kind === "image" && s.source !== "FOTO"));
+type CellPlan = { mode: Mode; fx: Fx; dir: number; opaque: boolean };
+
+function planStyle(manifest: Manifest, cells: Cell[]) {
+  const seed = hashStr(manifest.sections.map((s) => s.title).join("|"));
+  const r = makeRng(seed);
+  const pick = <T,>(a: T[]) => a[Math.floor(r() * a.length)];
+  const fxSet = pick(FX_SETS), hue = pick(HUES), tint = pick(TINTS), leakHue = pick(LEAK_HUES);
+  const plans: CellPlan[] = [];
+  let lastFx: Fx = "fade", lastModes: Mode[] = [];
+  cells.forEach((c, i) => {
+    let mode: Mode = "card";
+    if (isMediaShot(c.shot)) {
+      const u = r();
+      mode = i < 4 ? "bleed" : u < 0.52 ? "bleed" : u < 0.82 ? "card" : "wide";   // el arranque siempre a pantalla completa
+      const n = lastModes.length;
+      if (n >= 2 && lastModes[n - 1] === mode && lastModes[n - 2] === mode) mode = mode === "bleed" ? "card" : "bleed";   // no 3 iguales seguidas
+      lastModes.push(mode);
+    }
+    let fx: Fx = "fade";
+    if (isMediaShot(c.shot) && i > 0) {
+      fx = c.secStart ? "whip" : c.sub > 0 ? "zoom" : pick(fxSet);
+      if (fx === lastFx) fx = fxSet[(fxSet.indexOf(fx) + 1) % fxSet.length];   // nunca la misma transicion dos veces seguidas
+    }
+    if (fx !== "fade") lastFx = fx;
+    plans.push({ mode, fx, dir: r() < 0.5 ? 1 : -1, opaque: isMediaShot(c.shot) && mode === "bleed" });
+  });
+  return { plans, hue, tint, leakHue };
+}
 
 export const Auto: React.FC<{ manifest: Manifest; media: Media }> = ({ manifest, media }) => {
   const fps = manifest.fps || 30;
   const totalFrames = Math.ceil(manifest.total_duration * fps);
   const cells = buildCells(manifest, media);
+  const plan = planStyle(manifest, cells);
   return (
-    <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom, fontFamily: "Montserrat, 'Segoe UI', sans-serif" }}>
-      <GridBG />
-      <Audio src={staticFile("narration_full.mp3")} />
-      <Audio src={staticFile("music.mp3")} volume={0.03} loop />
-      {cells.map((c, i) => (
-        <Sequence key={i} from={c.from} durationInFrames={c.dur}>
-          <CellFade dur={c.dur}>
-            <CellView shot={c.shot} sub={c.sub} index={i} />
-          </CellFade>
-          <TransitionFX index={i} kind={c.shot.kind} dur={c.dur} />
-        </Sequence>
-      ))}
-      <CineLayer />
-      <BrandCorner />
-      <ProgressBar total={totalFrames} />
-    </AbsoluteFill>
+    <StyleCtx.Provider value={{ tint: plan.tint, hue: plan.hue }}>
+      <AbsoluteFill style={{ backgroundColor: COLORS.bgBottom, fontFamily: "Montserrat, 'Segoe UI', sans-serif" }}>
+        <GridBG />
+        <Audio src={staticFile("narration_full.mp3")} />
+        <Audio src={staticFile("music.mp3")} volume={0.03} loop />
+        {cells.map((c, i) => {
+          const st = plan.plans[i];
+          const last = i === cells.length - 1;
+          return (
+            <Sequence key={i} from={c.from} durationInFrames={c.dur + (last ? 0 : OV)}>
+              <CellFx dur={c.dur} fx={st.fx} dir={st.dir} nextOpaque={!last && plan.plans[i + 1].opaque} first={i === 0}>
+                <CellView shot={c.shot} sub={c.sub} index={i} mode={st.mode} />
+              </CellFx>
+              <TransitionFX index={i} kind={c.shot.kind} dur={c.dur} sweep={st.fx === "fade" && i > 0} />
+              {c.secStart && i > 0 ? <Leak hue={plan.leakHue} /> : null}
+            </Sequence>
+          );
+        })}
+        <CineLayer />
+        <BrandCorner />
+        <ProgressBar total={totalFrames} />
+      </AbsoluteFill>
+    </StyleCtx.Provider>
   );
 };
