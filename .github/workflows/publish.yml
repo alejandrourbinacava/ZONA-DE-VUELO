@@ -2,9 +2,10 @@ name: Publicar video (Zona de Vuelo)
 
 on:
   schedule:
-    # VIDEO DIARIO: 14:00 UTC (15:00 Madrid en invierno / 16:00 en verano). La produccion tarda ~1-2 h,
-    # asi que se publica a media tarde-noche en España. GitHub puede retrasar el cron unos minutos.
-    - cron: "0 14 * * *"
+    # VIDEO DIARIO: se PRODUCE de madrugada para estar listo ANTES DE LAS 8:00 (Madrid) y se SUBE programado para
+    # publicarse a las 18:30 (Madrid). 02:00 UTC = 03:00 Madrid (invierno) / 04:00 (verano); la produccion tarda
+    # ~1-3 h, asi que termina sobre las 4-7. GitHub puede retrasar el cron unos minutos.
+    - cron: "0 2 * * *"
   workflow_dispatch:         # tambien a demanda
     inputs:
       idea:
@@ -109,10 +110,9 @@ jobs:
           # Gemini (Google) mueve el REVISOR de clips por vision y el respaldo de texto (guion/shotlist/metadata).
           # Anthropic retirado por coste. Asegurate de que el secret GOOGLE_API_KEY es la MISMA key que funciona en local.
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          # VOZ: Gabriel Blanco con GenAIPro (ai33 se quedo sin creditos). ai33 solo se usa ya para ilustraciones.
-          VOICE_PROVIDER: genaipro
-          GENAIPRO_API_KEY: ${{ secrets.GENAIPRO_API_KEY }}
-          GENAIPRO_BASE: https://genaipro.io/api
+          # VOZ: Gabriel Blanco en ai33.pro (voz oficial del canal). La cuenta de ai33 se comparte con otros canales:
+          # si su cola de tareas (10) esta llena, tts.py espera hasta ~35 min antes de rendirse.
+          VOICE_PROVIDER: ai33
           VIDEOS_DIR: ./salidas
         run: |
           set -eo pipefail
@@ -146,7 +146,8 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: |
-          python scripts/upload_youtube.py "${{ steps.producir.outputs.video }}" "${{ steps.producir.outputs.meta }}" public "${{ steps.producir.outputs.thumb }}"
+          # 'schedule' = se sube en privado con publishAt y YouTube lo publica SOLO a las 18:30 (hora de Madrid)
+          python scripts/upload_youtube.py "${{ steps.producir.outputs.video }}" "${{ steps.producir.outputs.meta }}" schedule "${{ steps.producir.outputs.thumb }}"
 
       - name: Guardar estado (clips usados + avanzar cola)
         # success() => todo OK (incl. subida del artefacto). Guarda SIEMPRE los clips usados (dedup

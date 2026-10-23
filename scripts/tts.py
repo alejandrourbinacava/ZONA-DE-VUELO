@@ -40,7 +40,8 @@ def _create_task(text, voice_id, speed, stability, similarity, style):
     tf = tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8")
     tf.write(text); tf.close(); tpath = tf.name
     try:
-        for intento in range(4):
+        intento, esperas = 0, 0
+        while intento < 4 and esperas < 45:
             out = subprocess.run(
                 ["curl", "-s", "-X", "POST", API + "/v3/text-to-speech", "-H", HDR,
                  "-F", f"text=<{tpath}",
@@ -57,7 +58,14 @@ def _create_task(text, voice_id, speed, stability, similarity, style):
             tid = d.get("task_id")
             if tid:
                 return tid
-            print(f"  (sin task_id, reintento {intento+1}/4): {out[:120]}", flush=True)
+            if "too many tasks in queue" in out:
+                # la cuenta de ai33 se comparte con otros canales: si el cupo (10 tareas) esta lleno, ESPERAR (hasta ~35 min)
+                esperas += 1
+                print(f"  (cola de ai33 llena, espero 45s... {esperas}/45)", flush=True)
+                time.sleep(45)
+                continue
+            intento += 1
+            print(f"  (sin task_id, reintento {intento}/4): {out[:120]}", flush=True)
             time.sleep(5)
     finally:
         try:
