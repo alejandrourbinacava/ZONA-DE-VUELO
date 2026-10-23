@@ -1,34 +1,34 @@
-# Cola de ideas de Zona de Vuelo (una por linea, EN ORDEN DE PRIORIDAD).
+# Cola de ideas de Zona de Vuelo (una por linea, EN ORDEN DE PRIORIDAD). VIDEO DIARIO: una idea por dia.
 # CANAL = CURIOSIDADES de aviacion (formato "¿Por que...?"). NO historias/reconstrucciones de accidentes
 # (eso es otro formato y seria otro canal; ver seccion apartada abajo).
-# Reordenada 4-sep-2026 segun outliers del nicho (Aero Curiosidades + nicho ES en vidiq).
+# Reordenada 23-oct-2026 con datos de YouTube (ver memoria 'videos-subidos'): lo que mas rinde son ENIGMAS DE RUTAS/OCEANOS
+# con "NO" y miedos del pasajero con respuesta fisica; lo "tecnico suelto" se queda en ~100 vistas.
 # El puntero (queue/state.json) SOLO avanza cuando el video se produce con exito. '#' = comentario.
+# ANTES de añadir una idea, comprobar que no esta ya subida (lista en memoria 'zona-de-vuelo-videos-subidos').
 
-# ================= TIER S — apuestas seguras (contraintuitivo "por que NO", probado por outliers) =================
-# HECHO (borrador en Studio): ¿Por qué los aviones no vuelan más rápido de 950 km/h?
-¿Por qué los motores van debajo del ala y no encima?
-¿Por qué el ala del avión se dobla tanto y no se rompe?
-¿Cuánto pesa realmente un avión lleno de pasajeros?
-¿Por qué los aviones no llevan paracaídas para los pasajeros?
+# ================= PRIORIDAD 1 — demanda demostrada en YouTube (otros canales 600K-3,5M / 4,6K en canal pequeño) =================
+¿Por qué los aviones de carga solo vuelan de noche?
+¿Por qué ningún avión puede volar a más de 12.000 metros?
 
-# ================= TIER A — muy buenos (miedos/operacion del pasajero + secretos del negocio) =================
+# ================= PRIORIDAD 2 — miedos / operacion del pasajero + secretos del negocio =================
 ¿Por qué el avión cae de golpe justo antes de aterrizar?
+¿A dónde van los aviones cuando se jubilan?
 ¿Por qué los aviones tiran combustible antes de aterrizar?
+¿Por qué los motores van debajo del ala y no encima?
+¿Por qué los aviones no llevan paracaídas para los pasajeros?
+¿Cuánto pesa realmente un avión lleno de pasajeros?
 ¿Por qué las aerolíneas sobrevenden los vuelos a propósito?
 ¿Por qué los billetes de avión cambian de precio cada hora?
 ¿Por qué la primera clase cuesta 10 veces más si llega igual?
 ¿Por qué tu asiento es cada vez más pequeño?
-¿A dónde van los aviones cuando se jubilan?
 
-# ================= TIER B — funcionan, menor prioridad (curiosidades tecnicas / sensaciones) =================
+# ================= PRIORIDAD 3 — curiosidades tecnicas / sensaciones (menor potencial) =================
 ¿Por qué el humo de los aviones dibuja líneas en el cielo?
 ¿Por qué el morro del avión es de un color diferente?
 ¿Por qué las luces del avión parpadean en la noche?
-# HECHO (fuera de orden): ¿Por qué los aviones tienen una bolita en la punta del ala?
 ¿Por qué el asiento del medio es el peor y nadie lo quiere?
 ¿Qué es esa sacudida rara justo después de despegar?
 ¿Por qué sientes que el avión frena de golpe al despegar?
-# HECHO (fuera de orden): ¿Por qué los aviones no tienen fila 13?
 
 # ================= OTRO CANAL / OTRO FORMATO — historias de vuelo (NO son curiosidades, NO producir aqui) =====
 # El avión que perdió el techo en pleno vuelo y aterrizó — Aloha Airlines 243
@@ -38,13 +38,17 @@
 # El avión que voló invertido sin que los pilotos supieran por qué
 # El error de mantenimiento que hizo caer un avión entero
 
-# ================= YA HECHOS Y SUBIDOS (no reproducir) =================
+# ================= YA HECHOS (subidos o en borrador; no reproducir) =================
 # ¿Por qué los aviones sobrevuelan el Polo Norte y no el Sur?
 # ¿Por qué hay aeropuertos donde aterrizar es casi imposible?
 # ¿Por qué los aviones no vuelan en línea recta entre dos ciudades?
 # ¿Qué pasaría si se abriera una puerta a 10.000 metros?
-# ¿Qué ven de verdad los pilotos al aterrizar de noche? (nuevo, fuera de cola)
-
-# HECHO (fuera de cola): ¿Por qué mataron al A380, el avión más grande del mundo?
-# HECHO (fuera de cola): ¿Por qué los aviones YA NO tienen 4 motores?
-# HECHO (fuera de cola, 5-oct): ¿Cómo vuela de verdad un avión de 500 toneladas? (OJO: ya hay subido '¿Cómo Vuelan Realmente Los Aviones?', enfoque Bernoulli/Newton)
+# ¿Qué ven de verdad los pilotos al aterrizar de noche?
+# ¿Por qué mataron al A380, el avión más grande del mundo?
+# ¿Por qué los aviones YA NO tienen 4 motores?
+# ¿Por qué los aviones no vuelan más rápido de 950 km/h?  (borrador)
+# ¿Por qué el ala del avión se dobla tanto y no se rompe?  (borrador)
+# ¿Cómo vuela de verdad un avión de 500 toneladas?  (hecho; ya hay subido '¿Cómo Vuelan Realmente Los Aviones?')
+# ¿Por qué los aviones NO vuelan sobre el Pacífico?
+# ¿Por qué los aviones tienen una bolita en la punta del ala?
+# ¿Por qué los aviones no tienen fila 13?

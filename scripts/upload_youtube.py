@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-"""Sube un video a YouTube (API Data v3) usando OAuth de refresh token.
+"""Sube un video a YouTube (API Data v3) con OAuth de refresh token + pone la MINIATURA.
 Pensado para correr en la nube (GitHub Actions). Secretos por entorno:
   YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN
-Uso: python scripts/upload_youtube.py <ruta.mp4> <ruta_metadata.json> [privacy]
-privacy: public | private | unlisted  (por defecto public)"""
+Uso: python scripts/upload_youtube.py <ruta.mp4> <ruta_metadata.json> [privacy] [miniatura.jpg]
+privacy: public | private | unlisted  (por defecto public)
+
+AVISO: los proyectos de Google Cloud creados tras jul-2020 y SIN auditar fuerzan los videos subidos por API a
+PRIVADO. Este script lo detecta (compara la visibilidad devuelta con la pedida) y lo dice claramente."""
 import os, sys, json
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
+from googleapiclient.errors import HttpError
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+SCOPES = ["https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtube"]
 
 
 def creds():
@@ -25,8 +29,9 @@ def creds():
 
 def main():
     video = sys.argv[1]
-    meta = json.load(open(sys.argv[2], encoding="utf-8")) if len(sys.argv) > 2 else {}
-    privacy = sys.argv[3] if len(sys.argv) > 3 else "public"
+    meta = json.load(open(sys.argv[2], encoding="utf-8")) if len(sys.argv) > 2 and sys.argv[2] else {}
+    privacy = sys.argv[3] if len(sys.argv) > 3 and sys.argv[3] else "public"
+    thumb = sys.argv[4] if len(sys.argv) > 4 else ""
     yt = build("youtube", "v3", credentials=creds())
     body = {
         "snippet": {
@@ -35,6 +40,7 @@ def main():
             "tags": meta.get("keywords", [])[:30],
             "categoryId": "27",  # Educación
             "defaultLanguage": "es",
+            "defaultAudioLanguage": "es",
         },
         "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False},
     }
@@ -45,7 +51,23 @@ def main():
         status, resp = req.next_chunk()
         if status:
             print(f"Subiendo... {int(status.progress()*100)}%")
-    print(f"PUBLICADO: https://youtu.be/{resp['id']}")
+    vid = resp["id"]
+    got = (resp.get("status") or {}).get("privacyStatus")
+    print(f"SUBIDO: https://youtu.be/{vid}  (visibilidad: {got})")
+    print(f"YTID::{vid}")
+    if got and got != privacy:
+        print(f"::warning::YouTube dejo el video en '{got}' aunque se pidio '{privacy}'. Si es 'private', el proyecto de "
+              f"Google Cloud esta SIN AUDITAR y YouTube bloquea las subidas por API en privado.")
+
+    if thumb and os.path.exists(thumb):
+        try:
+            yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(thumb, mimetype="image/jpeg")).execute()
+            print("MINIATURA puesta:", thumb)
+        except HttpError as e:
+            # p.ej. canal sin verificar por telefono (no permite miniaturas personalizadas)
+            print(f"::warning::No se pudo poner la miniatura: {str(e)[:200]}")
+    elif thumb:
+        print("::warning::miniatura indicada pero no existe:", thumb)
 
 
 if __name__ == "__main__":

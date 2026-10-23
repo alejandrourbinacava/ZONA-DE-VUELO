@@ -80,6 +80,16 @@ def generate(idea, out_path=None):
     print(f"Generando guion (Gemini Pro, respaldo) sobre: {idea}")
     text, usage = call_claude(system, user, max_tokens=16000, model="pro",
                               output_config={"effort": "high"})
+    # LONGITUD MINIMA: el video debe durar >= 8 min (anuncios mid-roll) -> >= ~9.000 caracteres de narracion.
+    # Si el guion sale corto, se pide UNA reescritura mas extensa y se queda con la mas larga.
+    if len(text) < 9000:
+        print(f"  guion corto ({len(text)} caracteres) -> pido version mas extensa")
+        user2 = (user + f"\n\nIMPORTANTE: tu primer intento tenia solo {len(text)} caracteres y es DEMASIADO corto. "
+                 "Reescribelo MAS EXTENSO: minimo 11.000 caracteres de narracion (7 secciones, cada una de 1.400-2.000 "
+                 "caracteres), con mas ejemplos, datos y explicaciones, sin relleno ni repeticiones.")
+        text2, usage2 = call_claude(system, user2, max_tokens=16000, model="pro", output_config={"effort": "high"})
+        if len(text2) > len(text):
+            text, usage = text2, usage2
     # titular del video = primera linea del HOOK si el modelo la pone, si no la idea
     title = idea.strip()
     header = f"# {title}\n\n"

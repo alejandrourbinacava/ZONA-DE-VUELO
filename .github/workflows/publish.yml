@@ -1,10 +1,11 @@
 name: Publicar video (Zona de Vuelo)
 
 on:
-  # CRON DIARIO DESACTIVADO (a peticion del user). Para reactivarlo, descomenta el schedule.
-  # schedule:
-  #   - cron: "0 1 * * *"     # 01:00 UTC = 03:00 Madrid (verano)
-  workflow_dispatch:         # solo lanzamiento manual / a demanda
+  schedule:
+    # VIDEO DIARIO: 14:00 UTC (15:00 Madrid en invierno / 16:00 en verano). La produccion tarda ~1-2 h,
+    # asi que se publica a media tarde-noche en España. GitHub puede retrasar el cron unos minutos.
+    - cron: "0 14 * * *"
+  workflow_dispatch:         # tambien a demanda
     inputs:
       idea:
         description: "Idea concreta a producir (si se deja vacio, usa la siguiente de la cola)"
@@ -14,8 +15,26 @@ on:
 permissions:
   contents: write            # para guardar el puntero de la cola (queue/state.json)
 
+concurrency:
+  group: publicar-video      # nunca dos producciones a la vez (cola/estado compartidos)
+  cancel-in-progress: false
+
 jobs:
+  # Guardian: las ejecuciones PROGRAMADAS solo producen si YouTube esta configurado (si no, no gastan nada).
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      ok: ${{ steps.c.outputs.ok }}
+    env:
+      HAS_YT: ${{ secrets.YT_REFRESH_TOKEN }}
+    steps:
+      - id: c
+        run: |
+          if [ -n "$HAS_YT" ]; then echo "ok=true" >> "$GITHUB_OUTPUT"; else echo "ok=false" >> "$GITHUB_OUTPUT"; echo "Sin credenciales de YouTube (YT_REFRESH_TOKEN): no se produce en el cron."; fi
+
   publicar:
+    needs: check
+    if: ${{ github.event_name == 'workflow_dispatch' || needs.check.outputs.ok == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 330
     env:
@@ -90,6 +109,10 @@ jobs:
           # Gemini (Google) mueve el REVISOR de clips por vision y el respaldo de texto (guion/shotlist/metadata).
           # Anthropic retirado por coste. Asegurate de que el secret GOOGLE_API_KEY es la MISMA key que funciona en local.
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          # VOZ: Gabriel Blanco con GenAIPro (ai33 se quedo sin creditos). ai33 solo se usa ya para ilustraciones.
+          VOICE_PROVIDER: genaipro
+          GENAIPRO_API_KEY: ${{ secrets.GENAIPRO_API_KEY }}
+          GENAIPRO_BASE: https://genaipro.io/api
           VIDEOS_DIR: ./salidas
         run: |
           set -eo pipefail
@@ -106,6 +129,7 @@ jobs:
           python scripts/produce.py "$IDEA" | tee produce.log
           echo "video=$(grep '^VIDEO::' produce.log | tail -1 | sed 's/^VIDEO:://')" >> "$GITHUB_OUTPUT"
           echo "meta=$(grep '^META::'  produce.log | tail -1 | sed 's/^META:://')"  >> "$GITHUB_OUTPUT"
+          echo "thumb=$(grep '^THUMB::' produce.log | tail -1 | sed 's/^THUMB:://')" >> "$GITHUB_OUTPUT"
 
       - name: Guardar el video como artefacto (descargable)
         if: steps.producir.outputs.skip != '1'
@@ -122,7 +146,7 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: |
-          python scripts/upload_youtube.py "${{ steps.producir.outputs.video }}" "${{ steps.producir.outputs.meta }}" public
+          python scripts/upload_youtube.py "${{ steps.producir.outputs.video }}" "${{ steps.producir.outputs.meta }}" public "${{ steps.producir.outputs.thumb }}"
 
       - name: Guardar estado (clips usados + avanzar cola)
         # success() => todo OK (incl. subida del artefacto). Guarda SIEMPRE los clips usados (dedup

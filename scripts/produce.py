@@ -116,6 +116,29 @@ def main():
             open(meta_path, "w", encoding="utf-8").write(r.stdout.strip())
     except Exception as e:
         print("aviso: metadatos fallaron:", e)
+    # capitulos automaticos (tiempos reales del audio) al final de la descripcion + miniatura automatica
+    try:
+        if os.path.exists(meta_path):
+            md = json.load(open(meta_path, encoding="utf-8"))
+            chap = []
+            for sec in manifest["sections"]:
+                ttl = re.sub(r"^[^\w¿¡]+", "", sec.get("title", "")).strip()
+                up = ttl.upper()
+                if "HOOK" in up: name = "Introducción"
+                elif "CIERRE" in up: name = "Conclusión"
+                else: name = re.sub(r"^PARTE\s*\d+\s*[—\-:]\s*", "", ttl, flags=re.I).strip() or ttl
+                o = int(sec["offset"]); chap.append(f"{o // 60}:{o % 60:02d} {name}")
+            if len(chap) >= 3:
+                md["description"] = (md.get("description", "").rstrip() + "\n\n⏱️ CAPÍTULOS\n" + "\n".join(chap))[:4900]
+                open(meta_path, "w", encoding="utf-8").write(json.dumps(md, ensure_ascii=False))
+        thumb = os.path.join(FINAL, base + ".jpg")
+        r = subprocess.run([PY, "scripts/make_thumbnail.py", meta_path, thumb], cwd=ROOT, capture_output=True,
+                           encoding="utf-8", errors="replace")
+        print(r.stdout.strip()[-300:])
+        if os.path.exists(thumb):
+            print(f"THUMB::{thumb}")
+    except Exception as e:
+        print("aviso: miniatura/capitulos fallaron:", e)
     # informe de planos: minuto:segundo + fuente de cada plano (IA / FOTO / CLIP / GRAFICO)
     try:
         secoff = {s["key"]: (s["offset"], s["duration"]) for s in manifest["sections"]}
