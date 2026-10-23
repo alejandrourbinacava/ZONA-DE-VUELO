@@ -110,9 +110,11 @@ jobs:
           # Gemini (Google) mueve el REVISOR de clips por vision y el respaldo de texto (guion/shotlist/metadata).
           # Anthropic retirado por coste. Asegurate de que el secret GOOGLE_API_KEY es la MISMA key que funciona en local.
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          # VOZ: Gabriel Blanco en ai33.pro (voz oficial del canal). La cuenta de ai33 se comparte con otros canales:
-          # si su cola de tareas (10) esta llena, tts.py espera hasta ~35 min antes de rendirse.
-          VOICE_PROVIDER: ai33
+          # VOZ: Gabriel Blanco en GenAIPro (provisional: la cola de ai33 se comparte con otros canales y esta colgada).
+          # Para volver a ai33: VOICE_PROVIDER: ai33 (tts.py espera hasta ~35 min si su cola esta llena).
+          VOICE_PROVIDER: genaipro
+          GENAIPRO_API_KEY: ${{ secrets.GENAIPRO_API_KEY }}
+          GENAIPRO_BASE: https://genaipro.io/api
           VIDEOS_DIR: ./salidas
         run: |
           set -eo pipefail
