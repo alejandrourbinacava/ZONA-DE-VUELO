@@ -70,7 +70,10 @@ def main():
         run([PY, "scripts/produce_voice.py", guion])
 
     print("\n=== 4/6 MEDIOS (imagenes + clips) ===")
-    run([PY, "scripts/fetch_media.py"])
+    if os.environ.get("SKIP_MEDIA") == "1" and os.path.exists(os.path.join(ROOT, "public", "stock", "media.json")):
+        print("SKIP_MEDIA=1 (modo prueba) -> reuso public/stock/media.json")
+    else:
+        run([PY, "scripts/fetch_media.py"])
 
     print("\n=== 5/6 PROPS + AUDIO + ASSETS ===")
     manifest = json.load(open(os.path.join(ROOT, "out", "voz", "manifest.json"), encoding="utf-8"))
@@ -96,12 +99,20 @@ def main():
     conc = os.environ.get("RENDER_CONCURRENCY")  # opcional; si no, Remotion elige segun nucleos
     if conc:
         cmd.append(f"--concurrency={conc}")
+    if os.environ.get("RENDER_FRAMES"):          # modo prueba: renderiza solo un tramo (p.ej. 0-299)
+        cmd.append(f"--frames={os.environ['RENDER_FRAMES']}")
     run(cmd, shell=(os.name == "nt"))  # shell solo en Windows para hallar npx
-    # comprimir para subir
+    # comprimir para subir. -nostdin (en la nube ffmpeg se quedo 1h42 colgado) + tiempo maximo: si falla o tarda
+    # demasiado se usa el render original (ya es H.264 valido para YouTube).
     web = os.path.join(ROOT, "out", s + "_web.mp4")
-    subprocess.run(["ffmpeg", "-y", "-i", raw, "-c:v", "libx264", "-crf", "22",
-                    "-preset", "medium", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", web],
-                   cwd=ROOT, capture_output=True)
+    try:
+        subprocess.run(["ffmpeg", "-nostdin", "-y", "-i", raw, "-c:v", "libx264", "-crf", "22",
+                        "-preset", "medium", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", web],
+                       cwd=ROOT, capture_output=True, timeout=1800)
+    except subprocess.TimeoutExpired:
+        print("aviso: la compresion supero 30 min -> se usa el render original sin recomprimir")
+        try: os.remove(web)
+        except OSError: pass
     os.makedirs(FINAL, exist_ok=True)
     n = len([f for f in os.listdir(FINAL) if f.endswith(".mp4")]) + 1
     base = f"{n:02d} - {clean_title(idea)}"   # nombre = titulo legible del guion

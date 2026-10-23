@@ -22,7 +22,7 @@ def slugify(text):
     return text[:60] or "guion"
 
 
-def call_claude(system, user, max_tokens=12000, thinking=None, model=None, output_config=None):
+def call_claude(system, user, max_tokens=12000, thinking=None, model=None, output_config=None, max_attempts=10):
     """Mantiene la firma antigua (para no tocar generate_shotlist/metadata) pero llama a GEMINI.
     - model: si el nombre pedido sugiere maxima calidad ('opus'/'pro') o effort alto -> Gemini Pro; si no, Flash.
     - thinking={'type':'disabled'} (tareas JSON) -> thinkingBudget 0 (o el modelo gasta tokens 'pensando').
@@ -43,7 +43,7 @@ def call_claude(system, user, max_tokens=12000, thinking=None, model=None, outpu
     data = None
     try:
         mi, intento = 0, 0
-        while data is None and intento < 10 and mi < len(chain):
+        while data is None and intento < max_attempts and mi < len(chain):
             gmodel = chain[mi]
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{gmodel}:generateContent"
             try:
@@ -60,7 +60,7 @@ def call_claude(system, user, max_tokens=12000, thinking=None, model=None, outpu
                 data = d; break
             err = (d or {}).get("error", {})
             code, status = err.get("code"), err.get("status", "sin JSON")
-            print(f"  (Gemini {gmodel} intento {intento+1}/10: {status})", file=sys.stderr)
+            print(f"  (Gemini {gmodel} intento {intento+1}/{max_attempts}: {status})", file=sys.stderr)
             intento += 1
             if status == "RESOURCE_EXHAUSTED" and mi + 1 < len(chain):
                 mi += 1; print(f"  -> sin cuota en {gmodel}; pruebo {chain[mi]}", file=sys.stderr); continue

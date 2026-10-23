@@ -72,33 +72,38 @@ def background(media_path):
 
 # ---------- texto ----------
 def heuristic_text(title):
-    t = re.sub(r"[¿?¡!]", "", title).upper()
-    t = re.sub(r"^(POR QU[ÉE]|C[ÓO]MO|QU[ÉE])\s+(LOS\s+)?(AVIONES|PILOTOS)?\s*", "", t).strip()
-    words = t.split()
-    words = words[-3:] if len(words) > 3 else words
-    if len(words) <= 1:
-        return {"top": "", "line1": "", "line2": " ".join(words)}
-    return {"top": "", "line1": " ".join(words[:-1]), "line2": words[-1]}
+    """Respaldo sin IA. El canal pone la palabra clave del titulo en MAYUSCULAS (PACIFICO, 4 MOTORES, A380)."""
+    caps = [w for w in re.findall(r"[A-ZÁÉÍÓÚÑ0-9]{3,}", re.sub(r"[¿?¡!]", "", title)) if w not in ("NO", "YA")]
+    key = caps[-1] if caps else ""
+    if not key:
+        t = re.sub(r"[¿?¡!]", "", title).upper().split()
+        key = t[-1] if t else "AVIACIÓN"
+    line1 = "¿POR QUÉ NO?" if re.search(r"(?<![A-ZÁÉÍÓÚÑ])NO(?![A-ZÁÉÍÓÚÑ])", title) and title.lower().startswith("¿por qu") else ("¿POR QUÉ?" if title.lower().startswith("¿por qu") else "")
+    return {"top": "", "line1": line1, "line2": key}
 
 
-def thumb_text(title):
+def thumb_text(title, desc=""):
     try:
         import generate_script as gs
         if not gs.KEY:
             raise RuntimeError("sin clave")
         system = ("Eres experto en miniaturas virales de YouTube para un canal de curiosidades de aviacion en español. "
-                  "Dado el titulo, devuelve SOLO JSON {\"top\":..., \"line1\":..., \"line2\":...} con: "
+                  "Dado el titulo y un resumen del video, devuelve SOLO JSON {\"top\":..., \"line1\":..., \"line2\":...} con: "
                   "top = kicker en MAYUSCULAS de 2-4 palabras (<=24 caracteres) que da contexto; "
                   "line1 = 1-2 palabras en MAYUSCULAS (<=14 caracteres) que plantean la duda; "
                   "line2 = 1 palabra IMPACTANTE en MAYUSCULAS (<=12 caracteres), la que mas curiosidad genera. "
-                  "Sin signos raros; puedes usar ¿ ? ! . Nada de comillas.")
-        text, _ = gs.call_claude(system, f"TITULO: {title}", max_tokens=600, thinking={"type": "disabled"})
+                  "REGLA DE ORO: el texto debe ser VERDADERO segun el video. No inventes: no uses PROHIBIDO, SECRETO, OCULTO, "
+                  "PELIGRO, MISTERIO ni similares salvo que el titulo o el resumen lo afirmen. Si el video desmiente algo, "
+                  "no lo afirmes en la miniatura. Usa palabras del propio titulo (p.ej. el sujeto: PACIFICO, 4 MOTORES, A380). "
+                  "Sin comillas; puedes usar ¿ ? ! .")
+        text, _ = gs.call_claude(system, f"TITULO: {title}\nRESUMEN: {desc[:500]}", max_tokens=600,
+                                 thinking={"type": "disabled"}, max_attempts=3)
         d = json.loads(re.search(r"\{.*\}", text, re.S).group(0))
         for k in ("top", "line1", "line2"):
             d[k] = str(d.get(k, "")).upper().strip()
         if d["line2"]:
             return d
-    except Exception as e:
+    except (Exception, SystemExit) as e:
         print("  (miniatura: texto por heuristica:", str(e)[:60], ")", file=sys.stderr)
     return heuristic_text(title)
 
@@ -114,7 +119,7 @@ def main():
     meta = json.load(open(sys.argv[1], encoding="utf-8"))
     out = sys.argv[2]
     media = sys.argv[3] if len(sys.argv) > 3 else os.path.join(ROOT, "public", "stock", "media.json")
-    tx = thumb_text(meta.get("title") or "Zona de Vuelo")
+    tx = thumb_text(meta.get("title") or "Zona de Vuelo", meta.get("description", ""))
 
     img = background(media).convert("RGBA")
     # degradado oscuro a la izquierda y arriba para que el texto resalte
