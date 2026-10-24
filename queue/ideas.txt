@@ -8,6 +8,22 @@
 # El puntero (queue/state.json) SOLO avanza cuando el video se produce con exito. '#' = comentario.
 # ANTES de añadir una idea, comprobar que no esta ya subida (memoria 'zona-de-vuelo-videos-subidos') y repetir la busqueda.
 
+# ================= PRIORIDAD 0 — ANGULO PROPIO sobre temas que YA EXPLOTARON (24-oct-2026) =================
+# Idea: tomar el tipo de video que revienta (enigma de rutas en mapa, "YA NO", rarezas de diseño) y darle un giro que nadie
+# ha hecho en español, sobre todo el ANGULO HISPANOHABLANTE (Latinoamerica/España), que Aero Curiosidades no cubre.
+# (Atlantico Sur: parent 'Atlantico' 3,6M/'Pacifico' 1,5M; solo 1 video de 75K sobre el tema; publico latino)
+¿Por qué casi no hay vuelos directos entre Sudamérica y África?
+# (parent: 'Atlantico de dia/noche' 3,6M y tu propio mejor video, 10K; variante Latam: CERO videos)
+¿Por qué los vuelos de España a Latinoamérica salen de noche?
+# (parent: 'Pacifico' 1,5M; variante Pacifico Sur/Oceania: CERO videos; publico latino)
+¿Por qué es tan raro volar de Latinoamérica a Australia?
+# (parent: cargueros de noche 611K + documentales de UPS 146K-302K; en español solo 1 documental)
+¿Cómo funciona el aeropuerto que despierta a medianoche? UPS y los gigantes de la carga
+# (parent: rarezas de diseño 'Spirit of St. Louis sin ventana frontal' 2,2M; joroba 747: 255K/21K/18K con 5 videos)
+¿Por qué el Boeing 747 tiene joroba? La verdad que casi nadie cuenta
+# (parent: 'YA NO motores en la cola' Ultimo Vuelo 801K + Aero 364K; trirreactores 51K/38K; secuela de tu video de 4 motores)
+¿Por qué los aviones YA NO tienen 3 motores?
+
 # ================= PRIORIDAD 1 — hueco claro: demanda + poca oferta =================
 # (sensacion del pasajero: 1 solo video reciente con 30K, "Ingenieria del aire"; "sacudida tras despegar" no tiene NINGUN video)
 ¿Por qué el avión parece frenar y luego acelerar justo después de despegar?
