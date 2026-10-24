@@ -1,34 +1,45 @@
 # Cola de ideas de Zona de Vuelo (una por linea, EN ORDEN DE PRIORIDAD). VIDEO DIARIO: una idea por dia.
 # CANAL = CURIOSIDADES de aviacion (formato "¿Por que...?"). NO historias/reconstrucciones de accidentes
 # (eso es otro formato y seria otro canal; ver seccion apartada abajo).
-# Reordenada 23-oct-2026 con datos de YouTube (ver memoria 'videos-subidos'): lo que mas rinde son ENIGMAS DE RUTAS/OCEANOS
-# con "NO" y miedos del pasajero con respuesta fisica; lo "tecnico suelto" se queda en ~100 vistas.
+# FILTRADA el 24-oct-2026 con busquedas reales en YouTube (top por vistas del ultimo año). Criterio: DEMANDA demostrada
+# (algun video no gigante con 20K-100K) y POCA OFERTA (pocas copias recientes). Los temas saturados de copias (7+ videos
+# en 5 meses) o con demanda minima (<12K el mejor) se han bajado. Ojo: Aero Curiosidades arrasa en los temas virales
+# (Atlantico 3,6M, Pacifico 1,5M, cargueros 611K) y las copias de otros canales sacan 1K-75K; tu canal esta en ~100.
 # El puntero (queue/state.json) SOLO avanza cuando el video se produce con exito. '#' = comentario.
-# ANTES de añadir una idea, comprobar que no esta ya subida (lista en memoria 'zona-de-vuelo-videos-subidos').
+# ANTES de añadir una idea, comprobar que no esta ya subida (memoria 'zona-de-vuelo-videos-subidos') y repetir la busqueda.
 
-# ================= PRIORIDAD 1 — demanda demostrada en YouTube (otros canales 600K-3,5M / 4,6K en canal pequeño) =================
-¿Por qué los aviones de carga solo vuelan de noche?
-¿Por qué ningún avión puede volar a más de 12.000 metros?
-
-# ================= PRIORIDAD 2 — miedos / operacion del pasajero + secretos del negocio =================
-¿Por qué el avión cae de golpe justo antes de aterrizar?
+# ================= PRIORIDAD 1 — hueco claro: demanda + poca oferta =================
+# (sensacion del pasajero: 1 solo video reciente con 30K, "Ingenieria del aire"; "sacudida tras despegar" no tiene NINGUN video)
+¿Por qué el avión parece frenar y luego acelerar justo después de despegar?
+# (cementerio de aviones: 103K Aero / 51K Infobae / 12K; angulo local sugerido: Teruel, el mayor cementerio de aviones de Europa)
 ¿A dónde van los aviones cuando se jubilan?
-¿Por qué los aviones tiran combustible antes de aterrizar?
-¿Por qué los motores van debajo del ala y no encima?
-¿Por qué los aviones no llevan paracaídas para los pasajeros?
-¿Cuánto pesa realmente un avión lleno de pasajeros?
-¿Por qué las aerolíneas sobrevenden los vuelos a propósito?
-¿Por qué los billetes de avión cambian de precio cada hora?
-¿Por qué la primera clase cuesta 10 veces más si llega igual?
-¿Por qué tu asiento es cada vez más pequeño?
+# (cargueros: Aero 611K, otro canal 74K; copias 3-9K; ya hay GUION generado en guiones/)
+¿Por qué los aviones de carga solo vuelan de noche?
+# (motores: solo 1 video, 21K "NUNCA ponen los motores sobre las alas"; el angulo "YA NO/NUNCA" tira: Ultimo Vuelo 801K)
+¿Por qué NUNCA ponen los motores encima del ala?
+# (estelas: 48K en un canal doblado; el resto <3,5K)
+¿Por qué los aviones dejan líneas blancas en el cielo?
 
-# ================= PRIORIDAD 3 — curiosidades tecnicas / sensaciones (menor potencial) =================
-¿Por qué el humo de los aviones dibuja líneas en el cielo?
+# ================= PRIORIDAD 2 — demanda existente pero otro publico (viajeros) o poca informacion =================
+# (primera clase: 231K de una azafata, 5,6M de un vlog; publico "viajero", no "curiosidades")
+¿Por qué la primera clase cuesta 10 veces más si llega igual?
+¿Por qué el avión cae de golpe justo antes de aterrizar?
+¿Por qué el ala del avión se dobla tanto y no se rompe?
+¿Por qué el asiento del medio es el peor y nadie lo quiere?
+¿Por qué los billetes de avión cambian de precio cada hora?
+
+# ================= PRIORIDAD 3 — SATURADO o demanda minima (hacer solo si falta material) =================
+# 12.000 m: 7 copias en 5 meses (72K el mejor, el resto 0,3-10K). Paracaidas: el mejor 12K. Combustible: el mejor 4K.
+# Sobreventa: el mejor 6K. Asientos pequeños: todos <1K. Cuanto pesa: 4K-16K. Luces/morro: sin videos recientes.
+¿Por qué los aviones no pueden volar a más de 12.000 metros?
+¿Por qué los aviones no llevan paracaídas para los pasajeros?
+¿Por qué los aviones tiran combustible antes de aterrizar?
+¿Por qué las aerolíneas sobrevenden los vuelos a propósito?
+¿Por qué tu asiento es cada vez más pequeño?
+¿Cuánto pesa realmente un avión lleno de pasajeros?
 ¿Por qué el morro del avión es de un color diferente?
 ¿Por qué las luces del avión parpadean en la noche?
-¿Por qué el asiento del medio es el peor y nadie lo quiere?
 ¿Qué es esa sacudida rara justo después de despegar?
-¿Por qué sientes que el avión frena de golpe al despegar?
 
 # ================= OTRO CANAL / OTRO FORMATO — historias de vuelo (NO son curiosidades, NO producir aqui) =====
 # El avión que perdió el techo en pleno vuelo y aterrizó — Aloha Airlines 243
@@ -46,9 +57,8 @@
 # ¿Qué ven de verdad los pilotos al aterrizar de noche?
 # ¿Por qué mataron al A380, el avión más grande del mundo?
 # ¿Por qué los aviones YA NO tienen 4 motores?
-# ¿Por qué los aviones no vuelan más rápido de 950 km/h?  (borrador)
-# ¿Por qué el ala del avión se dobla tanto y no se rompe?  (borrador)
-# ¿Cómo vuela de verdad un avión de 500 toneladas?  (hecho; ya hay subido '¿Cómo Vuelan Realmente Los Aviones?')
+# ¿Por qué los aviones no vuelan más rápido de 950 km/h?
+# ¿Cómo vuela de verdad un avión de 500 toneladas?
 # ¿Por qué los aviones NO vuelan sobre el Pacífico?
 # ¿Por qué los aviones tienen una bolita en la punta del ala?
 # ¿Por qué los aviones no tienen fila 13?
