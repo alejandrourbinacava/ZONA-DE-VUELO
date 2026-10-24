@@ -1,0 +1,314 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {
+     "text": "A las once de la noche, cuando la mayoría de los aeropuertos del mundo empieza a quedarse vacío, hay uno en Kentucky que se despierta. Las luces de la pista se encienden, los camiones de equipaje se ponen en marcha y, uno detrás de otro, empiezan a aterrizar aviones de carga.",
+     "kind": "broll",
+     "query": "airport runway night lights cargo airplane landing",
+     "key": "Louisville, 23:00"
+    },
+    {
+     "text": "Más de cien en una sola noche, llegados desde ciudades de todo el mundo. No traen pasajeros: traen cajas. Cajas pequeñas, cajas enormes, regalos de cumpleaños, piezas de maquinaria, medicinas urgentes, el paquete que pediste hace dos días y no sabes dónde está.",
+     "kind": "broll",
+     "query": "cargo airplane unloading containers night airport"
+    },
+    {
+     "text": "Todos esos paquetes entran en un edificio gigantesco, pasan por cientos de kilómetros de cintas transportadoras, se clasifican solos en cuestión de horas y, antes de que amanezca, vuelven a salir en otros aviones hacia su destino.",
+     "kind": "fact",
+     "kicker": "WORLDPORT",
+     "body": "El hub que despierta a medianoche",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "A ese lugar se le llama Worldport.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Y es uno de los sitios más extraordinarios, y menos conocidos, de toda la aviación. Hoy vamos a descubrir cómo funciona el aeropuerto que despierta a medianoche, por qué casi todo ocurre de noche, qué tiene que ver un truco de matemáticas con el mapa de rutas de las aerolíneas, y por qué tu próximo paquete puede haber pasado la noche en un avión.",
+     "kind": "fact",
+     "kicker": "LA CIFRA",
+     "body": "Paquetes por hora: te dejará sin palabras",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Quédate, porque la cifra de paquetes por hora te va a dejar sin palabras.",
+     "query": "airplane wing window view clouds"
+    }
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {
+     "text": "Empecemos por los números, porque son difíciles de creer. El hub de UPS en Louisville, Kentucky, ocupa unos cinco millones doscientos mil pies cuadrados: más de cuatrocientos ochenta mil metros cuadrados, el equivalente a unos sesenta y cinco campos de fútbol.",
+     "kind": "stat",
+     "value": 480000,
+     "suffix": "m²",
+     "label": "Superficie del Worldport (≈65 campos de fútbol)",
+     "color": "cyan"
+    },
+    {
+     "text": "Por dentro lo recorren unos doscientos cincuenta kilómetros de cintas transportadoras.",
+     "kind": "stat",
+     "value": 250,
+     "suffix": "km",
+     "label": "De cintas transportadoras",
+     "color": "amber"
+    },
+    {
+     "text": "Y según UPS, puede clasificar hasta cuatrocientos dieciséis mil paquetes por hora. Para que te hagas una idea, eso son unos dos mil paquetes cada diecisiete segundos.",
+     "kind": "stat",
+     "value": 416000,
+     "suffix": "paquetes/h",
+     "label": "Capacidad máxima de clasificación",
+     "color": "green"
+    },
+    {
+     "text": "Es considerado la mayor instalación de clasificación de paquetes totalmente automatizada del mundo.",
+     "kind": "broll",
+     "query": "package sorting conveyor belts warehouse"
+    },
+    {
+     "text": "Pero lo más curioso es cuándo trabaja. Durante el día, el lugar está en calma, con poca actividad.",
+     "kind": "broll",
+     "query": "cargo airport quiet apron daytime"
+    },
+    {
+     "text": "Es por la noche cuando se llena de vida: llegan más de cien aviones, descargan, se clasifican los paquetes y vuelven a cargarse los aviones, que despegan de nuevo rumbo a sus ciudades. Todo eso sucede en una ventana de unas pocas horas. Es como una ciudad entera que duerme de día y trabaja de noche.",
+     "kind": "broll",
+     "query": "cargo airplanes parked night apron lights",
+     "key": "Más de 100 aviones cada noche"
+    },
+    {
+     "text": "Y todo empieza con una pregunta muy sencilla: ¿por qué no llevar los paquetes directamente de una ciudad a otra?",
+     "kind": "fact",
+     "kicker": "LA PREGUNTA",
+     "body": "¿Por qué no ir directo de ciudad a ciudad?",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {
+     "text": "La respuesta es un truco de matemáticas que usan casi todas las compañías aéreas, y se llama hub and spoke, o sistema de buje y radios, como la rueda de una bicicleta.",
+     "kind": "fact",
+     "kicker": "TRUCO DE MATEMÁTICAS",
+     "body": "Hub and spoke: buje y radios",
+     "accent": "cyan"
+    },
+    {
+     "text": "Supón que una empresa de paquetería quiere conectar cien ciudades entre sí con vuelos directos.",
+     "kind": "compare",
+     "a": 4950,
+     "b": 100,
+     "alabel": "100 ciudades, vuelos directos",
+     "blabel": "100 ciudades, con un hub",
+     "unit": "rutas",
+     "label": "Rutas necesarias",
+     "color": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "¿Cuántas rutas haría falta abrir? Casi cinco mil: exactamente cuatro mil novecientas cincuenta, una para cada pareja posible de ciudades.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Eso significa miles de aviones medio vacíos, volando entre destinos que apenas se envían nada entre sí.",
+     "kind": "broll",
+     "query": "cargo airplane container loading"
+    },
+    {
+     "text": "Pero si eliges una ciudad en el centro, y haces que todas las demás envíen sus paquetes hasta ella, solo necesitas cien rutas: una de cada ciudad hasta el centro.",
+     "kind": "fact",
+     "kicker": "UN HUB",
+     "body": "Todas las rutas pasan por el centro",
+     "accent": "green"
+    },
+    {
+     "kind": "broll",
+     "text": "Allí se juntan todos los paquetes, se clasifican por destino y se reparten de nuevo. Pasas de casi cinco mil rutas a cien. Los aviones salen llenos, se aprovechan mejor y el sistema es mucho más barato.",
+     "query": "airplane taking off runway"
+    },
+    {
+     "text": "Es exactamente el mismo truco que usan las aerolíneas de pasajeros con aeropuertos como Madrid, Atlanta o Dubái. Solo que en el caso de la carga se lleva al extremo.",
+     "kind": "broll",
+     "query": "busy hub airport aircraft aerial"
+    },
+    {
+     "text": "Y para que funcione, hay que cumplir una condición: que todo ocurra a la vez, en la misma ventana de tiempo.",
+     "kind": "broll",
+     "query": "airplanes landing at night hub airport"
+    }
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {
+     "text": "Vamos a seguir el viaje de un paquete, hora a hora. A media tarde, un conductor lo recoge en una oficina o en una tienda de, por ejemplo, Chicago. Por la noche llega al aeropuerto local, donde se carga en un avión de carga junto a cientos de paquetes más. Hacia las once de la noche, ese avión aterriza en Louisville. Sus contenedores se descargan, se escanean y entran en la red de cintas.",
+     "kind": "timeline",
+     "label": "El viaje de un paquete",
+     "events": [
+      {
+       "year": "Tarde",
+       "text": "Lo recogen en Chicago"
+      },
+      {
+       "year": "23:00",
+       "text": "Aterriza en Louisville"
+      },
+      {
+       "year": "23:00-03:00",
+       "text": "Se clasifica en el Worldport"
+      }
+     ]
+    },
+    {
+     "text": "Durante unas tres o cuatro horas, el paquete viaja por el edificio, se identifica por su código de barras y se dirige automáticamente hasta el avión que lo llevará a su destino, por ejemplo, Los Ángeles. Hacia las dos o las tres de la madrugada, ese avión despega. Al amanecer aterriza, y a primera hora de la mañana un camión de reparto lo entrega en la puerta del destinatario. Del mostrador al buzón, en menos de un día, atravesando medio país.",
+     "kind": "timeline",
+     "label": "Y por la mañana...",
+     "events": [
+      {
+       "year": "02:00-03:00",
+       "text": "Despega hacia Los Ángeles"
+      },
+      {
+       "year": "Amanecer",
+       "text": "Aterriza"
+      },
+      {
+       "year": "Mañana",
+       "text": "Entrega en la puerta"
+      }
+     ]
+    },
+    {
+     "text": "Para que ese reloj funcione, todos los aviones del sistema tienen que llegar al hub casi a la vez, ser descargados casi a la vez y salir casi a la vez. Es una coreografía que se repite cada noche del año, y un retraso en una ciudad se nota en todo el sistema. Y eso explica por qué las empresas de carga necesitan que todo suceda de noche.",
+     "kind": "broll",
+     "query": "cargo aircraft lined up night apron"
+    }
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {
+     "text": "Hay varios motivos, y todos empujan en la misma dirección. El primero es el horario del cliente.",
+     "kind": "fact",
+     "kicker": "EL HORARIO DEL CLIENTE",
+     "body": "Recoger de tarde, entregar de mañana",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "Si quieres que un paquete llegue a la mañana siguiente, no puedes volar durante el día: tienes que recogerlo por la tarde, moverlo durante la noche y entregarlo por la mañana. La noche es el tiempo muerto que el sistema aprovecha.",
+     "query": "airliner descending approach landing"
+    },
+    {
+     "text": "El segundo es el espacio aéreo. De día, los grandes aeropuertos y los pasillos aéreos están llenos de aviones de pasajeros. De noche hay menos tráfico, menos esperas y más huecos para despegar y aterrizar, lo que es una ventaja enorme para una flota que necesita moverse con precisión.",
+     "kind": "broll",
+     "query": "empty runway night airport aircraft",
+     "key": "Menos tráfico de noche"
+    },
+    {
+     "text": "El tercero es el uso de los aviones. Un avión de carga cuesta decenas de millones de euros, y dejarlo parado es perder dinero. Si trabaja de noche, puede descansar y hacer mantenimiento durante el día.",
+     "kind": "broll",
+     "query": "cargo airplane maintenance hangar",
+     "key": "Mantenimiento de día"
+    },
+    {
+     "text": "Y el cuarto es el ruido. Muchos aeropuertos tienen restricciones nocturnas para los vuelos de pasajeros, pero en los que están diseñados como centros de carga, la actividad nocturna forma parte de su razón de ser. Louisville, de hecho, es un aeropuerto cuyo corazón es la carga, y por eso la noche es su hora punta.",
+     "kind": "broll",
+     "query": "cargo aircraft ground handling loader night"
+    }
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {
+     "text": "Pero ¿cómo se clasifica un paquete sin que lo toque nadie? Cada caja lleva una etiqueta con un código de barras.",
+     "kind": "broll",
+     "query": "package barcode scanning conveyor"
+    },
+    {
+     "text": "Cuando un avión llega, sus contenedores se descargan y los paquetes se colocan sobre cintas transportadoras que los llevan de un lado a otro del edificio. A lo largo del recorrido, escáneres leen esa etiqueta y deciden automáticamente hacia qué destino debe ir cada paquete. Unos brazos mecánicos o unas compuertas desvían la caja hacia la cinta correcta, y así sucesivamente, cientos de veces, hasta que llega a la zona donde se cargará en su avión de salida.",
+     "kind": "broll",
+     "query": "parcel sorting conveyor packages automated"
+    },
+    {
+     "text": "Todo esto se hace con una velocidad tremenda y con miles de trabajadores que supervisan, cargan y descargan. Es un sistema tan preciso que, en las horas punta, cada diecisiete segundos cruzan por sus cintas unos dos mil paquetes. Y funciona tan bien porque cada paso está pensado al segundo.",
+     "kind": "broll",
+     "query": "warehouse workers sorting packages night"
+    },
+    {
+     "text": "Pero tiene un punto débil: depende del reloj. Si hay una tormenta en Kentucky, o nieve, o niebla, los aviones no pueden aterrizar a su hora, y un retraso en el hub se acaba notando en ciudades a miles de kilómetros. Por eso las empresas de carga tienen planes de contingencia y aviones de reserva para cada noche.",
+     "kind": "broll",
+     "query": "snowstorm airport runway aircraft"
+    }
+   ]
+  },
+  {
+   "key": "parte6",
+   "shots": [
+    {
+     "text": "UPS no es la única. FedEx tiene su gran centro de clasificación en Memphis, también activo de noche, y DHL tiene el suyo en Leipzig, en Alemania, desde donde reparte buena parte de sus envíos por Europa.",
+     "kind": "broll",
+     "query": "FedEx cargo airplane"
+    },
+    {
+     "text": "Amazon, con su propia flota de aviones, ha montado sus centros en lugares como el aeropuerto de Cincinnati, también en Kentucky. Cada uno funciona con la misma lógica: reunir paquetes de todas partes, clasificarlos en pocas horas y repartirlos antes de que amanezca.",
+     "kind": "broll",
+     "query": "DHL cargo airplane airport"
+    },
+    {
+     "text": "El comercio por internet ha disparado esta actividad: cada vez compramos más cosas desde casa y las queremos al día siguiente. Eso significa más aviones de carga, más hubs y más noches despiertas en lugares que de día parecen tranquilos.",
+     "kind": "broll",
+     "query": "Amazon Air cargo airplane"
+    },
+    {
+     "text": "Así que la próxima vez que pidas algo por internet y te llegue a la mañana siguiente, piensa en el viaje que ha hecho: un camión, un avión, una noche en un edificio del tamaño de sesenta y cinco campos de fútbol, otro avión y otro camión. Y todo mientras tú dormías.",
+     "kind": "broll",
+     "query": "airliner flying night sky lights"
+    }
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {
+     "text": "Así que ya lo sabes. Existe un aeropuerto que despierta a medianoche porque el negocio de la carga depende de una ventana de tiempo: recoger por la tarde, clasificar de noche y entregar por la mañana.",
+     "kind": "fact",
+     "kicker": "LA CLAVE",
+     "body": "Recoger de tarde, clasificar de noche, entregar de mañana",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "El sistema de buje y radios convierte casi cinco mil rutas posibles en solo cien, el Worldport de Louisville puede clasificar cientos de miles de paquetes cada hora, y la noche ofrece cielos más libres y aviones disponibles.",
+     "query": "airliner flying over ocean aerial"
+    },
+    {
+     "text": "La próxima vez que veas luces moviéndose en el cielo de madrugada, quizá no sea un vuelo de pasajeros: puede ser un avión cargado de paquetes camino de un hub.",
+     "kind": "broll",
+     "query": "cargo airplane night sky lights"
+    },
+    {
+     "text": "Si te ha gustado, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos algo que creías saber sobre los aviones.",
+     "kind": "broll",
+     "query": "airliner flying into sunset cinematic"
+    },
+    {
+     "text": "Y dime en los comentarios: ¿alguna vez has seguido el rastro de un paquete durante su viaje? ¿Por dónde pasó? Te leo. Nos vemos en el siguiente.",
+     "kind": "outro"
+    }
+   ]
+  }
+ ]
+}
