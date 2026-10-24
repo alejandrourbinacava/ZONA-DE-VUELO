@@ -1,0 +1,537 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {
+     "text": "El Atlántico que separa Nueva York de Londres mide más de cinco mil quinientos kilómetros. Y por encima de él cruzan cientos de aviones cada día, un hormiguero que no se detiene.",
+     "kind": "map",
+     "from": {
+      "name": "Nueva York",
+      "lat": 40.64,
+      "lon": -73.78
+     },
+     "to": {
+      "name": "Londres",
+      "lat": 51.47,
+      "lon": -0.45
+     },
+     "label": "Atlántico Norte: +5.500 km"
+    },
+    {
+     "text": "Ahora mira el Atlántico Sur. En su punto más estrecho, entre Brasil y África, apenas mide unos tres mil kilómetros: casi la mitad.",
+     "kind": "map",
+     "from": {
+      "name": "Natal",
+      "lat": -5.91,
+      "lon": -35.25
+     },
+     "to": {
+      "name": "Dakar",
+      "lat": 14.74,
+      "lon": -17.49
+     },
+     "label": "Atlántico Sur: ~3.000 km",
+     "bow": 0.05
+    },
+    {
+     "text": "Debería ser todavía más fácil de cruzar. Y, sin embargo, aquí ocurre justo lo contrario.",
+     "kind": "compare",
+     "a": 5500,
+     "b": 3000,
+     "alabel": "Nueva York–Londres",
+     "blabel": "Natal–Dakar",
+     "unit": "km",
+     "label": "Anchura del Atlántico",
+     "color": "amber"
+    },
+    {
+     "text": "Si quieres volar de Buenos Aires a Johannesburgo, o de Lima a Lagos, lo normal es que no exista un vuelo directo.",
+     "kind": "map",
+     "from": {
+      "name": "Buenos Aires",
+      "lat": -34.82,
+      "lon": -58.54
+     },
+     "to": {
+      "name": "Johannesburgo",
+      "lat": -26.14,
+      "lon": 28.24
+     },
+     "label": "Buenos Aires → Johannesburgo: ¿directo?",
+     "bow": 0.05
+    },
+    {
+     "text": "Tendrás que hacer escala en Europa, en Oriente Medio o en Adís Abeba, y dar un rodeo de miles de kilómetros para llegar a un lugar que está justo enfrente.",
+     "kind": "broll",
+     "query": "airport transit terminal passengers waiting connecting flight",
+     "key": "Escala obligada"
+    },
+    {
+     "text": "¿Cómo puede ser que dos continentes tan cercanos estén prácticamente desconectados? ¿Es por miedo al océano?",
+     "kind": "fact",
+     "kicker": "LA PREGUNTA",
+     "body": "¿Por qué casi no hay vuelos directos?",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "¿Por el clima? ¿Por la política?",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "La respuesta tiene mucho que ver con el dinero, con la historia y con un mapa que llevas años mirando mal. Hoy vamos a descubrir cuántos vuelos hay de verdad entre Sudamérica y África, por qué casi todos los viajeros terminan pasando por Europa, y qué tendría que cambiar para que el puente del Atlántico Sur por fin se abra.",
+     "kind": "broll",
+     "query": "airliner flying over atlantic ocean aerial"
+    },
+    {
+     "text": "Quédate, porque el motivo principal no es el que imaginas.",
+     "kind": "fact",
+     "kicker": "ZONA DE VUELO",
+     "body": "El motivo no es el que imaginas",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {
+     "text": "Empecemos por el mapa. Cuando miras un mapamundi, tu cerebro te engaña: África y Sudamérica parecen dos continentes separados por un océano inmenso.",
+     "kind": "fact",
+     "kicker": "EL MAPA ENGAÑA",
+     "body": "En el globo están mucho más cerca",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "Pero si miras un globo terráqueo, ves algo distinto.",
+     "query": "airplane wing window view clouds"
+    },
+    {
+     "text": "El saliente de Brasil, alrededor de la ciudad de Natal, apunta directamente hacia África occidental, hacia Senegal y Liberia.",
+     "kind": "map",
+     "from": {
+      "name": "Natal",
+      "lat": -5.91,
+      "lon": -35.25
+     },
+     "to": {
+      "name": "Monrovia",
+      "lat": 6.23,
+      "lon": -10.36
+     },
+     "label": "Natal → Liberia: el punto más cercano",
+     "bow": 0.05
+    },
+    {
+     "kind": "broll",
+     "text": "En esa franja, el Atlántico Sur mide unos tres mil kilómetros. Tres mil. Es menos que de Madrid a Moscú, y casi la mitad de lo que mide el Atlántico Norte entre Nueva York y Londres.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Y la historia de la aviación lo sabe desde hace casi un siglo. A comienzos de los años treinta, pilotos franceses como Jean Mermoz unieron Senegal con Brasil con hidroaviones, para llevar el correo entre Europa y Sudamérica más rápido que los barcos.",
+     "kind": "broll",
+     "query": "vintage seaplane flying 1930s airmail",
+     "key": "Años 30: hidroaviones"
+    },
+    {
+     "text": "Y durante la Segunda Guerra Mundial, Natal se convirtió en una de las bases aéreas más importantes de los Aliados: por allí pasaban los aviones que cruzaban el Atlántico Sur hacia África, camino de los frentes de Europa y del norte de África. Es decir: hace ochenta años, cruzar ese tramo era rutinario, aunque fuera para la guerra.",
+     "kind": "broll",
+     "query": "World War II transport aircraft airfield runway",
+     "key": "Natal: base aliada"
+    },
+    {
+     "text": "Entonces, si la distancia no es el problema, y la tecnología tampoco, ¿por qué hoy casi nadie lo cruza en un vuelo comercial?",
+     "kind": "fact",
+     "kicker": "LA PREGUNTA",
+     "body": "Si no es la distancia, ¿qué es?",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Para entenderlo, primero hay que ver cuántos vuelos hay realmente.",
+     "query": "airplane taking off runway"
+    }
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {
+     "text": "Antes de decir que no hay vuelos, hay que ser justos: algunos sí hay, y se pueden contar con los dedos de una mano.",
+     "kind": "fact",
+     "kicker": "SÍ HAY VUELOS",
+     "body": "Se cuentan con los dedos de una mano",
+     "accent": "cyan"
+    },
+    {
+     "text": "LATAM conecta São Paulo con Johannesburgo, con unos pocos vuelos por semana. La aerolínea sudafricana South African Airways reanudó en 2023 su ruta entre Johannesburgo, Ciudad del Cabo y São Paulo.",
+     "kind": "map",
+     "from": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "to": {
+      "name": "Johannesburgo",
+      "lat": -26.14,
+      "lon": 28.24
+     },
+     "label": "São Paulo → Johannesburgo (LATAM, SAA)",
+     "bow": 0.05
+    },
+    {
+     "text": "TAAG, la compañía de Angola, vuela entre São Paulo y Luanda, una ruta con mucho sentido por los lazos históricos entre Brasil y Angola, dos países de lengua portuguesa.",
+     "kind": "map",
+     "from": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "to": {
+      "name": "Luanda",
+      "lat": -8.86,
+      "lon": 13.23
+     },
+     "label": "São Paulo → Luanda (TAAG)",
+     "bow": 0.05
+    },
+    {
+     "text": "Ethiopian Airlines enlaza Adís Abeba con São Paulo, y desde allí sigue hasta Buenos Aires.",
+     "kind": "map",
+     "from": {
+      "name": "Adís Abeba",
+      "lat": 8.98,
+      "lon": 38.8
+     },
+     "to": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "label": "Adís Abeba → São Paulo → Buenos Aires (Ethiopian)",
+     "bow": 0.1
+    },
+    {
+     "text": "Y Royal Air Maroc llega a São Paulo desde Casablanca.",
+     "kind": "map",
+     "from": {
+      "name": "Casablanca",
+      "lat": 33.37,
+      "lon": -7.59
+     },
+     "to": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "label": "Casablanca → São Paulo (Royal Air Maroc)"
+    },
+    {
+     "text": "Eso es casi todo. Fíjate en lo que tienen en común: casi todas salen o llegan a Brasil.",
+     "kind": "fact",
+     "kicker": "TODO PASA POR BRASIL",
+     "body": "Ni Argentina, Chile, Perú ni Colombia tienen puente",
+     "accent": "red"
+    },
+    {
+     "kind": "broll",
+     "text": "No hay un puente masivo entre, por ejemplo, Argentina, Chile, Perú o Colombia y el continente africano.",
+     "query": "airliner descending approach landing"
+    },
+    {
+     "text": "Y las frecuencias son mínimas: de tres a seis vuelos por semana, frente a las decenas diarias que unen cualquier gran ciudad europea con Nueva York.",
+     "kind": "fact",
+     "kicker": "3-6 VUELOS / SEMANA",
+     "body": "Frente a decenas al día en el Atlántico Norte",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Ten en cuenta que las rutas cambian con frecuencia: las aerolíneas las abren y las cierran según les salgan las cuentas, y los datos que te doy corresponden a los últimos años. Pero el patrón se repite siempre.",
+     "query": "airliner flying over ocean aerial"
+    },
+    {
+     "text": "Y la pregunta es: ¿por qué las aerolíneas no llenan ese hueco? La respuesta empieza por una cifra que te va a sorprender.",
+     "kind": "broll",
+     "query": "airport check-in counter passengers airline"
+    }
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {
+     "text": "La cifra es esta: según un directivo de LATAM, solo unos cinco mil sudafricanos viajan cada año a Sudamérica.",
+     "kind": "stat",
+     "value": 5000,
+     "suffix": "personas",
+     "label": "Sudafricanos que viajan al año a Sudamérica (según LATAM)",
+     "color": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Cinco mil personas al año.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Un avión de largo recorrido lleva unos trescientos pasajeros. Con eso no se llena ni siquiera un vuelo semanal durante meses.",
+     "kind": "broll",
+     "query": "wide body airliner cabin seats passengers",
+     "key": "~300 plazas"
+    },
+    {
+     "text": "Y ahí está la clave del misterio: una aerolínea no abre una ruta porque dos continentes estén cerca, sino porque haya suficiente gente dispuesta a pagar por cruzarla, durante todo el año y en los dos sentidos.",
+     "kind": "fact",
+     "kicker": "LA REGLA",
+     "body": "Una ruta se abre si se llena todo el año",
+     "accent": "green"
+    },
+    {
+     "text": "En el Atlántico Norte, esa gente sobra: negocios, familias, turismo, estudiantes y millones de personas con raíces a ambos lados. Europa y Norteamérica comercian entre sí a diario, tienen universidades conectadas y una enorme comunidad que viaja por trabajo.",
+     "kind": "broll",
+     "query": "busy airport terminal crowd passengers walking",
+     "key": "Atlántico Norte: demanda"
+    },
+    {
+     "text": "Entre Sudamérica y África, esos lazos existen, pero son mucho más pequeños. El comercio entre ambos continentes es mucho menor que el que cada uno mantiene con Europa, con Estados Unidos o con China.",
+     "kind": "fact",
+     "kicker": "COMERCIO",
+     "body": "Mucho menor que con Europa, EE. UU. o China",
+     "accent": "amber"
+    },
+    {
+     "text": "Y cada vuelo exige llenar muchos asientos. Una ruta de doce o catorce horas con un avión de última generación cuesta una fortuna: combustible, tripulación, tasas, mantenimiento. Si el avión sale medio vacío, la aerolínea pierde dinero cada vez que despega.",
+     "kind": "broll",
+     "query": "empty airliner cabin seats",
+     "key": "Medio vacío = pérdidas"
+    },
+    {
+     "text": "Por eso, durante décadas, la solución ha sido otra: no cruzar el Atlántico Sur directamente, sino dar un rodeo por un aeropuerto que sí concentre pasajeros. Y ese rodeo tiene nombres muy concretos.",
+     "kind": "broll",
+     "query": "airplane taking off airport"
+    }
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {
+     "text": "Piensa en cómo viaja casi todo el mundo entre estos dos continentes. Un argentino que va a Johannesburgo suele hacer escala en São Paulo, en Madrid, en Lisboa, en París o en Doha.",
+     "kind": "broll",
+     "query": "passengers connecting flight airport transit terminal",
+     "key": "La escala"
+    },
+    {
+     "text": "Un nigeriano que quiere llegar a Bogotá probablemente pase por Europa o por Estambul.",
+     "kind": "map",
+     "from": {
+      "name": "Lagos",
+      "lat": 6.58,
+      "lon": 3.32
+     },
+     "to": {
+      "name": "Estambul",
+      "lat": 41.26,
+      "lon": 28.74
+     },
+     "label": "Lagos → Estambul → Bogotá",
+     "bow": 0.1
+    },
+    {
+     "text": "Son los llamados hubs: grandes aeropuertos que funcionan como estaciones de trasbordo.",
+     "kind": "fact",
+     "kicker": "HUB",
+     "body": "Un aeropuerto-estación de trasbordo",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "Su truco es muy sencillo: en lugar de abrir cincuenta rutas pequeñas que se llenan a medias, la aerolínea reúne en un solo aeropuerto a pasajeros de muchos orígenes distintos. Así llena grandes aviones hacia cualquier destino.",
+     "query": "airplane wing window view clouds"
+    },
+    {
+     "text": "Lisboa, por ejemplo, tiene una larga historia con Brasil, Angola y Mozambique, y por eso funciona como un puente natural entre ambos lados. Madrid hace algo parecido con Latinoamérica.",
+     "kind": "map",
+     "from": {
+      "name": "Lisboa",
+      "lat": 38.77,
+      "lon": -9.13
+     },
+     "to": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "label": "Lisboa ⇄ Brasil, Angola y Mozambique"
+    },
+    {
+     "text": "Y los grandes hubs del Golfo, como Doha o Dubái, y el de Etiopía, Adís Abeba, han apostado por conectar África con medio mundo, incluida Sudamérica.",
+     "kind": "map",
+     "from": {
+      "name": "Doha",
+      "lat": 25.27,
+      "lon": 51.61
+     },
+     "to": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "label": "El Golfo y Adís Abeba conectan África con medio mundo",
+     "bow": 0.1
+    },
+    {
+     "text": "Para el pasajero, esto significa un viaje más largo y más caro que un vuelo directo. Pero para la aerolínea, es mucho más rentable.",
+     "kind": "fact",
+     "kicker": "EL RODEO",
+     "body": "Más largo y caro para ti, más rentable para ellos",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Por eso el rodeo no es un error del mapa, sino una decisión económica.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Y aun así, el dinero no lo explica todo. Porque hay otro obstáculo del que casi nadie habla, y que tiene que ver con los gobiernos.",
+     "kind": "broll",
+     "query": "airport gate boarding passengers jet bridge"
+    }
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {
+     "text": "El otro obstáculo son los acuerdos entre países. Una aerolínea no puede volar donde quiera: cada ruta internacional necesita un acuerdo entre los dos gobiernos, llamado acuerdo bilateral de servicios aéreos, que fija qué compañías pueden volar, cuántas veces por semana y con qué capacidad.",
+     "kind": "fact",
+     "kicker": "ACUERDOS BILATERALES",
+     "body": "Cada ruta necesita permiso de los dos gobiernos",
+     "accent": "cyan"
+    },
+    {
+     "text": "En el Atlántico Norte esos acuerdos están muy abiertos, con décadas de negociación detrás. Entre muchos países de Sudamérica y de África, en cambio, son más limitados. A eso se suman los visados, que complican el viaje de los pasajeros, y la falta de acuerdos entre aerolíneas para vender billetes combinados.",
+     "kind": "broll",
+     "query": "airport passport control immigration passengers",
+     "key": "Visados y papeles"
+    },
+    {
+     "text": "También influyen detalles técnicos. Un vuelo largo sobre el Atlántico Sur necesita aeropuertos de emergencia a mano, y en esa zona casi no hay islas: las pocas que existen, como Cabo Verde, Ascensión o Santa Elena, son diminutas y están muy aisladas.",
+     "kind": "broll",
+     "query": "small remote island airport runway ocean aerial",
+     "key": "Pocas islas"
+    },
+    {
+     "text": "Los aviones modernos con la certificación ETOPS, de la que ya hemos hablado en otros vídeos, pueden alejarse varias horas de cualquier pista, así que ya no es una barrera.",
+     "kind": "broll",
+     "query": "twin engine airliner flying over ocean",
+     "key": "ETOPS"
+    },
+    {
+     "text": "Y el clima tampoco: sobre la franja tropical del Atlántico hay tormentas intensas, pero los aviones las rodean a diario.",
+     "kind": "broll",
+     "query": "airliner flying through thunderstorm tropical clouds"
+    },
+    {
+     "text": "Es decir: no hay nada técnico que impida volar. Lo que falta son las condiciones comerciales y políticas.",
+     "kind": "fact",
+     "kicker": "SIN OBSTÁCULO TÉCNICO",
+     "body": "Falta lo comercial y lo político",
+     "accent": "green"
+    },
+    {
+     "kind": "broll",
+     "text": "Y esas condiciones, poco a poco, están empezando a cambiar.",
+     "query": "airplane taking off runway"
+    }
+   ]
+  },
+  {
+   "key": "parte6",
+   "shots": [
+    {
+     "text": "Los cambios vienen de tres frentes.",
+     "kind": "fact",
+     "kicker": "TRES FRENTES",
+     "body": "Tecnología · Economía · Política",
+     "accent": "cyan"
+    },
+    {
+     "text": "El primero es tecnológico: aviones como el Boeing 787 o el Airbus A350 gastan mucho menos combustible y son más pequeños que los gigantes de antes, lo que permite abrir rutas largas con pocos pasajeros sin perder dinero. A esas rutas se las llama rutas largas y delgadas, y son justo lo que necesita el Atlántico Sur.",
+     "kind": "broll",
+     "query": "Boeing 787 Dreamliner flying",
+     "key": "Rutas largas y delgadas"
+    },
+    {
+     "text": "El segundo es económico: Brasil, Angola, Nigeria, Sudáfrica o Etiopía han crecido, y con ellos el comercio, la inversión y los viajes de negocios entre las dos orillas.",
+     "kind": "fact",
+     "kicker": "ECONOMÍA",
+     "body": "Brasil, Angola, Nigeria, Sudáfrica y Etiopía crecen",
+     "accent": "green"
+    },
+    {
+     "text": "Y el tercero es político: cada vez más países firman acuerdos para abrir sus cielos y facilitar los visados.",
+     "kind": "fact",
+     "kicker": "POLÍTICA",
+     "body": "Cielos más abiertos, visados más fáciles",
+     "accent": "amber"
+    },
+    {
+     "text": "Ya se ven los primeros síntomas: LATAM ha vuelto a unir São Paulo con Johannesburgo y South African Airways ha reabierto su ruta a Brasil. Es de esperar que otras compañías sigan sus pasos si esas rutas demuestran que se pueden llenar.",
+     "kind": "map",
+     "from": {
+      "name": "São Paulo",
+      "lat": -23.43,
+      "lon": -46.47
+     },
+     "to": {
+      "name": "Johannesburgo",
+      "lat": -26.14,
+      "lon": 28.24
+     },
+     "label": "LATAM y SAA vuelven a unir Brasil y Sudáfrica",
+     "bow": 0.05
+    },
+    {
+     "text": "Nadie espera que el Atlántico Sur se llene de aviones de un día para otro. Pero la tendencia es clara: cuando una ruta demuestra que funciona, otras aerolíneas la imitan. Y quizá dentro de unos años, el pasajero que quiera volar de Buenos Aires a Johannesburgo, o de Lima a Lagos, tenga por fin una opción directa, sin dar la vuelta por medio mundo.",
+     "kind": "broll",
+     "query": "airliner flying over ocean sunset",
+     "key": "¿Un puente por fin?"
+    }
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {
+     "text": "Así que ya lo sabes. Entre Sudamérica y África hay apenas unos tres mil kilómetros de océano, pero casi no hay vuelos directos, y no por la distancia ni por la tecnología.",
+     "kind": "broll",
+     "query": "airliner flying over south atlantic ocean"
+    },
+    {
+     "text": "Hay pocos pasajeros dispuestos a pagar cada año, el comercio entre ambos continentes es pequeño, los hubs de Europa, del Golfo y de Etiopía hacen el trabajo más barato, y los acuerdos entre gobiernos todavía son limitados.",
+     "kind": "fact",
+     "kicker": "LA CLAVE",
+     "body": "No es la distancia: es la demanda",
+     "accent": "amber"
+    },
+    {
+     "text": "La próxima vez que mires un mapa, recuerda que la distancia en kilómetros no es la que decide si existe un vuelo: la que decide es la distancia entre la oferta y la demanda.",
+     "kind": "broll",
+     "query": "airline route map world flights"
+    },
+    {
+     "text": "Si te ha gustado, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos algo que creías saber sobre los aviones.",
+     "kind": "broll",
+     "query": "airliner flying into sunset cinematic"
+    },
+    {
+     "text": "Y dime en los comentarios: ¿has hecho alguna vez un viaje entre Sudamérica y África? ¿Cómo fue la escala? Te leo. Nos vemos en el siguiente.",
+     "kind": "outro"
+    }
+   ]
+  }
+ ]
+}

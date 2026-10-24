@@ -1,0 +1,437 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {
+     "text": "Si alguna vez has volado de Latinoamérica a España, seguramente te ha pasado esto: sales por la tarde o ya entrada la noche, cenas con la bandeja sobre las rodillas, intentas dormir con una manta diminuta, y de repente alguien abre las ventanillas y está amaneciendo. Has volado toda la noche.",
+     "kind": "broll",
+     "query": "airplane window sunrise dawn over ocean",
+     "key": "Amanece en pleno vuelo"
+    },
+    {
+     "text": "Y, curiosamente, en el viaje de ida suele pasar justo lo contrario: sales a mediodía, comes, ves un par de películas, y aterrizas con la luz de la tarde, el mismo día, como si el tiempo se hubiera estirado. ¿Casualidad?",
+     "kind": "broll",
+     "query": "airliner landing afternoon sunlight"
+    },
+    {
+     "text": "¿Capricho de las aerolíneas? Ni lo uno ni lo otro.",
+     "kind": "fact",
+     "kicker": "¿CASUALIDAD?",
+     "body": "No: aritmética, negocio y biología",
+     "accent": "amber"
+    },
+    {
+     "text": "Detrás de esos horarios hay una mezcla de husos horarios, de negocio, de descanso de las tripulaciones y de cómo funciona tu propio cuerpo.",
+     "kind": "broll",
+     "query": "airport night runway lights airliner"
+    },
+    {
+     "text": "Hoy vamos a descubrir por qué la mayoría de los vuelos de Latinoamérica a España salen por la tarde o por la noche, mientras que los de España a Latinoamérica suelen salir de día, qué tiene que ver el aeropuerto de Madrid con todo esto, y por qué una diferencia de pocas horas en el reloj puede cambiar por completo un viaje.",
+     "kind": "map",
+     "from": {
+      "name": "Bogotá",
+      "lat": 4.7,
+      "lon": -74.15
+     },
+     "to": {
+      "name": "Madrid",
+      "lat": 40.47,
+      "lon": -3.56
+     },
+     "label": "Latinoamérica → España: de noche"
+    },
+    {
+     "text": "Quédate, porque lo que más influye no es lo que parece.",
+     "kind": "fact",
+     "kicker": "ZONA DE VUELO",
+     "body": "Lo que más influye no es lo que parece",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {
+     "text": "Empecemos por lo básico, porque aquí está la clave de todo. La Tierra gira, y por eso el mundo está dividido en husos horarios.",
+     "kind": "fact",
+     "kicker": "HUSOS HORARIOS",
+     "body": "La Tierra gira y el reloj cambia",
+     "accent": "cyan"
+    },
+    {
+     "text": "Cuando en Madrid es mediodía, en Bogotá o en Lima son las seis de la mañana en invierno, y las cinco de la mañana en verano, porque Europa cambia la hora y casi toda Latinoamérica no. En Ciudad de México la diferencia es todavía mayor, de siete u ocho horas. Y en Buenos Aires es menor, de cuatro o cinco.",
+     "kind": "timeline",
+     "label": "Cuando en Madrid son las 12:00...",
+     "events": [
+      {
+       "year": "Bogotá y Lima",
+       "text": "06:00 en invierno · 05:00 en verano"
+      },
+      {
+       "year": "Ciudad de México",
+       "text": "05:00 en invierno · 04:00 en verano"
+      },
+      {
+       "year": "Buenos Aires",
+       "text": "08:00 en invierno · 07:00 en verano"
+      }
+     ]
+    },
+    {
+     "text": "Esa diferencia es la protagonista de la historia, porque un avión no solo te lleva de un sitio a otro: también te mete en un reloj distinto.",
+     "kind": "broll",
+     "query": "airplane wing flying sunset",
+     "key": "Un reloj distinto"
+    },
+    {
+     "text": "Cuando vuelas hacia el oeste, de España a América, persigues al sol: ganas horas y el día se alarga.",
+     "kind": "fact",
+     "kicker": "OESTE: GANAS HORAS",
+     "body": "ESTE: LAS PIERDES",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Cuando vuelas hacia el este, de América a España, corres hacia el amanecer y pierdes esas horas.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Veamos un ejemplo con cifras. Un vuelo típico de Madrid a Bogotá dura unas diez horas.",
+     "kind": "broll",
+     "query": "airliner takeoff midday"
+    },
+    {
+     "text": "Si despega a las doce y media, aterriza a las diez y tres cuartos de la noche, hora de Madrid. Pero en Bogotá, con seis horas de diferencia en invierno, solo son las cinco menos cuarto de la tarde. Has volado diez horas, pero entre la hora de salida y la de llegada, en los relojes de los aeropuertos, apenas han pasado cuatro horas y cuarto.",
+     "kind": "timeline",
+     "label": "Madrid → Bogotá (ejemplo, ~10 h)",
+     "events": [
+      {
+       "year": "12:30",
+       "text": "Sales de Madrid"
+      },
+      {
+       "year": "22:45",
+       "text": "Llegas (hora de Madrid)"
+      },
+      {
+       "year": "16:45",
+       "text": "En Bogotá, solo son las 16:45"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {
+     "text": "Ahora démosle la vuelta. Un vuelo de Bogotá a Madrid dura algo menos, unas nueve horas y tres cuartos, porque en esa dirección el avión suele llevar el viento a favor.",
+     "kind": "map",
+     "from": {
+      "name": "Bogotá",
+      "lat": 4.7,
+      "lon": -74.15
+     },
+     "to": {
+      "name": "Madrid",
+      "lat": 40.47,
+      "lon": -3.56
+     },
+     "label": "Bogotá → Madrid (~9 h 45 con viento a favor)"
+    },
+    {
+     "text": "Supón que sale a las siete y media de la tarde. En Madrid, esa hora equivale a la una y media de la madrugada. Sumas casi diez horas de vuelo y aterrizas a las once y cuarto de la mañana, hora de Madrid. Perfecto: llegas a una hora razonable para ir al hotel, a casa o a una reunión.",
+     "kind": "timeline",
+     "label": "Bogotá → Madrid, sales de tarde",
+     "events": [
+      {
+       "year": "19:30",
+       "text": "Sales de Bogotá"
+      },
+      {
+       "year": "01:30",
+       "text": "Es la 1:30 en Madrid"
+      },
+      {
+       "year": "11:15",
+       "text": "Aterrizas en Madrid"
+      }
+     ]
+    },
+    {
+     "text": "Ahora haz la prueba contraria. ¿Y si ese mismo vuelo saliera de Bogotá a mediodía? En Madrid serían las seis de la tarde, y al sumar el vuelo aterrizarías sobre las cuatro de la madrugada.",
+     "kind": "timeline",
+     "label": "¿Y si saliera a mediodía?",
+     "events": [
+      {
+       "year": "12:00",
+       "text": "Sales de Bogotá"
+      },
+      {
+       "year": "18:00",
+       "text": "Son las 18:00 en Madrid"
+      },
+      {
+       "year": "~04:00",
+       "text": "Aterrizas de madrugada"
+      }
+     ]
+    },
+    {
+     "text": "A esa hora no hay metro, ni trenes, ni la mayoría de los servicios, y los hoteles ya no tienen habitación hasta mediodía.",
+     "kind": "broll",
+     "query": "empty airport terminal at night closed shops"
+    },
+    {
+     "text": "Por eso las aerolíneas no tienen elección: para que el pasajero llegue de mañana, el avión tiene que despegar por la tarde o por la noche.",
+     "kind": "fact",
+     "kicker": "NO ES COSTUMBRE",
+     "body": "Es aritmética",
+     "accent": "green"
+    },
+    {
+     "kind": "broll",
+     "text": "No es una costumbre, es aritmética.",
+     "query": "airplane wing window view clouds"
+    },
+    {
+     "text": "Y esa aritmética explica por qué, hacia el este, casi todo el mundo vuela de noche. Pero hay otro motivo, más importante todavía, que tiene que ver con el dinero.",
+     "kind": "broll",
+     "query": "airliner flying at night stars cockpit view"
+    }
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {
+     "text": "Un aeropuerto como el de Madrid-Barajas no vive solo de los pasajeros que empiezan o terminan su viaje en la ciudad.",
+     "kind": "fact",
+     "kicker": "HUB",
+     "body": "Madrid-Barajas: un gran nudo de conexiones",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "Funciona como un hub, un gran nudo de conexiones.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Por la mañana llegan oleadas de aviones desde América, y esos pasajeros enlazan con vuelos hacia París, Londres, Roma, Berlín y decenas de ciudades más. Y viceversa: por la tarde y por la noche llegan los vuelos de toda Europa, y los pasajeros enlazan con los aviones que cruzan el Atlántico hacia Latinoamérica.",
+     "kind": "broll",
+     "query": "Madrid Barajas airport terminal aircraft aerial"
+    },
+    {
+     "text": "Es una coreografía enorme, y los horarios de los vuelos transoceánicos se diseñan para encajar en ella.",
+     "kind": "fact",
+     "kicker": "COREOGRAFÍA",
+     "body": "Los vuelos encajan con cientos de aviones",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Los vuelos que llegan desde América a primera hora de la mañana tienen muchas conexiones posibles durante el día. Y los que salen hacia América a mediodía o a última hora reúnen a pasajeros de toda Europa.",
+     "query": "airplane taking off runway"
+    },
+    {
+     "text": "Si un vuelo transatlántico llegara a las cuatro de la madrugada, no tendría conexiones: los demás vuelos todavía no han despegado.",
+     "kind": "broll",
+     "query": "airport departures board connecting flights"
+    },
+    {
+     "text": "Lo mismo ocurre al otro lado: grandes aeropuertos latinoamericanos, como Bogotá, Lima o Ciudad de México, organizan también sus oleadas de salidas y llegadas para enlazar con el resto del continente.",
+     "kind": "broll",
+     "query": "Bogota El Dorado airport aircraft"
+    },
+    {
+     "text": "Así que los horarios no se deciden solo por el reloj del pasajero, sino por un puzzle con cientos de aviones.",
+     "kind": "fact",
+     "kicker": "UN PUZZLE",
+     "body": "Cientos de aviones encajando",
+     "accent": "green"
+    },
+    {
+     "kind": "broll",
+     "text": "Y todavía faltan dos piezas: las tripulaciones y tu cuerpo.",
+     "query": "airliner descending approach landing"
+    }
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {
+     "text": "Las tripulaciones de largo recorrido tienen reglas muy estrictas sobre cuántas horas pueden trabajar y cuánto deben descansar. En vuelos de más de diez horas, las aerolíneas suelen llevar tripulaciones reforzadas, con más pilotos y asistentes de vuelo, y zonas de descanso a bordo para turnarse. Aun así, los horarios se diseñan para que ese descanso sea eficiente.",
+     "kind": "broll",
+     "query": "long haul airline pilots cockpit crew",
+     "key": "Tripulación reforzada"
+    },
+    {
+     "text": "Cuando el avión vuela de noche, hay más gente durmiendo y menos trabajo en cabina, y la tripulación puede turnarse mejor.",
+     "kind": "broll",
+     "query": "airliner flying at night cabin lights"
+    },
+    {
+     "text": "Y eso nos lleva a la tercera pieza: tu cuerpo. A los vuelos nocturnos hacia el este se les llama en inglés red-eye, vuelos de ojos rojos, y las aerolíneas los organizan para que cenes pronto, apagues las luces y desayunes poco antes de aterrizar. La idea es que duermas lo que puedas y llegues con la mañana por delante.",
+     "kind": "broll",
+     "query": "airplane cabin night passengers sleeping blankets",
+     "key": "Vuelo nocturno (red-eye)"
+    },
+    {
+     "text": "Y aun así, volar hacia el este suele costar más que volar hacia el oeste. El motivo es que el reloj biológico del cuerpo humano se adapta con más facilidad cuando hay que retrasarlo que cuando hay que adelantarlo.",
+     "kind": "fact",
+     "kicker": "JET LAG",
+     "body": "Adelantar el reloj cuesta más que retrasarlo",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Por eso, muchos viajeros notan más el desfase horario al volver a casa desde América que al irse.",
+     "query": "airliner flying over ocean aerial"
+    },
+    {
+     "text": "Las aerolíneas no pueden solucionarlo, pero sí pueden elegir horarios que aprovechen la noche, que es cuando el cuerpo ya está programado para dormir.",
+     "kind": "broll",
+     "query": "airliner window dawn sunrise"
+    }
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {
+     "text": "Hay un cuarto factor, más técnico, que casi nadie conoce: las franjas horarias de los aeropuertos. Los grandes aeropuertos no dejan despegar y aterrizar a quien quiere: las aerolíneas deben conseguir un hueco, llamado slot, y los más codiciados están en las horas de más demanda. Madrid, como otros grandes aeropuertos europeos, tiene una gran concentración de operaciones en determinadas horas, y las aerolíneas ajustan sus vuelos para encajar en los huecos disponibles.",
+     "kind": "broll",
+     "query": "airport runway busy traffic aerial Madrid",
+     "key": "Slots: franjas horarias"
+    },
+    {
+     "text": "Además, el viento también cuenta.",
+     "kind": "broll",
+     "query": "jet stream clouds airplane high altitude",
+     "key": "Corriente en chorro"
+    },
+    {
+     "text": "En el Atlántico Norte, sobre las latitudes de España, la corriente en chorro sopla de oeste a este, y empuja a los aviones que van hacia Europa.",
+     "kind": "map",
+     "from": {
+      "name": "Ciudad de México",
+      "lat": 19.44,
+      "lon": -99.07
+     },
+     "to": {
+      "name": "Madrid",
+      "lat": 40.47,
+      "lon": -3.56
+     },
+     "label": "México → Madrid: con viento de cola",
+     "bow": 0.3
+    },
+    {
+     "kind": "broll",
+     "text": "Por eso los vuelos hacia España son algo más cortos que los de vuelta, a veces en torno a una hora. Los planificadores tienen en cuenta ese margen para fijar los horarios.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Y, por supuesto, está la demanda: los pasajeros prefieren salir por la tarde de su ciudad, trabajar o estudiar durante el día y llegar por la mañana, lo que refuerza el patrón.",
+     "kind": "broll",
+     "query": "airliner passengers boarding evening airport"
+    },
+    {
+     "text": "Es decir, no hay una sola razón: hay seis o siete razones distintas, pequeñas, que empujan en la misma dirección.",
+     "kind": "fact",
+     "kicker": "6-7 RAZONES",
+     "body": "Pequeñas, empujando en la misma dirección",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Y lo curioso es que, en algunos casos, ese patrón se rompe.",
+     "query": "airplane wing window view clouds"
+    }
+   ]
+  },
+  {
+   "key": "parte6",
+   "shots": [
+    {
+     "text": "La excepción más clara es el Cono Sur.",
+     "kind": "fact",
+     "kicker": "LA EXCEPCIÓN",
+     "body": "El Cono Sur",
+     "accent": "cyan"
+    },
+    {
+     "text": "Entre Madrid y Buenos Aires o Santiago de Chile los vuelos son más largos, de unas doce horas o más, y la diferencia horaria es menor, de cuatro o cinco horas.",
+     "kind": "map",
+     "from": {
+      "name": "Buenos Aires",
+      "lat": -34.82,
+      "lon": -58.54
+     },
+     "to": {
+      "name": "Madrid",
+      "lat": 40.47,
+      "lon": -3.56
+     },
+     "label": "Buenos Aires ⇄ Madrid: ~12 h"
+    },
+    {
+     "kind": "broll",
+     "text": "Con esos números, tanto la ida como la vuelta suelen salir por la tarde-noche, porque así se llega por la mañana a ambos lados. Es decir, cuanto más largo es el vuelo, más difícil resulta aterrizar a una hora cómoda en las dos direcciones.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Y hay otro detalle curioso: dos veces al año, en marzo y en octubre, Europa cambia la hora y Latinoamérica casi nunca lo hace.",
+     "kind": "fact",
+     "kicker": "CAMBIO DE HORA",
+     "body": "Europa cambia en marzo y octubre; Latinoamérica casi nunca",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Ese día la diferencia entre ambos lados se mueve una hora, y las aerolíneas tienen que retocar sus horarios de salida y de llegada, y las conexiones, para que todo siga encajando. Cada temporada se publican nuevas tablas de horarios con esos ajustes.",
+     "query": "airplane taking off runway"
+    },
+    {
+     "text": "Así que cuando veas que tu vuelo sale a las ocho de la tarde en vez de a las siete, probablemente no sea un capricho: es el resultado de un puzzle gigantesco de husos horarios, conexiones, tripulaciones y vientos.",
+     "kind": "broll",
+     "query": "airport departure board evening flights"
+    }
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {
+     "text": "Así que ya lo sabes. Los vuelos de Latinoamérica a España salen de noche porque, volando hacia el este, pierdes horas, y para aterrizar por la mañana el avión tiene que despegar por la tarde o por la noche.",
+     "kind": "broll",
+     "query": "airliner night flight sunrise over atlantic"
+    },
+    {
+     "text": "Madrid y otros grandes hubs necesitan esas llegadas matinales para enlazar con el resto de Europa.",
+     "kind": "fact",
+     "kicker": "LA CLAVE",
+     "body": "Husos horarios + hubs + descanso",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Las tripulaciones y los pasajeros se organizan mejor durmiendo en vuelo, el viento a favor acorta el viaje, y los aeropuertos reparten sus franjas horarias.",
+     "query": "airliner descending approach landing"
+    },
+    {
+     "text": "La próxima vez que despegues de noche y veas amanecer sobre el Atlántico, recuerda que no es casualidad: es el reloj más grande del mundo, el de los husos horarios, jugando a tu favor.",
+     "kind": "broll",
+     "query": "airliner flying into sunrise cinematic"
+    },
+    {
+     "text": "Si te ha gustado, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos algo que creías saber sobre los aviones. Y dime en los comentarios: ¿desde qué ciudad de Latinoamérica has volado a España, y a qué hora salió tu vuelo? Te leo. Nos vemos en el siguiente.",
+     "kind": "outro"
+    }
+   ]
+  }
+ ]
+}

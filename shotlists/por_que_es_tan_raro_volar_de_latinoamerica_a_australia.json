@@ -1,0 +1,458 @@
+{
+ "sections": [
+  {
+   "key": "hook",
+   "shots": [
+    {
+     "text": "Hay un vuelo regular de pasajeros que se acerca a la Antártida más que casi cualquier otro del mundo.",
+     "kind": "map",
+     "from": {
+      "name": "Santiago",
+      "lat": -33.39,
+      "lon": -70.79
+     },
+     "to": {
+      "name": "Sídney",
+      "lat": -33.95,
+      "lon": 151.18
+     },
+     "label": "Santiago → Sídney: +11.000 km, casi sobre la Antártida",
+     "bow": 0.65
+    },
+    {
+     "kind": "broll",
+     "text": "No es un vuelo de aventura ni una excursión de lujo: es un vuelo normal, con su billete, su bandeja de comida y su película. Despega de Santiago de Chile, cruza medio planeta sin tocar apenas tierra y aterriza en Sídney, a más de once mil kilómetros.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Y lo más raro es que casi no tiene competencia.",
+     "kind": "fact",
+     "kicker": "CASI SIN COMPETENCIA",
+     "body": "Una sola puerta entre dos mundos",
+     "accent": "amber"
+    },
+    {
+     "text": "Si vives en Bogotá, en Lima, en Ciudad de México, en São Paulo o en Buenos Aires y quieres volar a Australia, lo normal es que no exista un vuelo directo.",
+     "kind": "map",
+     "from": {
+      "name": "Bogotá",
+      "lat": 4.7,
+      "lon": -74.15
+     },
+     "to": {
+      "name": "Sídney",
+      "lat": -33.95,
+      "lon": 151.18
+     },
+     "label": "Bogotá → Sídney: ni un vuelo directo"
+    },
+    {
+     "kind": "broll",
+     "text": "Tendrás que hacer escala en Santiago, en Auckland, en Los Ángeles o en Dallas, y encadenar dos o tres aviones para cruzar el océano más grande del planeta.",
+     "query": "airplane wing window view clouds"
+    },
+    {
+     "text": "¿Cómo es posible que una región con más de seiscientos millones de personas esté tan mal conectada con Oceanía?",
+     "kind": "fact",
+     "kicker": "600 MILLONES DE PERSONAS",
+     "body": "Y casi sin vuelos directos a Oceanía",
+     "accent": "red"
+    },
+    {
+     "kind": "broll",
+     "text": "¿Es por la distancia? ¿Por el Pacífico? ¿Por el dinero?",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Hoy vamos a descubrir por dónde vuela realmente ese vuelo que roza la Antártida, por qué Santiago es casi la única puerta entre ambos mundos, y qué trucos de las aerolíneas hacen que el mapa sea tan raro.",
+     "kind": "broll",
+     "query": "airliner flying over ocean ice cold polar",
+     "key": "La ruta que roza la Antártida"
+    },
+    {
+     "text": "Quédate, porque lo más curioso no es la distancia: es quién puede volar dónde.",
+     "kind": "fact",
+     "kicker": "ZONA DE VUELO",
+     "body": "Lo curioso: quién puede volar dónde",
+     "accent": "amber"
+    }
+   ]
+  },
+  {
+   "key": "parte1",
+   "shots": [
+    {
+     "text": "Empecemos por lo que sí existe.",
+     "kind": "broll",
+     "query": "Boeing 787 airliner Santiago Chile airport"
+    },
+    {
+     "text": "Hoy, el principal puente aéreo directo entre Sudamérica y Australia sale de Santiago de Chile.",
+     "kind": "map",
+     "from": {
+      "name": "Santiago",
+      "lat": -33.39,
+      "lon": -70.79
+     },
+     "to": {
+      "name": "Sídney",
+      "lat": -33.95,
+      "lon": 151.18
+     },
+     "label": "Qantas y LATAM: de 12 a 15 horas",
+     "bow": 0.65
+    },
+    {
+     "kind": "broll",
+     "text": "Allí vuelan dos aerolíneas: Qantas, la compañía australiana, y LATAM, la mayor de Sudamérica. Las dos usan aviones modernos, como el Boeing 787, de los que gastan poco combustible y pueden aguantar vuelos larguísimos. Entre Santiago y Sídney hay más de once mil kilómetros, y dependiendo del viento el trayecto dura entre doce y quince horas.",
+     "query": "airplane taking off runway"
+    },
+    {
+     "text": "LATAM también conecta Santiago con Melbourne, en un vuelo de unas trece horas y media, y durante años ha tenido rutas que hacían escala en Auckland, en Nueva Zelanda.",
+     "kind": "map",
+     "from": {
+      "name": "Santiago",
+      "lat": -33.39,
+      "lon": -70.79
+     },
+     "to": {
+      "name": "Melbourne",
+      "lat": -37.67,
+      "lon": 144.84
+     },
+     "label": "LATAM: Santiago → Melbourne (~13 h 30)",
+     "bow": 0.65
+    },
+    {
+     "text": "Y fuera de Chile, la cosa se complica. Aerolíneas Argentinas llegó a volar de Buenos Aires a Sídney, pero cerró esa ruta en 2014.",
+     "kind": "fact",
+     "kicker": "CERRADA EN 2014",
+     "body": "Aerolíneas Argentinas: Buenos Aires–Sídney",
+     "accent": "red"
+    },
+    {
+     "kind": "broll",
+     "text": "Qantas, por su parte, también movió sus vuelos de Buenos Aires a Santiago, porque el hub chileno ofrece muchas más conexiones con el resto del continente.",
+     "query": "airliner descending approach landing"
+    },
+    {
+     "text": "El resultado es que Santiago se ha convertido en la puerta casi exclusiva de Sudamérica hacia Oceanía.",
+     "kind": "fact",
+     "kicker": "SANTIAGO",
+     "body": "La puerta casi exclusiva hacia Oceanía",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Si tu ciudad no es Santiago, necesitas, como mínimo, un avión más.",
+     "query": "airliner flying over ocean aerial"
+    },
+    {
+     "text": "Pero lo realmente fascinante de esa ruta no es que exista: es por dónde pasa.",
+     "kind": "broll",
+     "query": "airliner flying over pacific ocean aerial"
+    }
+   ]
+  },
+  {
+   "key": "parte2",
+   "shots": [
+    {
+     "text": "Si miras un mapa plano, parece que Santiago y Sídney están en la misma franja, a la misma altura, y que el avión debería cruzar el Pacífico en línea recta, de este a oeste.",
+     "kind": "map",
+     "from": {
+      "name": "Santiago",
+      "lat": -33.39,
+      "lon": -70.79
+     },
+     "to": {
+      "name": "Sídney",
+      "lat": -33.95,
+      "lon": 151.18
+     },
+     "label": "El camino más corto se curva hacia el polo",
+     "bow": 0.65
+    },
+    {
+     "kind": "broll",
+     "text": "Pero la Tierra es una esfera, y en una esfera el camino más corto entre dos puntos del hemisferio sur no es una línea recta sobre el mapa: es un arco que se curva hacia el polo. Con los números de estas dos ciudades, ese arco sube, o mejor dicho baja, hasta latitudes cercanas a sesenta grados sur.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Para que te hagas una idea, el círculo polar antártico está en los sesenta y seis grados y medio.",
+     "kind": "compare",
+     "a": 57,
+     "b": 66,
+     "alabel": "Ruta Santiago–Sídney (55°-60° S)",
+     "blabel": "Círculo polar antártico (66,5° S)",
+     "unit": "°S",
+     "label": "Latitud sur",
+     "color": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "Por eso este vuelo es famoso entre los aficionados a la aviación: según los vientos, puede pasar a más de cincuenta y cinco grados sur, y se han documentado vuelos que sobrevolaban el hielo marino antártico.",
+     "query": "airplane wing window view clouds"
+    },
+    {
+     "text": "Ahí abajo no hay ciudades ni pistas. Hay océano helado, tormentas y un cielo con muy pocas comunicaciones.",
+     "kind": "broll",
+     "query": "antarctic sea ice aerial ocean",
+     "key": "Hielo marino antártico"
+    },
+    {
+     "text": "De hecho, los aviones usan satélites para hablar con los controladores, y la cobertura de esos satélites, que están sobre el ecuador, se va debilitando conforme te acercas a los polos. Es una ruta casi polar, aunque nadie la llame así. Y lo mejor es que no es un capricho: es la forma más corta de unir las dos ciudades.",
+     "kind": "broll",
+     "query": "airliner cockpit satellite communication long haul night",
+     "key": "Pocas comunicaciones"
+    }
+   ]
+  },
+  {
+   "key": "parte3",
+   "shots": [
+    {
+     "text": "En esas latitudes tan al sur sopla uno de los vientos más constantes del planeta. Los marinos lo llamaban los cuarenta rugientes y los cincuenta furiosos, porque en esa franja del océano austral los vientos del oeste dan la vuelta al mundo casi sin obstáculos, sin tierra que los frene. Para un avión, eso es una autopista de viento, con una única dirección.",
+     "kind": "broll",
+     "query": "strong wind storm clouds ocean aerial",
+     "key": "Los cuarenta rugientes"
+    },
+    {
+     "text": "Cuando el vuelo va de oeste a este, empujado por ese viento, el viaje se acorta. Cuando va de este a oeste, tiene que luchar contra él.",
+     "kind": "fact",
+     "kicker": "OESTE → ESTE",
+     "body": "Con el viento a favor: viaje más corto",
+     "accent": "green"
+    },
+    {
+     "text": "En el caso de Santiago y Sídney, el avión que sale de Australia hacia Chile suele tardar bastante menos que el que sale de Chile hacia Australia.",
+     "kind": "compare",
+     "a": 12,
+     "b": 15,
+     "alabel": "Sídney → Santiago (viento a favor)",
+     "blabel": "Santiago → Sídney (viento en contra)",
+     "unit": "horas",
+     "label": "Duración aproximada",
+     "color": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Esa diferencia, que puede ser de una o dos horas, es la que decide cuánto combustible hay que cargar, cuántos pasajeros caben y hasta si merece la pena abrir la ruta.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Y ya te puedes imaginar lo que significa eso con rutas tan largas y con tan poca demanda: cada hora de viento en contra cuesta mucho dinero.",
+     "kind": "fact",
+     "kicker": "MUCHO DINERO",
+     "body": "Cada hora de viento en contra cuesta caro",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Y hablando de demanda, esa es la verdadera razón por la que casi nadie más se atreve a volar entre Latinoamérica y Australia.",
+     "query": "airplane taking off runway"
+    }
+   ]
+  },
+  {
+   "key": "parte4",
+   "shots": [
+    {
+     "text": "Una aerolínea no abre una ruta por la belleza del mapa, sino por los pasajeros que puede llenar. Y entre Latinoamérica y Oceanía hay pocos.",
+     "kind": "broll",
+     "query": "airline route map flights network world"
+    },
+    {
+     "text": "Los australianos viajan sobre todo a Asia, a Europa, a Estados Unidos o a Nueva Zelanda, que está a solo tres horas.",
+     "kind": "fact",
+     "kicker": "OTROS DESTINOS",
+     "body": "Los australianos viajan a Asia, Europa y EE. UU.",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "Y los latinoamericanos que van a Australia, que son muchos menos de los que te imaginas, suelen ir por un tiempo largo, como estudiantes o con visados de trabajo y vacaciones, y no hacen tantos viajes de ida y vuelta como los pasajeros de negocios entre dos grandes economías.",
+     "query": "airliner descending approach landing"
+    },
+    {
+     "text": "Además, el comercio entre ambas regiones es mucho menor que el que cada una mantiene con Asia, Norteamérica o Europa.",
+     "kind": "fact",
+     "kicker": "COMERCIO",
+     "body": "Mucho menor que con Asia, Norteamérica o Europa",
+     "accent": "amber"
+    },
+    {
+     "text": "A eso se suma el coste: un vuelo de doce a quince horas, con un avión moderno y con tripulaciones reforzadas, es carísimo, y si el avión no sale casi lleno, la aerolínea pierde dinero.",
+     "kind": "broll",
+     "query": "long haul airliner cabin passengers crew"
+    },
+    {
+     "text": "Por eso hay una ruta, la de Santiago, que sí se sostiene: en Santiago convergen pasajeros de todo el continente, y esa concentración permite llenar el avión.",
+     "kind": "fact",
+     "kicker": "SANTIAGO",
+     "body": "Aquí converge el pasajero de todo el continente",
+     "accent": "green"
+    },
+    {
+     "kind": "broll",
+     "text": "Pero en ciudades como Bogotá, Lima o Ciudad de México, la cuenta no sale.",
+     "query": "airliner flying over ocean aerial"
+    }
+   ]
+  },
+  {
+   "key": "parte5",
+   "shots": [
+    {
+     "text": "Y aquí aparece el detalle más curioso, que casi nadie conoce. Durante años, algunos vuelos de LATAM entre Santiago y Sídney hacían escala en Auckland, aunque el avión pudiera llegar directamente.",
+     "kind": "fact",
+     "kicker": "DERECHOS DE TRÁFICO",
+     "body": "Quién puede llevar pasajeros entre qué países",
+     "accent": "cyan"
+    },
+    {
+     "kind": "broll",
+     "text": "¿Por qué? Por los derechos de tráfico.",
+     "query": "airliner flying above clouds"
+    },
+    {
+     "text": "Los acuerdos entre países, que se llaman libertades del aire, dicen quién puede transportar pasajeros entre qué lugares.",
+     "kind": "fact",
+     "kicker": "LIBERTADES DEL AIRE",
+     "body": "Acuerdos que dicen quién vuela dónde",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "Una aerolínea chilena no puede, sin más, vender billetes entre dos ciudades de otros países. Pero si el avión hace escala en un tercer país y tiene permiso para recoger pasajeros allí, entonces sí.",
+     "query": "airplane wing window view clouds"
+    },
+    {
+     "text": "LATAM tenía derechos para llevar pasajeros entre Australia y Nueva Zelanda, y eso permitía llenar mejor los asientos: unos pasajeros iban de Santiago a Auckland, otros de Auckland a Sídney y otros hacían el trayecto completo.",
+     "kind": "map",
+     "from": {
+      "name": "Santiago",
+      "lat": -33.39,
+      "lon": -70.79
+     },
+     "to": {
+      "name": "Auckland",
+      "lat": -37.01,
+      "lon": 174.79
+     },
+     "label": "LATAM: Santiago → Auckland → Sídney",
+     "bow": 0.6
+    },
+    {
+     "kind": "broll",
+     "text": "Es decir: la escala no estaba allí por necesidad técnica, sino para que la ruta saliera rentable.",
+     "query": "airliner cruising sunset sky"
+    },
+    {
+     "text": "Con el paso del tiempo, algunos vuelos han pasado a ser directos, pero la lógica sigue siendo la misma.",
+     "kind": "fact",
+     "kicker": "EL MAPA",
+     "body": "No lo dibuja solo la geografía",
+     "accent": "green"
+    },
+    {
+     "kind": "broll",
+     "text": "En la aviación de larga distancia, el mapa no lo dibuja solo la geografía: lo dibujan también los permisos, los acuerdos y la economía.",
+     "query": "airplane taking off runway"
+    }
+   ]
+  },
+  {
+   "key": "parte6",
+   "shots": [
+    {
+     "text": "Entonces, ¿cómo llega a Australia un viajero de Bogotá, Lima o México? Casi siempre dando un gran rodeo.",
+     "kind": "fact",
+     "kicker": "¿CÓMO LLEGAR?",
+     "body": "Casi siempre dando un gran rodeo",
+     "accent": "red"
+    },
+    {
+     "text": "La opción más habitual es pasar por Estados Unidos, por Los Ángeles o por Dallas, desde donde vuelan Qantas y otras compañías hasta Sídney, Melbourne o Brisbane.",
+     "kind": "map",
+     "from": {
+      "name": "Los Ángeles",
+      "lat": 33.94,
+      "lon": -118.41
+     },
+     "to": {
+      "name": "Sídney",
+      "lat": -33.95,
+      "lon": 151.18
+     },
+     "label": "Los Ángeles → Sídney (Qantas)"
+    },
+    {
+     "text": "Otra es volar a Santiago y enlazar allí con el vuelo de LATAM o de Qantas. Y hay quienes cruzan por Europa o por Oriente Medio, dando la vuelta al planeta por el otro lado.",
+     "kind": "broll",
+     "query": "Qantas Boeing 787 airliner flying",
+     "key": "Santiago, Los Ángeles, Dallas..."
+    },
+    {
+     "text": "En la mayoría de los casos son viajes de veinte horas o más, con dos escalas y mucho cansancio.",
+     "kind": "stat",
+     "value": 20,
+     "suffix": "h+",
+     "label": "Un viaje con dos escalas",
+     "color": "red"
+    },
+    {
+     "text": "¿Cambiará? Los nuevos aviones de largo alcance, como el Boeing 787 o el Airbus A350, permiten abrir rutas largas con pocos pasajeros sin perder dinero, y las aerolíneas ya estudian vuelos sin escalas de más de veinte horas.",
+     "kind": "broll",
+     "query": "Airbus A350 ultra long range airliner flying",
+     "key": "Aviones de largo alcance"
+    },
+    {
+     "text": "Si crece la demanda de estudiantes, turistas y empresas entre ambas regiones, es posible que algún día aparezcan nuevos vuelos directos desde otras ciudades latinoamericanas.",
+     "kind": "fact",
+     "kicker": "CRECE LA DEMANDA",
+     "body": "Estudiantes, turistas y empresas",
+     "accent": "amber"
+    },
+    {
+     "text": "Mientras tanto, la puerta sigue siendo una sola, y está en Santiago de Chile.",
+     "kind": "fact",
+     "kicker": "UNA SOLA PUERTA",
+     "body": "Santiago de Chile",
+     "accent": "cyan"
+    }
+   ]
+  },
+  {
+   "key": "cierre",
+   "shots": [
+    {
+     "text": "Así que ya lo sabes. Volar de Latinoamérica a Australia es raro porque la distancia es enorme, porque el océano que hay que cruzar es de los más vacíos del planeta, y porque hay pocos pasajeros que justifiquen una ruta.",
+     "kind": "broll",
+     "query": "airliner flying over pacific ocean sunrise"
+    },
+    {
+     "text": "Santiago es casi la única puerta directa, con un vuelo que baja hasta rozar la Antártida, y los permisos entre países y los vientos de esas latitudes deciden hasta cuánto dura el trayecto.",
+     "kind": "fact",
+     "kicker": "LA CLAVE",
+     "body": "Demanda + permisos + viento",
+     "accent": "amber"
+    },
+    {
+     "kind": "broll",
+     "text": "La próxima vez que mires un mapa del mundo, recuerda que las rutas aéreas no las dibuja la distancia, sino la demanda y los acuerdos entre gobiernos.",
+     "query": "airliner descending approach landing"
+    },
+    {
+     "text": "Si te ha gustado, dale a me gusta y suscríbete a Zona de Vuelo, que cada semana desmontamos algo que creías saber sobre los aviones.",
+     "kind": "broll",
+     "query": "airliner flying into sunset cinematic"
+    },
+    {
+     "text": "Y dime en los comentarios: ¿alguna vez has hecho un viaje tan largo como este, y por dónde fue tu ruta? Te leo. Nos vemos en el siguiente.",
+     "kind": "outro"
+    }
+   ]
+  }
+ ]
+}
